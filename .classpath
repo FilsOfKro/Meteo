@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/GDAL_README.txt"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/gdal.jar"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/gluegen-rt-natives-linux-amd64.jar"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/gluegen-rt-natives-linux-i586.jar"/>
@@ -10,29 +9,14 @@
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/gluegen-rt-natives-windows-amd64.jar"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/gluegen-rt-natives-windows-i586.jar"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/gluegen.LICENSE.txt"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/jogl-all-natives-linux-amd64.jar"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/jogl-all-natives-linux-i586.jar"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/jogl-all-natives-macosx-universal.jar"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/jogl-all-natives-windows-amd64.jar"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/jogl-all-natives-windows-i586.jar"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/jogl-all.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/jogl.LICENSE.txt"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/jogl.README.txt"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/junit-4.5.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/keystore.tar.enc"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/libwebview.jnilib"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/LICENSE.txt"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/logging.properties"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/README_DEVELOPER.txt"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/README.md"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/run-demo.bash"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/run-demo.bat"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/VPF_README.txt"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/vpf-symbols.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/WebView32.dll"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/WebView64.dll"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/WorldWind.iml"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/worldwind.jar"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/worldwindx.jar"/>
 	<classpathentry kind="output" path="bin"/>
