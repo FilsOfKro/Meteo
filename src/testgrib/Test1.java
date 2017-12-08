@@ -18,7 +18,7 @@ public class Test1 {
       {
           try
           {
-              GribFile grb = new GribFile("TTxOcMxLToSYmtRzKDl0e75I4HAjqqDApv_.grb");
+              GribFile grb = new GribFile("TTxOcMxLToSYmtRzKDl0e75I4HAjqDApv2c.grb");
    
               GribRecordGDS r2 = grb.getGrids()[0];
               GribRecord ventU = grb.getRecord(1);

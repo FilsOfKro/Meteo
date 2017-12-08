@@ -19,23 +19,6 @@
 	<classpathentry kind="lib" path="libs/worldwind.jar"/>
 	<classpathentry kind="lib" path="libs/worldwindx.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/gdal.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/gluegen-rt-natives-linux-amd64.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/gluegen-rt-natives-linux-i586.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/gluegen-rt-natives-macosx-universal.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/gluegen-rt-natives-windows-amd64.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/gluegen-rt-natives-windows-i586.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/jogl-all-natives-linux-amd64.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/jogl-all-natives-linux-i586.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/jogl-all-natives-macosx-universal.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/jogl-all-natives-windows-amd64.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/jogl-all-natives-windows-i586.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/jogl-all.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/junit-4.5.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/vpf-symbols.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/worldwind.jar"/>
-	<classpathentry kind="lib" path="/worldwind-v2.1.0/worldwindx.jar"/>
 	<classpathentry kind="lib" path="C:/Users/lucro/Desktop/jgrib_beta7/lib/jgrib.jar"/>
 	<classpathentry kind="lib" path="C:/Users/lucro/Desktop/jgrib_beta7/lib/log4j-1.2.13.jar"/>
 	<classpathentry kind="output" path="bin"/>
