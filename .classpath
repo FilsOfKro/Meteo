@@ -19,5 +19,7 @@
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/vpf-symbols.jar"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/worldwind.jar"/>
 	<classpathentry kind="lib" path="/worldwind-v2.1.0/worldwindx.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucro/Desktop/jgrib_beta7/lib/jgrib.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucro/Desktop/jgrib_beta7/lib/log4j-1.2.13.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
