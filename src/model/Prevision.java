@@ -68,9 +68,4 @@ public class Prevision {
 
     return sb.toString();
   }
-
-  public PrevisionParDate getPrevisionsParDate(Date date) {
-    // TODO Auto-generated method stub
-    return null;
-  }
 }

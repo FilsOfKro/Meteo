@@ -1,11 +1,12 @@
 package facade;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.NoSuchElementException;
 
+import gov.nasa.worldwind.geom.Position;
 import grib.parser.GribParser;
 import model.Prevision;
 import model.PrevisionParDate;
@@ -23,45 +24,41 @@ public class Facade {
   Facade() {
     FlatWorld.main(null);
     this.appframe = (AppFrame) FlatWorld.getFrame();
-    try {
-      long start = System.currentTimeMillis();
-      this.parser = new GribParser();
-
-      Prevision prevision = parser.parsePrevisionFromGrib("TTxOcMxLToSYmtRzKDl0e75I4HAjqDApv2c.grb");
-
-      System.out.println("Temps d'exécution : " + (System.currentTimeMillis() - start));
-      System.out.println(prevision.toString());
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (NotSupportedException e) {
-      e.printStackTrace();
-    } catch (NoValidGribException e) {
-      e.printStackTrace();
-    }
+    this.parser = new GribParser();
   }
 
-  public void loadAndDisplayGrib(String filename)
-      throws NoSuchElementException, IOException, NoValidGribException, NotSupportedException {
-    Prevision prevision = parser.parsePrevisionFromGrib(filename);
-    PrevisionParDate myPrevision = prevision.getPrevisionsParDate(prevision.getListeDates().get(0));
+  public Prevision loadGrib(String filename) {
+    Prevision prevision = null;
+    long start = System.currentTimeMillis();
+
+    try {
+      prevision = parser.parsePrevisionFromGrib(filename);
+    } catch (NoSuchElementException | IOException | NoValidGribException | NotSupportedException e) {
+      e.printStackTrace();
+    }
+    System.out.println("Temps d'exécution : " + (System.currentTimeMillis() - start));
+    System.out.println(prevision.toString());
+    return prevision;
+  }
+
+  public List<Date> getDates(Prevision prevision) {
+    return prevision.getListeDates();
+  }
+
+  public void displayDate(Prevision prev, Date date) {
+    PrevisionParDate myPrevision = prev.getPrevisionParDate(date);
 
     ArrayList<WindBarb> windbarbs = new ArrayList<>();
+    windbarbs.add(new WindBarb(Position.fromDegrees(48, -4), 25.0, 25.0));
     for (int y = 0; y < myPrevision.getVents().length; y++) {
       for (int x = 0; x < myPrevision.getVents()[y].length; x++) {
         Vent vent = myPrevision.getVents()[y][x];
-        Double latitude = prevision.getGrille().getLatitude(y);
-        Double longitude = prevision.getGrille().getLongitude(x);
+        Double latitude = prev.getGrille().getLatitude(y);
+        Double longitude = prev.getGrille().getLongitude(x);
         windbarbs.add(new WindBarb(latitude, longitude, vent.getDirection(), vent.getVitesse()));
       }
     }
     appframe.displayWindbarbs(windbarbs);
-
-  }
-
-  public void displayDate(Date date) {
-
   }
 
 }

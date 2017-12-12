@@ -56,7 +56,6 @@ public class FlatWorld extends ApplicationTemplate {
       windBarbLayer.setName("Winds");
 
       insertBeforePlacenames(getWwd(), windBarbLayer);
-      windBarbLayer.addRenderable(new WindBarb(Position.fromDegrees(48, -4), 25.0, 25.0));
 
       // Initialise point of view
       getWwd().getView().setEyePosition(Position.fromDegrees(48.39039, -4.486076, 42000));
@@ -67,6 +66,7 @@ public class FlatWorld extends ApplicationTemplate {
 
         windBarbLayer.addRenderable(windBarb);
       }
+      windBarbLayer.addRenderable(new WindBarb(Position.fromDegrees(48, -4), 25.0, 25.0));
 
     }
   }
