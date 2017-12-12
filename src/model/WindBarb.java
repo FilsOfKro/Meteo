@@ -13,6 +13,7 @@ public class WindBarb extends PointPlacemark {
   private String name;
   private double direction; // 0-360 degrees
   private double knots;
+  private final double DECALAGE = 90.0;
 
   public WindBarb(Position position) {
     this(position, 0, 0);
@@ -20,7 +21,7 @@ public class WindBarb extends PointPlacemark {
 
   public WindBarb(Position position, double dir, double spd) {
     super(position);
-    this.direction = dir;
+    this.direction = dir + DECALAGE;
     this.knots = spd;
     initialize();
   }
@@ -37,7 +38,7 @@ public class WindBarb extends PointPlacemark {
 
     this.setAttributes(attrs);
 
-    this.setDirection(direction);
+    this.setDirection(direction + DECALAGE);
     this.setKnots(knots);
   }
 
@@ -45,13 +46,13 @@ public class WindBarb extends PointPlacemark {
    * @return the direction
    */
   public double getDirection() {
-    return direction;
+    return direction - DECALAGE;
   }
 
   public void setDirection(double direction) {
     PointPlacemarkAttributes attrs = this.getAttributes();
-    attrs.setHeading(direction);
-    this.direction = direction;
+    attrs.setHeading(direction + DECALAGE);
+    this.direction = direction + DECALAGE;
   }
 
   /**

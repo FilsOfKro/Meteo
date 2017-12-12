@@ -125,6 +125,7 @@ public class ApplicationTemplate {
         this.layerPanel = new LayerPanel(this.getWwd(), new LayerManagerLayer(getWwd()));
         this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);
         this.controlPanel.add(new FlatWorldPanel(this.getWwd()), BorderLayout.NORTH);
+        // this.controlPanel.add(new view.LayerPanel(getWwd()), BorderLayout.SOUTH);
         this.getContentPane().add(this.controlPanel, BorderLayout.WEST);
       }
 

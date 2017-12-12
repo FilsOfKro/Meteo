@@ -87,7 +87,7 @@ public class FlatWorld extends ApplicationTemplate {
       symbolLayer.setName("Tactical Symbols");
 
       // Test barbs
-      WindBarb b1 = new WindBarb(Position.fromDegrees(48.390394, -4.486076, 3000), 300.0, 20.0);
+      WindBarb b1 = new WindBarb(Position.fromDegrees(48.390394, -4.486076, 3000), 1.0, 20.0);
       layer.addRenderable(b1);
 
       locations = Arrays.asList(Position.fromDegrees(20, -170, 100e3), Position.fromDegrees(15, 170, 100e3),
