@@ -36,9 +36,7 @@ import gov.nasa.worldwind.util.StatusBar;
 import gov.nasa.worldwind.util.WWUtil;
 import gov.nasa.worldwindx.examples.ClickAndGoSelectListener;
 import gov.nasa.worldwindx.examples.FlatWorldPanel;
-import gov.nasa.worldwindx.examples.layermanager.LayerPanel;
 import gov.nasa.worldwindx.examples.util.HighlightController;
-import gov.nasa.worldwindx.examples.util.LayerManagerLayer;
 import gov.nasa.worldwindx.examples.util.ToolTipController;
 
 /**
@@ -97,7 +95,7 @@ public class ApplicationTemplate {
 
     protected AppPanel wwjPanel;
     protected JPanel controlPanel;
-    protected LayerPanel layerPanel;
+    protected view.LayerPanel layerPanel;
     protected StatisticsPanel statsPanel;
 
     public AppFrame() {
@@ -122,8 +120,13 @@ public class ApplicationTemplate {
       this.getContentPane().add(wwjPanel, BorderLayout.CENTER);
       if (includeLayerPanel) {
         this.controlPanel = new JPanel(new BorderLayout(10, 10));
-        this.layerPanel = new LayerPanel(this.getWwd(), new LayerManagerLayer(getWwd()));
-        this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);
+        // this.layerPanel = new LayerPanel(this.getWwd(), new
+        // LayerManagerLayer(getWwd()));
+        // this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);
+
+        this.layerPanel = new view.LayerPanel(getWwd());
+        this.controlPanel.add(layerPanel, BorderLayout.CENTER);
+
         this.controlPanel.add(new FlatWorldPanel(this.getWwd()), BorderLayout.NORTH);
         // this.controlPanel.add(new view.LayerPanel(getWwd()), BorderLayout.SOUTH);
         this.getContentPane().add(this.controlPanel, BorderLayout.WEST);
@@ -197,7 +200,7 @@ public class ApplicationTemplate {
      * @deprecated Use getControlPanel instead.
      * @return This application's layer panel.
      */
-    public LayerPanel getLayerPanel() {
+    public view.LayerPanel getLayerPanel() {
       return this.layerPanel;
     }
 
@@ -224,9 +227,6 @@ public class ApplicationTemplate {
     }
   }
 
-  /**
-   * @wbp.parser.entryPoint
-   */
   public static void insertBeforeCompass(WorldWindow wwd, Layer layer) {
     // Insert the layer into the layer list just before the compass.
     int compassPosition = 0;

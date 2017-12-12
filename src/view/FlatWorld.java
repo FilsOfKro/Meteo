@@ -112,8 +112,10 @@ public class FlatWorld extends ApplicationTemplate {
       shape.setAttributes(attrs);
       layer.addRenderable(shape);
 
+      // this.controlPanel.add(new view.LayerPanel(getWwd()), BorderLayout.SOUTH);
       ApplicationTemplate.insertBeforePlacenames(this.getWwd(), layer);
 
+      // Initialise point of view
       getWwd().getView().setEyePosition(Position.fromDegrees(48.39039, -4.486076, 42000));
     }
   }
