@@ -15,6 +15,19 @@ public class PrevisionParDate {
     vents[y][x] = vent;
   }
   
+  public Date getDate() {
+    return date;
+  }
+
+  /**
+   * Retourne vrai si la date passée en paramètre est égale à la date de la prévision
+   * @param date
+   * @return
+   */
+  public boolean estLaMemeDate(Date date) {
+    return this.date.equals(date);
+  }
+  
   public String toString() {
     StringBuilder sb = new StringBuilder(date.toString() + " - Grille de taille [");
     sb.append(vents.length).append(",").append(vents[0].length).append("]\n");

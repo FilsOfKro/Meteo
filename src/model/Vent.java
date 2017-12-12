@@ -9,7 +9,6 @@ public class Vent {
     this.vitesse = Vent.calculerVitesse(ventU, ventV);
   }
   
-  /* TODO faire ces deux méthodes */
   public double getDirection() {
     return direction;
   }

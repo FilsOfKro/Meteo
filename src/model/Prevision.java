@@ -21,6 +21,36 @@ public class Prevision {
     previsionsParDate.add(prevision);
   }
   
+  /**
+   * Retourne la liste des dates qui existent dans les données
+   * @return
+   */
+  public List<Date> getListeDates() {
+    List<Date> dates = new ArrayList<Date>();
+    
+    for(PrevisionParDate prevision : previsionsParDate) {
+      dates.add(prevision.getDate());
+    }
+    
+    return dates;
+  }
+  
+  /**
+   * Retourne la prévision pour la date passée en paramètre si elle existe, null sinon
+   * @param date
+   * @return
+   */
+  public PrevisionParDate getPrevisionParDate(Date date) {
+    
+    for(PrevisionParDate unePrevision : previsionsParDate) {
+      if (unePrevision.estLaMemeDate(date)) {
+        return unePrevision;
+      }
+    }
+    
+    return null;
+  }
+  
   public Grille getGrille() {
     return grille;
   }
