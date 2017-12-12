@@ -17,7 +17,7 @@ public class Test2 {
       long start = System.currentTimeMillis();
       GribParser gribParser = new GribParser();
       
-      Prevision prevision = gribParser.parsePrevisionFromGrib("TTxOcMxLToSYmtRzKDl0e75I4HAjqDApv2c.grb");
+      Prevision prevision = gribParser.parsePrevisionFromGrib("TTxOcMxLToSYmtRzKDl0e75I4HAjqqDApv_.grb");
 
       System.out.println("Temps d'exécution : " + (System.currentTimeMillis() - start));
       System.out.println(prevision.toString());

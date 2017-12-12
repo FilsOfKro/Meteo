@@ -65,7 +65,9 @@ public class GribParser {
     double dx = gridRecords.getGridDX();
     double dy = gridRecords.getGridDY();
     
-    Grille grille = new Grille(nbx, nby, lonHG, latHG, dx, dy);
+    boolean UVOrienteEst = gridRecords.isUVEastNorth();
+    
+    Grille grille = new Grille(nbx, nby, lonHG, latHG, dx, dy, UVOrienteEst);
     
     return grille;
   }
@@ -90,7 +92,13 @@ public class GribParser {
         double ventV = ventVGrid.getValue(x, y);
         
         Vent vent = new Vent(ventU, ventV);
-
+        
+    /*    System.out.println(date.toString());
+        System.out.println("(" + prevision.getGrille().getLongitude(x) + "," + prevision.getGrille().getLatitude(y) + ")");
+        System.out.println(vent.getVitesse());
+        System.out.println(vent.getDirection());
+        System.out.println(prevision.getGrille().isUVOrienteEst());
+        System.out.println("--------");*/
         previsionParDate.addVent(x, y, vent);
       }
     }
