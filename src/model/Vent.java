@@ -5,17 +5,25 @@ public class Vent {
   private double vitesse;
   
   public Vent(double ventU, double ventV) {
-    this.direction = ventU;
-    this.vitesse = ventV;
+    this.direction = Vent.calculerDirection(ventU, ventV);
+    this.vitesse = Vent.calculerVitesse(ventU, ventV);
   }
   
   /* TODO faire ces deux méthodes */
   public double getDirection() {
-    return 0.0;
+    return direction;
   }
   
   public double getVitesse() {
-    return 0.0;
+    return vitesse;
+  }
+  
+  public static double calculerDirection(double vecteurU, double vecteurV) {
+    return Math.atan2(vecteurU, vecteurV) * 180 / Math.PI;
+  }
+  
+  public static double calculerVitesse(double vecteurU, double vecteurV) {
+    return Math.sqrt(Math.pow(vecteurU, 2) + Math.pow(vecteurV, 2));
   }
   
   public String toString() {

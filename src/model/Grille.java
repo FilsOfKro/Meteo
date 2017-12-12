@@ -11,13 +11,16 @@ public class Grille {
   private double dx;
   private double dy;
 
-  public Grille(int nbx, int nby, double lonHG, double latHG, double dx, double dy) {
+  private boolean UVOrienteEst;
+  
+  public Grille(int nbx, int nby, double lonHG, double latHG, double dx, double dy, boolean UVOrienteEst) {
     this.nbx = nbx;
     this.nby = nby;
     this.lonHG = lonHG;
     this.latHG = latHG;
     this.dx = dx;
     this.dy = dy;
+    this.UVOrienteEst = UVOrienteEst;
   }
 
   public int getNbx() {
@@ -86,6 +89,10 @@ public class Grille {
     return lonHG + (x * dx);
   }
 
+  public boolean isUVOrienteEst() {
+    return UVOrienteEst;
+  }
+  
   public String toString() {
     StringBuilder sb = new StringBuilder("");
 
