@@ -93,12 +93,6 @@ public class GribParser {
         
         Vent vent = new Vent(ventU, ventV);
         
-    /*    System.out.println(date.toString());
-        System.out.println("(" + prevision.getGrille().getLongitude(x) + "," + prevision.getGrille().getLatitude(y) + ")");
-        System.out.println(vent.getVitesse());
-        System.out.println(vent.getDirection());
-        System.out.println(prevision.getGrille().isUVOrienteEst());
-        System.out.println("--------");*/
         previsionParDate.addVent(x, y, vent);
       }
     }

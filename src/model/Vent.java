@@ -19,7 +19,7 @@ public class Vent {
   }
   
   public static double calculerDirection(double vecteurU, double vecteurV) {
-    return Math.atan2(vecteurU, vecteurV) * 180 / Math.PI;
+    return (Math.atan2(vecteurU, vecteurV) + Math.PI ) * 180 / Math.PI;
   }
   
   public static double calculerVitesse(double vecteurU, double vecteurV) {
