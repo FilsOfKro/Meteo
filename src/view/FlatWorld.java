@@ -5,11 +5,15 @@
  */
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 
+import facade.MeteoFacade;
 import gov.nasa.worldwind.Configuration;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.Position;
@@ -32,7 +36,14 @@ import model.WindBarb;
  */
 public class FlatWorld extends ApplicationTemplate {
   public static view.FlatWorld.AppFrame frame;
+  protected static JMenuBar menuBar;
+  protected static JButton btnEdition;
+  protected static JButton btnModification;
+  protected static JButton btnImporter;
 
+  /**
+   * @wbp.parser.entryPoint
+   */
   public static void main(String[] args) { // Adjust configuration values before instantiation
     Configuration.setValue(AVKey.GLOBE_CLASS_NAME, EarthFlat.class.getName());
     Configuration.setValue(AVKey.PROJECTION_NAME,
@@ -52,6 +63,30 @@ public class FlatWorld extends ApplicationTemplate {
     }
 
     protected void init() {
+      // menu
+      menuBar = new JMenuBar();
+      this.setJMenuBar(menuBar);
+
+      btnModification = new JButton("Modification");
+      menuBar.add(btnModification);
+
+      btnEdition = new JButton("Edition");
+      menuBar.add(btnEdition);
+      btnEdition.setMnemonic(KeyEvent.VK_I);
+      btnEdition.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          new Edition();
+        }
+      });
+
+      btnImporter = new JButton("Importer fichier grib");
+      menuBar.add(btnImporter);
+      btnImporter.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          MeteoFacade.getInstance().loadGrib("TTxOcMxLToSYmtRzKDl0e75I4HAjqqDApv_.grb");
+        }
+      });
+
       // Initialise graticule
       insertBeforePlacenames(getWwd(), new LatLonGraticuleLayer());
       // Initialise layer

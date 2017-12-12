@@ -17,11 +17,24 @@ import net.sourceforge.jgrib.NotSupportedException;
 import view.FlatWorld;
 import view.FlatWorld.AppFrame;
 
-public class Facade {
+public class MeteoFacade {
+  private static MeteoFacade instance;
   GribParser parser;
   AppFrame appframe;
 
-  Facade() {
+  private MeteoFacade() {
+  }
+
+  public static MeteoFacade getInstance() {
+    if (instance == null) {
+      instance = new MeteoFacade();
+      instance.init();
+    }
+
+    return instance;
+  }
+
+  private void init() {
     FlatWorld.main(null);
     this.appframe = (AppFrame) FlatWorld.getFrame();
     this.parser = new GribParser();
@@ -38,6 +51,7 @@ public class Facade {
     }
     System.out.println("Temps d'exécution : " + (System.currentTimeMillis() - start));
     System.out.println(prevision.toString());
+    this.displayDate(prevision, prevision.getListeDates().get(0));
     return prevision;
   }
 
