@@ -30,8 +30,7 @@ import model.WindBarb;
 public class FlatWorld extends ApplicationTemplate {
   public static view.FlatWorld.AppFrame frame;
 
-  public static void launch() {
-    // Adjust configuration values before instantiation
+  public static void main(String[] args) { // Adjust configuration values before instantiation
     Configuration.setValue(AVKey.GLOBE_CLASS_NAME, EarthFlat.class.getName());
     Configuration.setValue(AVKey.PROJECTION_NAME,
         gov.nasa.worldwind.globes.projections.ProjectionMercator.class.getName());
@@ -71,5 +70,4 @@ public class FlatWorld extends ApplicationTemplate {
 
     }
   }
-
 }
