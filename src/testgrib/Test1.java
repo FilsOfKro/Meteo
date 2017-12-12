@@ -43,7 +43,7 @@ public class Test1 {
 
                           System.out.println("description ventV :"+ventV.getDescription());
                           System.out.print("["+ventV.getGridCoords()[i]+":"+ventV.getGridCoords()[j]+"] : ");
-                          System.out.print(" time: "+ventU.getTime().getTime()+" :: ");
+                          System.out.print(" time: "+ventV.getTime().getTime()+" :: ");
 
                           System.out.println(ventV.getValue(i, j) + " ");
                           System.out.println("-----------------------------------------");
