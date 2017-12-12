@@ -314,6 +314,7 @@ public class ApplicationTemplate {
   }
 
   /**
+   * @return
    * @wbp.parser.entryPoint
    */
   public static void main(String[] args) {

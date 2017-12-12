@@ -22,8 +22,12 @@ public class WindBarb extends PointPlacemark {
   public WindBarb(Position position, double dir, double spd) {
     super(position);
     this.direction = dir + DECALAGE;
-    this.knots = spd;
+    this.knots = 0.51444444444 * spd;
     initialize();
+  }
+
+  public WindBarb(Double latitude, Double longitude, double dir, double spd) {
+    this(Position.fromDegrees(latitude, longitude), dir, spd);
   }
 
   private void initialize() {
@@ -64,14 +68,11 @@ public class WindBarb extends PointPlacemark {
 
   public void setKnots(double knots) {
     PointPlacemarkAttributes attrs = this.getAttributes();
-
     int speed = (int) (Math.ceil(knots / 5.0) * 5);
     if (speed < 0)
       speed = 0;
     if (speed > 200)
       speed = 200;
-
-    attrs.setImageAddress("barbs/wind_20.png");
     attrs.setImageAddress("barbs/wind_" + speed + ".png");
 
     this.knots = knots;
