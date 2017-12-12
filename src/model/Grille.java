@@ -74,7 +74,7 @@ public class Grille {
    * @return
    */
   public double getLatitude(int y) {
-    return latHG + y * dy;
+    return latHG + (y * dy);
   }
 
   /**
@@ -83,7 +83,7 @@ public class Grille {
    * @return
    */
   public double getLongitude(int x) {
-    return lonHG + x * dx;
+    return lonHG + (x * dx);
   }
 
   public String toString() {

@@ -1,12 +1,12 @@
 package model;
 
 public class Vent {
-  private double ventU;
-  private double ventV;
+  private double direction;
+  private double vitesse;
   
   public Vent(double ventU, double ventV) {
-    this.ventU = ventU;
-    this.ventV = ventV;
+    this.direction = ventU;
+    this.vitesse = ventV;
   }
   
   /* TODO faire ces deux méthodes */
@@ -21,7 +21,7 @@ public class Vent {
   public String toString() {
     StringBuilder sb = new StringBuilder("U=");
     
-    sb.append(ventU).append(" | V=").append(ventV);
+    sb.append(direction).append(" | V=").append(vitesse);
     
     return sb.toString();
   }

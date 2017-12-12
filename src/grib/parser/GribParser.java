@@ -14,6 +14,10 @@ import net.sourceforge.jgrib.GribRecordGDS;
 import net.sourceforge.jgrib.NoValidGribException;
 import net.sourceforge.jgrib.NotSupportedException;
 
+/**
+ * 
+ * @author Sebastien Palud
+ */
 public class GribParser {
 
   /**
@@ -26,7 +30,7 @@ public class GribParser {
    * @throws NotSupportedException
    */
   public Prevision parsePrevisionFromGrib(String filename) throws NoSuchElementException, IOException, NoValidGribException, NotSupportedException {
-    GribFile grb = new GribFile("TTxOcMxLToSYmtRzKDl0e75I4HAjqDApv2c.grb");
+    GribFile grb = new GribFile(filename);
     GribRecordGDS gridRecords = grb.getGrids()[0];
 
     Grille grille = getGrille(gridRecords);
@@ -55,8 +59,8 @@ public class GribParser {
     int nbx = gridRecords.getGridNX();
     int nby = gridRecords.getGridNY();
 
-    double lonHG = gridRecords.getGridLat1();
-    double latHG = gridRecords.getGridLat2();
+    double lonHG = gridRecords.getGridLon1();
+    double latHG = gridRecords.getGridLat1();
 
     double dx = gridRecords.getGridDX();
     double dy = gridRecords.getGridDY();
@@ -81,11 +85,12 @@ public class GribParser {
     
     for (int y = 0 ; y < prevision.getGrille().getNby() ; y++) {
       for (int x = 0 ; x < prevision.getGrille().getNbx() ; x++) {
+
         double ventU = ventUGrid.getValue(x, y);
         double ventV = ventVGrid.getValue(x, y);
         
         Vent vent = new Vent(ventU, ventV);
-                            
+
         previsionParDate.addVent(x, y, vent);
       }
     }
