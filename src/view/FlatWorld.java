@@ -7,8 +7,14 @@ package view;
 
 import java.awt.Color;
 import java.awt.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.swing.JButton;
+import javax.swing.JMenuBar;
 
 import gov.nasa.worldwind.Configuration;
 import gov.nasa.worldwind.avlist.AVKey;
@@ -38,7 +44,13 @@ import model.WindBarb;
  * @see EarthFlat
  */
 public class FlatWorld extends ApplicationTemplate {
+  
   protected static final String SURFACE_POLYGON_IMAGE_PATH = "gov/nasa/worldwindx/examples/images/georss.png";
+  
+  protected static JMenuBar menuBar;
+  protected static JButton btnEdition;
+  protected static JButton btnModification;
+  protected static JButton btnImporter;
 
   public static class AppFrame extends ApplicationTemplate.AppFrame {
     public AppFrame() {
@@ -54,6 +66,26 @@ public class FlatWorld extends ApplicationTemplate {
       List l = new List();
       l.add(layer.getName());
       this.getControlPanel().add(l);
+      
+    //menu
+      menuBar = new JMenuBar();
+      this.setJMenuBar(menuBar);
+      
+      btnModification = new JButton("Modification");
+      menuBar.add(btnModification);
+      
+      btnEdition = new JButton("Edition");
+      menuBar.add(btnEdition);
+      btnEdition.setMnemonic(KeyEvent.VK_I);
+      btnEdition.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          new Edition();
+        }
+      });
+      
+      btnImporter = new JButton("Importer fichier grib");
+      menuBar.add(btnImporter);
+      
 
       // Path over Florida.
       ShapeAttributes attrs = new BasicShapeAttributes();
