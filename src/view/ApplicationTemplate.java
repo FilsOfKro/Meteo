@@ -223,6 +223,9 @@ public class ApplicationTemplate {
     }
   }
 
+  /**
+   * @wbp.parser.entryPoint
+   */
   public static void insertBeforeCompass(WorldWindow wwd, Layer layer) {
     // Insert the layer into the layer list just before the compass.
     int compassPosition = 0;
@@ -256,6 +259,9 @@ public class ApplicationTemplate {
     layers.add(compassPosition + 1, layer);
   }
 
+  /**
+   * @wbp.parser.entryPoint
+   */
   public static void insertBeforeLayerName(WorldWindow wwd, Layer layer, String targetName) {
     // Insert the layer into the layer list just before the target layer.
     int targetPosition = 0;
@@ -281,6 +287,9 @@ public class ApplicationTemplate {
     }
   }
 
+  /**
+   * @wbp.parser.entryPoint
+   */
   public static AppFrame start(String appName, Class appFrameClass) {
     if (Configuration.isMacOS() && appName != null) {
       System.setProperty("com.apple.mrj.application.apple.menu.about.name", appName);
@@ -303,6 +312,9 @@ public class ApplicationTemplate {
     }
   }
 
+  /**
+   * @wbp.parser.entryPoint
+   */
   public static void main(String[] args) {
     // Call the static start method like this from the main method of your derived
     // class.
