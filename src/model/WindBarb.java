@@ -26,6 +26,10 @@ public class WindBarb extends PointPlacemark {
     initialize();
   }
 
+  public WindBarb(Double latitude, Double longitude, double dir, double spd) {
+    this(Position.fromDegrees(latitude, longitude));
+  }
+
   private void initialize() {
     this.setLineEnabled(false);
     this.setAltitudeMode(WorldWind.CLAMP_TO_GROUND);
