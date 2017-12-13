@@ -59,6 +59,10 @@ public class FlatWorld extends ApplicationTemplate {
   protected static JMenuItem mntmDate;
   protected static JMenuItem mntmDate_1;
   protected static JMenuItem mntmDate_2;
+  
+  protected static JButton btnNoeud;
+  protected static JButton btnms;
+  protected static JButton btnkmh;
 
   /**
    * @wbp.parser.entryPoint
@@ -92,18 +96,30 @@ public class FlatWorld extends ApplicationTemplate {
 
       btnModification = new JButton("Modification");
       menuBar.add(btnModification);
-
-      btnEdition = new JButton("Edition");
-      menuBar.add(btnEdition);
-      btnEdition.setMnemonic(KeyEvent.VK_I);
-      btnEdition.addActionListener(new ActionListener() {
+      btnModification.setMnemonic(KeyEvent.VK_I);
+      btnModification.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          // new Edition();
+          new VueModification();
         }
       });
 
-      btnImporter = new JButton("Importer fichier grib");
+      btnEdition = new JButton("Edition");
+      menuBar.add(btnEdition);
+      
+      btnkmh = new JButton("Importer fichier grib");
+      menuBar.add(btnkmh);
+      
+      //echelle vitesse
+      btnImporter = new JButton("Noeud");
       menuBar.add(btnImporter);
+      
+      btnNoeud = new JButton("m/s");
+      menuBar.add(btnNoeud);
+      
+      btnms = new JButton("km/h");
+      menuBar.add(btnms);
+      
+      
 
       mnDate = new JMenu("Date");
       menuBar.add(mnDate);
