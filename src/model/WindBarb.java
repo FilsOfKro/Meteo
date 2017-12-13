@@ -8,7 +8,6 @@ import gov.nasa.worldwind.render.PointPlacemark;
 import gov.nasa.worldwind.render.PointPlacemarkAttributes;
 
 public class WindBarb extends PointPlacemark {
-  private String name;
   private double direction; // 0-360 degrees
   private double knots;
   private static  final double DECALAGE = 90.0;
@@ -62,6 +61,11 @@ public class WindBarb extends PointPlacemark {
     return direction;
   }
 
+  /**
+   * Sets the direction.
+   *
+   * @param direction the new direction
+   */
   public void setDirection(double direction) {
     this.direction = direction + DECALAGE;
 
