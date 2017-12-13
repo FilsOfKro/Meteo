@@ -148,8 +148,8 @@ public class FlatWorld extends ApplicationTemplate {
     }
 
     public void displayWindbarbs(ArrayList<WindBarb> windbarbs) {
+      windBarbLayer.dispose();
       for (WindBarb windBarb : windbarbs) {
-
         windBarbLayer.addRenderable(windBarb);
       }
     }
