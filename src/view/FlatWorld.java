@@ -92,15 +92,16 @@ public class FlatWorld extends ApplicationTemplate {
 
       btnModification = new JButton("Modification");
       menuBar.add(btnModification);
+      btnModification.setMnemonic(KeyEvent.VK_I);
+      btnModification.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          new VueModification();
+        }
+      });
 
       btnEdition = new JButton("Edition");
       menuBar.add(btnEdition);
-      btnEdition.setMnemonic(KeyEvent.VK_I);
-      btnEdition.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-          // new Edition();
-        }
-      });
+      
 
       btnImporter = new JButton("Importer fichier grib");
       menuBar.add(btnImporter);
