@@ -41,4 +41,15 @@ public class PrevisionParDate {
   public Vent[][] getVents() {
     return vents;
   }
+  
+  public int getNombreVent() {
+    int cpt = 0;
+    for(Vent[] tabVent : getVents()) {
+      for(Vent vent : tabVent) {
+        if(vent != null) cpt++;
+      }
+    }
+    return cpt++;
+  }
+  
 }
