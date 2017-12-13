@@ -55,7 +55,7 @@ public class TestEdition {
     
     assertTrue(previsionDate.getNombreVent() == 2);
     
-    prevision.addPrevision(previsionDate); //ajout de la prévision    
+    prevision.addPrevision(previsionDate); //ajout de la prï¿½vision    
     assertTrue(prevision.getListeDates().size() == 1);
     
     date_fin.setHours(date_fin.getHours()+1);

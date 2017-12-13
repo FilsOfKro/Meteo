@@ -64,11 +64,11 @@ public class Prevision implements IVisitable {
   public String toString() {
     StringBuilder sb = new StringBuilder("Prévisions présentes : ")
         .append(previsionsParDate.size()).append("\n");
-    sb.append("Informations sur la grille :\n").append(grille.toString()).append("\n\n");
+   /* sb.append("Informations sur la grille :\n").append(grille.toString()).append("\n\n");
 
     for (PrevisionParDate prevision : previsionsParDate) {
       sb.append(prevision.toString()).append("\n");
-    }
+    }*/
 
     return sb.toString();
   }

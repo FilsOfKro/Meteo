@@ -49,10 +49,10 @@ public class Editionxml {
       final Element zone = document.createElement("zone");
       document.appendChild(zone);
       final Element point1X = document.createElement("point1X");
-      point1X.appendChild(document.createTextNode("" + zonePrevision.getLonHG()));
+      point1X.appendChild(document.createTextNode("" + zonePrevision.getLonHautGauche()));
 
       final Element point1Y = document.createElement("point1Y");
-      point1Y.appendChild(document.createTextNode("" + zonePrevision.getLatHG()));
+      point1Y.appendChild(document.createTextNode("" + zonePrevision.getLatHautGauche()));
 
       final Element nombreX = document.createElement("nombreX");
       nombreX.appendChild(document.createTextNode("" + zonePrevision.getNbx()));

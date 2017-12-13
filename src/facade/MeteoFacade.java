@@ -57,6 +57,7 @@ public class MeteoFacade {
 
     try {
       prevision = parser.parsePrevisionFromGrib(filename);
+      System.out.println(prevision.toString());
     } catch (NoSuchElementException | IOException 
         | NoValidGribException | NotSupportedException e) {
       e.printStackTrace();
