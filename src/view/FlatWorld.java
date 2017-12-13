@@ -102,7 +102,7 @@ public class FlatWorld extends ApplicationTemplate {
       btnModification.setMnemonic(KeyEvent.VK_I);
       btnModification.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          new VueModification();
+          VueModification.main(null);
         }
       });
 
