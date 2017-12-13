@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -31,6 +32,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -60,9 +62,10 @@ public class FlatWorld extends ApplicationTemplate {
   protected static JMenuItem mntmDate_1;
   protected static JMenuItem mntmDate_2;
   
-  protected static JButton btnNoeud;
-  protected static JButton btnms;
-  protected static JButton btnkmh;
+  protected static ButtonGroup bg;
+  protected static JRadioButton rdbtnNoeud;
+  protected static JRadioButton rdbtnKmh;
+  protected static JRadioButton rdbtnMs;
 
   /**
    * @wbp.parser.entryPoint
@@ -106,18 +109,23 @@ public class FlatWorld extends ApplicationTemplate {
       btnEdition = new JButton("Edition");
       menuBar.add(btnEdition);
       
-      btnkmh = new JButton("Importer fichier grib");
-      menuBar.add(btnkmh);
-      
-      //echelle vitesse
-      btnImporter = new JButton("Noeud");
+      btnImporter = new JButton("Importer fichier grib");
       menuBar.add(btnImporter);
       
-      btnNoeud = new JButton("m/s");
-      menuBar.add(btnNoeud);
+      //echelle vitesse
+      bg = new ButtonGroup();
       
-      btnms = new JButton("km/h");
-      menuBar.add(btnms);
+      rdbtnNoeud = new JRadioButton("Noeud");
+      bg.add(rdbtnNoeud);
+      menuBar.add(rdbtnNoeud);
+      
+      rdbtnKmh = new JRadioButton("km/h");
+      bg.add(rdbtnKmh);
+      menuBar.add(rdbtnKmh);
+      
+      rdbtnMs = new JRadioButton("m/s");
+      bg.add(rdbtnMs);
+      menuBar.add(rdbtnMs);
       
       
 
