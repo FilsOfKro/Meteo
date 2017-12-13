@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import gov.nasa.worldwind.avlist.AVKey;
+import gov.nasa.worldwind.render.PointPlacemarkAttributes;
 import model.Prevision;
 import model.PrevisionParDate;
 import model.Vent;
@@ -82,7 +84,9 @@ public class MeteoFacade {
         Vent vent = myPrevision.getVents()[y][x];
         Double latitude = prev.getGrille().getLatitude(y);
         Double longitude = prev.getGrille().getLongitude(x);
-        windbarbs.add(new WindBarb(latitude, longitude, vent.getDirection(), vent.getVitesse()));
+        WindBarb wb = new WindBarb(latitude, longitude, vent.getDirection(), vent.getVitesse());
+        wb.setValue(AVKey.DISPLAY_NAME, Math.round(vent.getDirection())+"°"+" "+Math.round(vent.getVitesse())+" m/s");
+        windbarbs.add(wb);
       }
     }
     appframe.displayWindbarbs(windbarbs);
