@@ -52,7 +52,9 @@ import model.WindBarb;
  * @see EarthFlat
  */
 public class FlatWorld extends ApplicationTemplate {
-  public static view.FlatWorld.AppFrame frame;
+  
+  protected static final String SURFACE_POLYGON_IMAGE_PATH = "gov/nasa/worldwindx/examples/images/georss.png";
+  
   protected static JMenuBar menuBar;
   protected static JButton btnEdition;
   protected static JButton btnModification;
@@ -83,17 +85,26 @@ public class FlatWorld extends ApplicationTemplate {
     RenderableLayer windBarbLayer;
 
     public AppFrame() {
-      this.init();
+      this.makePaths();
     }
 
-    protected void init() {
-      // menu
+    protected void makePaths() {
+      insertBeforePlacenames(getWwd(), new LatLonGraticuleLayer());
+      RenderableLayer layer = new RenderableLayer();
+      layer.setName("Paths");
+      ArrayList<RenderableLayer> layers = new ArrayList<>();
+      layers.add(layer);
+      List l = new List();
+      l.add(layer.getName());
+      this.getControlPanel().add(l);
+      
+    //menu
       menuBar = new JMenuBar();
       this.setJMenuBar(menuBar);
-
+      
       btnModification = new JButton("Modification");
       menuBar.add(btnModification);
-
+      
       btnEdition = new JButton("Edition");
       menuBar.add(btnEdition);
       btnEdition.setMnemonic(KeyEvent.VK_I);
@@ -102,7 +113,7 @@ public class FlatWorld extends ApplicationTemplate {
           // new Edition();
         }
       });
-
+      
       btnImporter = new JButton("Importer fichier grib");
       menuBar.add(btnImporter);
 
@@ -161,17 +172,35 @@ public class FlatWorld extends ApplicationTemplate {
         }
       });
 
-      // Initialise graticule
-      insertBeforePlacenames(getWwd(), new LatLonGraticuleLayer());
-      // Initialise layer
-      windBarbLayer = new RenderableLayer();
-      windBarbLayer.setName("Winds");
+      locations = Arrays.asList(Position.fromDegrees(20, -170, 100e3), Position.fromDegrees(15, 170, 100e3),
+          Position.fromDegrees(10, -175, 100e3), Position.fromDegrees(5, 170, 100e3),
+          Position.fromDegrees(0, -170, 100e3), Position.fromDegrees(20, -170, 100e3));
+      shape = new Path(locations);
+      shape.setAttributes(attrs);
+      layer.addRenderable(shape);
 
-      insertBeforePlacenames(getWwd(), windBarbLayer);
+      // Path around the north pole.
+      attrs = new BasicShapeAttributes();
+      attrs.setOutlineMaterial(new Material(WWUtil.makeColorBrighter(Color.GREEN)));
+      attrs.setInteriorOpacity(0.5);
+      attrs.setOutlineOpacity(0.8);
+      attrs.setOutlineWidth(3);
+
+      locations = Arrays.asList(Position.fromDegrees(80, 0, 100e3), Position.fromDegrees(80, 90, 100e3),
+          Position.fromDegrees(80, 180, 100e3),
+          // Position.fromDegrees(80, -180, 100e3),
+          Position.fromDegrees(80, -90, 100e3), Position.fromDegrees(80, 0, 100e3));
+      shape = new Path(locations);
+      shape.setAttributes(attrs);
+      layer.addRenderable(shape);
+
+      // this.controlPanel.add(new view.LayerPanel(getWwd()), BorderLayout.SOUTH);
+      ApplicationTemplate.insertBeforePlacenames(this.getWwd(), layer);
 
       // Initialise point of view
       getWwd().getView().setEyePosition(Position.fromDegrees(48.39039, -4.486076, 42000));
     }
+  }
 
     /**
      * Affiche les barbules sur la carte.
