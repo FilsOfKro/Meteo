@@ -58,7 +58,6 @@ public class VueModification implements ActionListener{
   private void initialize() {
     frame = new JFrame();
     frame.setBounds(100, 100, 450, 279);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.getContentPane().setLayout(null);
     
     spinner = new JSpinner();
