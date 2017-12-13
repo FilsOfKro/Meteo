@@ -24,6 +24,9 @@ public class MeteoFacade {
   GribParser parser;
   AppFrame appframe;
 
+  private Prevision prevision;
+  private Date currentDate;
+  
   private MeteoFacade() {
   }
 
@@ -52,7 +55,6 @@ public class MeteoFacade {
    * @return L'objet Prevision parsé à partir du fichier
    */
   public Prevision loadGrib(String filename) {
-    Prevision prevision = null;
     long start = System.currentTimeMillis();
 
     try {
@@ -62,8 +64,11 @@ public class MeteoFacade {
         | NoValidGribException | NotSupportedException e) {
       e.printStackTrace();
     }
+    
     System.out.println("Temps d'exécution : " + (System.currentTimeMillis() - start));
-    this.displayDate(prevision, prevision.getListeDates().get(0));
+    
+    currentDate = prevision.getListeDates().get(0);
+    this.displayDate(prevision, currentDate);
     return prevision;
   }
 
@@ -92,5 +97,21 @@ public class MeteoFacade {
     }
     appframe.displayWindbarbs(windbarbs);
   }
+  
+  public void refreshWindbarbs() {
+    displayDate(prevision, currentDate);
+  }
 
+  public void setCurrentDate(Date date) {
+    currentDate = date;
+  }
+  
+  public Date getCurrentDate() {
+    return currentDate;
+  }
+  
+  public void setCurrentPrevision(Prevision prevision) {
+    this.prevision = prevision;
+  }
+  
 }
