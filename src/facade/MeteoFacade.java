@@ -59,9 +59,10 @@ public class MeteoFacade {
     return prevision.getListeDates();
   }
 
+   
   public void displayDate(Prevision prev, Date date) {
     PrevisionParDate myPrevision = prev.getPrevisionParDate(date);
-
+System.out.println(myPrevision.toString());
     ArrayList<WindBarb> windbarbs = new ArrayList<>();
     windbarbs.add(new WindBarb(Position.fromDegrees(48, -4), 25.0, 25.0));
     for (int y = 0; y < myPrevision.getVents().length; y++) {

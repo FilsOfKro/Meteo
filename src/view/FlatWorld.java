@@ -124,7 +124,7 @@ public class FlatWorld extends ApplicationTemplate {
                   JMenuItem selected = (JMenuItem) e.getSource();
                   System.out.println(selected.getText());
                   MeteoFacade.getInstance().displayDate(prevv, d );
-                  lblDate.setText(d.toString());
+                  lblDate.setText("Date sélectionnée : "+d.toString());
                }
               });
               
