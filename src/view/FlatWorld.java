@@ -18,7 +18,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
-
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -108,17 +109,24 @@ public class FlatWorld extends ApplicationTemplate {
 
       btnImporter.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          final JFileChooser fc = new JFileChooser();
+          try {
+            // On récupère le chemin du projet pour lancer le FileChooser à cet endroit là
+            URL u = getClass().getProtectionDomain().getCodeSource().getLocation();
+            File f = new File(u.toURI());
 
-          int returnVal = fc.showOpenDialog(null);
+            final JFileChooser fc = new JFileChooser();
+            fc.setCurrentDirectory(f.getParentFile());
+            int returnVal = fc.showOpenDialog(null);
 
-          if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+              File file = fc.getSelectedFile();
 
-            System.out.println("Opening: " + file.getAbsolutePath());
-            MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
+              System.out.println("Opening: " + file.getAbsolutePath());
+              MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
+            }
+          } catch (URISyntaxException e1) {
+            e1.printStackTrace();
           }
-
         }
       });
 
@@ -136,7 +144,9 @@ public class FlatWorld extends ApplicationTemplate {
 
     /**
      * Affiche les barbules sur la carte.
-     * @param windbarbs La liste des barbules à afficher
+     * 
+     * @param windbarbs
+     *          La liste des barbules à afficher
      */
     public void displayWindbarbs(ArrayList<WindBarb> windbarbs) {
       for (WindBarb windBarb : windbarbs) {
