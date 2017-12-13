@@ -1,6 +1,5 @@
 package facade;
 
-import gov.nasa.worldwind.geom.Position;
 import grib.parser.GribParser;
 
 import java.io.IOException;
@@ -76,7 +75,7 @@ public class MeteoFacade {
    */
   public void displayDate(Prevision prev, Date date) {
     PrevisionParDate myPrevision = prev.getPrevisionParDate(date);
-System.out.println(myPrevision.toString());
+    System.out.println(myPrevision.toString());
     ArrayList<WindBarb> windbarbs = new ArrayList<>();
     for (int y = 0; y < myPrevision.getVents().length; y++) {
       for (int x = 0; x < myPrevision.getVents()[y].length; x++) {

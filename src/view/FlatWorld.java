@@ -6,6 +6,14 @@
 
 package view;
 
+import facade.MeteoFacade;
+import gov.nasa.worldwind.Configuration;
+import gov.nasa.worldwind.avlist.AVKey;
+import gov.nasa.worldwind.geom.Position;
+import gov.nasa.worldwind.globes.EarthFlat;
+import gov.nasa.worldwind.layers.LatLonGraticuleLayer;
+import gov.nasa.worldwind.layers.RenderableLayer;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -22,14 +30,9 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
-import facade.MeteoFacade;
-import gov.nasa.worldwind.Configuration;
-import gov.nasa.worldwind.avlist.AVKey;
-import gov.nasa.worldwind.geom.Position;
-import gov.nasa.worldwind.globes.EarthFlat;
-import gov.nasa.worldwind.layers.LatLonGraticuleLayer;
-import gov.nasa.worldwind.layers.RenderableLayer;
 import model.Prevision;
 import model.WindBarb;
 
@@ -71,6 +74,10 @@ public class FlatWorld extends ApplicationTemplate {
   }
 
   public static class AppFrame extends ApplicationTemplate.AppFrame {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     RenderableLayer windBarbLayer;
 
     public AppFrame() {
@@ -100,13 +107,13 @@ public class FlatWorld extends ApplicationTemplate {
       mnDate = new JMenu("Date");
       menuBar.add(mnDate);
       this.setVisible(true);
-
-      JLabel label = new JLabel(
-          "                                                                                                     ");
-      menuBar.add(label);
+      
+      JPanel jpl = new JPanel();
+      menuBar.add(jpl);
 
       JLabel lblDate = new JLabel("Date sélectionnée : ");
-      menuBar.add(lblDate);
+      lblDate.setHorizontalAlignment(SwingConstants.CENTER);
+      jpl.add(lblDate);
       btnImporter.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           try {
@@ -137,6 +144,7 @@ public class FlatWorld extends ApplicationTemplate {
                   }
                 });
                 lblDate.setText("Date sélectionnée : " + dates.get(0).toString());
+                lblDate.setAlignmentY(CENTER_ALIGNMENT);
                 mnDate.add(da);
               }
             }
