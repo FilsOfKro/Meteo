@@ -14,7 +14,7 @@ public class WindBarb extends PointPlacemark {
   private double direction; // 0-360 degrees
   private double knots;
   private static  final double DECALAGE = 90.0;
-  private static final Double MS_TO_KNOTS = 0.51444444444;
+  private static final Double MS_TO_KNOTS = 1.94384;
 
   public WindBarb(Position position) {
     this(position, 0, 0);
@@ -82,6 +82,7 @@ public class WindBarb extends PointPlacemark {
   public void setKnots(double knots) {
     PointPlacemarkAttributes attrs = this.getAttributes();
     int speed = (int) (Math.ceil(knots / 5.0) * 5);
+
     if (speed < 0) {
       speed = 0;
     }
