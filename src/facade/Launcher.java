@@ -1,18 +1,14 @@
 package facade;
 
-import java.io.IOException;
-import java.util.NoSuchElementException;
-
-import net.sourceforge.jgrib.NoValidGribException;
-import net.sourceforge.jgrib.NotSupportedException;
-
 public class Launcher {
 
-  public static void main(String[] args)
-      throws NoSuchElementException, IOException, NoValidGribException, NotSupportedException {
+  /**
+   * Lanceur de l'application meteo.
+   * @param args les arguments passés à l'application
+   */
+  public static void main(String[] args) {
+    @SuppressWarnings("unused")
     MeteoFacade facade = MeteoFacade.getInstance();
-    // Prevision prev = facade.loadGrib("TTxOcMxLToSYmtRzKDl0e75I4HAjqqDApv_.grb");
-    // facade.displayDate(prev, prev.getListeDates().get(0));
   }
 
 }

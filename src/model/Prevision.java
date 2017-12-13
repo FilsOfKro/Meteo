@@ -25,9 +25,8 @@ public class Prevision implements IVisitable {
   }
 
   /**
-   * Retourne la liste des dates qui existent dans les données
-   * 
-   * @return .
+   * Retourne la liste des dates qui existent dans les données.
+   * @return La liste des dates trouvées
    */
   public List<Date> getListeDates() {
     List<Date> dates = new ArrayList<Date>();
@@ -40,11 +39,9 @@ public class Prevision implements IVisitable {
   }
 
   /**
-   * Retourne la prévision pour la date passée en paramètre si elle existe, null
-   * sinon
-   * 
-   * @param date .
-   * @return .
+   * Retourne la prévision pour la date passée en paramètre si elle existe, sinon null.
+   * @param date La date recherchée
+   * @return La PrevisionParDate trouvée
    */
   public PrevisionParDate getPrevisionParDate(Date date) {
 
@@ -62,7 +59,7 @@ public class Prevision implements IVisitable {
   }
 
   /**
-   *.
+   * Retourne une représentation en chaine de caractère de cette Prevision.
    */
   public String toString() {
     StringBuilder sb = new StringBuilder("Prévisions présentes : ")

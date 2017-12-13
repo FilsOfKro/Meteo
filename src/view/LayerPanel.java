@@ -3,17 +3,20 @@
  * National Aeronautics and Space Administration.
  * All Rights Reserved.
  */
+
 package view;
-
-import java.awt.BorderLayout;
-
-import javax.swing.JPanel;
 
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwindx.examples.LayerTreeUsage;
 import gov.nasa.worldwindx.examples.OnScreenLayerManager;
 import gov.nasa.worldwindx.examples.layermanager.ElevationModelManagerPanel;
 import gov.nasa.worldwindx.examples.layermanager.LayerManagerPanel;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
+
+
 
 /**
  * Panel to display a list of layers. A layer can be turned on or off by
@@ -25,9 +28,17 @@ import gov.nasa.worldwindx.examples.layermanager.LayerManagerPanel;
  * @see OnScreenLayerManager
  */
 public class LayerPanel extends JPanel {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   protected LayerManagerPanel layerManagerPanel;
   protected ElevationModelManagerPanel elevationModelManagerPanel;
 
+  /**
+   * Classe LayerPanel.
+   * @param wwd WorldWindow
+   */
   public LayerPanel(WorldWindow wwd) {
     super(new BorderLayout(10, 10));
 
@@ -43,7 +54,7 @@ public class LayerPanel extends JPanel {
     this.elevationModelManagerPanel.update(wwd);
   }
 
-  @SuppressWarnings("UnusedParameters")
+  
   /**
    * @deprecated There is no need to call this method. As of 6/30/14 it is a
    *             no-op.

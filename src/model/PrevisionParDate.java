@@ -22,15 +22,18 @@ public class PrevisionParDate {
 
   /**
    * Retourne vrai si la date passée en paramètre est égale à la date de la
-   * prévision
+   * prévision.
    * 
-   * @param date
-   * @return
+   * @param date La date à comparer
+   * @return vria ou faux si la date est égale
    */
   public boolean estLaMemeDate(Date date) {
     return this.date.equals(date);
   }
 
+  /**
+   * Retourne une représentation en chaine de caractère de cette PrevisionParDate.
+   */
   public String toString() {
     StringBuilder sb = new StringBuilder(date.toString() + " - Grille de taille [");
     sb.append(vents.length).append(",").append(vents[0].length).append("]\n");

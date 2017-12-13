@@ -26,12 +26,12 @@ public class Vent {
   }
   
   /**
-   * Renvoi la représentation textuelle de l'objet.
+   * Retourne une représentation en chaine de caractère de ce vent.
    */
   public String toString() {
-    StringBuilder sb = new StringBuilder("U=");
+    StringBuilder sb = new StringBuilder("Direction=");
     
-    sb.append(direction).append(" | V=").append(vitesse);
+    sb.append(direction).append(" | Vitesse=").append(vitesse);
     
     return sb.toString();
   }
