@@ -47,7 +47,7 @@ public class ServicesModification {
   public boolean appliquerContrasteLineaire(Vent vent, Contraste contraste) {
     
     boolean isValid = ((Double)contraste.getCoefficient() != null 
-                     & (Double)contraste.getSeuil() != null ? true : false);
+                     && (Double)contraste.getSeuil() != null ? true : false);
 
     double seuil = contraste.getSeuil();
     double coefficient = contraste.getCoefficient();
