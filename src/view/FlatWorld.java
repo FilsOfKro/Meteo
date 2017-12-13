@@ -135,6 +135,8 @@ public class FlatWorld extends ApplicationTemplate {
 
               System.out.println("Opening: " + file.getAbsolutePath());
               Prevision prevv = MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
+              MeteoFacade.getInstance().setCurrentPrevision(prevv);
+              
               List<Date> dates = MeteoFacade.getInstance()
                   .getDates(prevv);
               mnDate.removeAll();
@@ -145,11 +147,12 @@ public class FlatWorld extends ApplicationTemplate {
                   public void actionPerformed(java.awt.event.ActionEvent e) {
                     JMenuItem selected = (JMenuItem) e.getSource();
                     System.out.println(selected.getText());
-                    MeteoFacade.getInstance().displayDate(prevv, d);
+                    MeteoFacade.getInstance().setCurrentDate(d);
+                    MeteoFacade.getInstance().refreshWindbarbs();
                     lblDate.setText("Date sélectionnée : " + d.toString());
                   }
                 });
-                lblDate.setText("Date sélectionnée : " + dates.get(0).toString());
+                lblDate.setText("Date sélectionnée : " + MeteoFacade.getInstance().getCurrentDate().toString());
                 lblDate.setAlignmentY(CENTER_ALIGNMENT);
                 mnDate.add(da);
               }
