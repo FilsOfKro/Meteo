@@ -35,4 +35,9 @@ public class Vent {
     
     return sb.toString();
   }
+  
+  public void setVitesse(double vitesse) {
+    
+    this.vitesse = vitesse;
+  }
 }

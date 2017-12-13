@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Prevision {
+import visiteur.IVisitable;
+import visiteur.IVisiteur;
+
+public class Prevision implements IVisitable {
   private Grille grille;
   private List<PrevisionParDate> previsionsParDate;
 
@@ -23,7 +26,6 @@ public class Prevision {
 
   /**
    * Retourne la liste des dates qui existent dans les données.
-   * 
    * @return La liste des dates trouvées
    */
   public List<Date> getListeDates() {
@@ -38,7 +40,6 @@ public class Prevision {
 
   /**
    * Retourne la prévision pour la date passée en paramètre si elle existe, sinon null.
-   * 
    * @param date La date recherchée
    * @return La PrevisionParDate trouvée
    */
@@ -70,5 +71,37 @@ public class Prevision {
     }
 
     return sb.toString();
+  }
+  
+  /**
+   * Méthode permettant d'afficher les vents d'un prévision.
+   * 
+   * @return La chaine correspondante aux vents d'une prévision.
+   */
+  public String afficherVentPrevision() {
+    StringBuilder sb = new StringBuilder("Prévisions présentes : ")
+        .append(previsionsParDate.size()).append("\n");
+    sb.append("Informations sur la grille :\n").append(grille.toString()).append("\n\n");
+
+    for (PrevisionParDate prevision : previsionsParDate) {
+      for (int i = 0; i < prevision.getVents().length; i++) {
+        for (int j = 0; j < prevision.getVents()[0].length; j++) {
+          
+          sb.append(prevision.getVents()[i][j].toString()).append("\n");
+        }
+      }
+    }
+
+    return sb.toString();
+  }
+
+  public void applique(IVisiteur visiteur) {
+    
+    visiteur.agitSurPrevision(this);
+  }
+  
+  public List<PrevisionParDate> getPrevisionParDate() {
+    
+    return this.previsionsParDate;
   }
 }
