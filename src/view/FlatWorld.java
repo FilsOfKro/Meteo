@@ -102,7 +102,7 @@ public class FlatWorld extends ApplicationTemplate {
       btnModification.setMnemonic(KeyEvent.VK_I);
       btnModification.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          VueModification.main(null);
+          new VueModification();
         }
       });
 
@@ -126,6 +126,25 @@ public class FlatWorld extends ApplicationTemplate {
       rdbtnMs = new JRadioButton("m/s");
       bg.add(rdbtnMs);
       menuBar.add(rdbtnMs);
+      
+      rdbtnNoeud.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          MeteoFacade.getInstance().changeUnit(e);
+        }
+      });
+      rdbtnKmh.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          MeteoFacade.getInstance().changeUnit(e);
+        }
+      });
+      rdbtnMs.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          MeteoFacade.getInstance().changeUnit(e);
+        }
+      });
       
       
 
