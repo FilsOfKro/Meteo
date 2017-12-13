@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.BevelBorder;
+import javax.swing.JButton;
 
 public class VueModification {
 
@@ -41,7 +42,7 @@ public class VueModification {
    */
   private void initialize() {
     frame = new JFrame();
-    frame.setBounds(100, 100, 450, 205);
+    frame.setBounds(100, 100, 450, 279);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.getContentPane().setLayout(null);
     
@@ -68,5 +69,9 @@ public class VueModification {
     slider.setValue(0);
     slider.setBounds(159, 80, 254, 44);
     frame.getContentPane().add(slider);
+    
+    JButton btnRafraichir = new JButton("Rafraichir");
+    btnRafraichir.setBounds(160, 165, 115, 29);
+    frame.getContentPane().add(btnRafraichir);
   }
 }
