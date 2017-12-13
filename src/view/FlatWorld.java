@@ -32,6 +32,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.Prevision;
 import model.WindBarb;
@@ -121,17 +122,22 @@ public class FlatWorld extends ApplicationTemplate {
             URL u = getClass().getProtectionDomain().getCodeSource().getLocation();
             File f = new File(u.toURI());
 
-            final JFileChooser fc = new JFileChooser();
-            fc.setCurrentDirectory(f.getParentFile());
-            int returnVal = fc.showOpenDialog(null);
+            final JFileChooser gribFileChooser = new JFileChooser();
+            gribFileChooser.setCurrentDirectory(f.getParentFile());
+            
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("GRIB FILES", "grb");
+            gribFileChooser.setFileFilter(filter);
+            
+            int returnVal = gribFileChooser.showOpenDialog(null);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-              File file = fc.getSelectedFile();
+              File file = gribFileChooser.getSelectedFile();
 
               System.out.println("Opening: " + file.getAbsolutePath());
               Prevision prevv = MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
               List<Date> dates = MeteoFacade.getInstance()
-                  .getDates(MeteoFacade.getInstance().loadGrib(file.getAbsolutePath()));
+                  .getDates(prevv);
+              mnDate.removeAll();
               for (Date d : dates) {
                 JMenuItem da = new JMenuItem(d.toString());
 
