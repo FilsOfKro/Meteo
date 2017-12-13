@@ -16,10 +16,6 @@ public class WindBarb extends PointPlacemark {
   private final double DECALAGE = 90.0;
   private final Double MS_TO_KNOTS = 0.51444444444;
 
-  public WindBarb(Position position) {
-    this(position, 0, 0);
-  }
-
   public WindBarb(Position position, double dir, double spd) {
     super(position);
     this.direction = dir + DECALAGE;
@@ -36,29 +32,28 @@ public class WindBarb extends PointPlacemark {
     this.setAltitudeMode(WorldWind.CLAMP_TO_GROUND);
     PointPlacemarkAttributes attrs = new PointPlacemarkAttributes();
 
-    attrs.setImageColor(Color.BLUE);// new Color(1f, 1f, 1f, 0.6f));
+    attrs.setImageColor(new Color(1f, 1f, 1f, 0.6f));
     attrs.setScale(1.0);
     attrs.setImageOffset(new Offset(0.5d, 0.5d, AVKey.FRACTION, AVKey.FRACTION));
     attrs.setLabelOffset(new Offset(0.9d, 0.6d, AVKey.FRACTION, AVKey.FRACTION));
-    attrs.setHeading(0.0);
     attrs.setHeadingReference(AVKey.RELATIVE_TO_GLOBE);
-
     this.setAttributes(attrs);
-
-    this.setDirection(direction + DECALAGE);
-    this.setKnots(knots);
+    this.setDirection(this.getDirection());
+    this.setKnots(this.getKnots());
   }
 
   /**
    * @return the direction
    */
   public double getDirection() {
-    return direction - DECALAGE;
+    return direction;
   }
 
   public void setDirection(double direction) {
-    PointPlacemarkAttributes attrs = this.getAttributes();
     this.direction = direction + DECALAGE;
+    PointPlacemarkAttributes attrs = this.getAttributes();
+    attrs.setHeadingReference(AVKey.RELATIVE_TO_GLOBE);
+    attrs.setHeading(this.direction);
   }
 
   /**
