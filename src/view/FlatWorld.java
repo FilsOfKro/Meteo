@@ -6,14 +6,6 @@
 
 package view;
 
-import facade.MeteoFacade;
-import gov.nasa.worldwind.Configuration;
-import gov.nasa.worldwind.avlist.AVKey;
-import gov.nasa.worldwind.geom.Position;
-import gov.nasa.worldwind.globes.EarthFlat;
-import gov.nasa.worldwind.layers.LatLonGraticuleLayer;
-import gov.nasa.worldwind.layers.RenderableLayer;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -31,6 +23,13 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import facade.MeteoFacade;
+import gov.nasa.worldwind.Configuration;
+import gov.nasa.worldwind.avlist.AVKey;
+import gov.nasa.worldwind.geom.Position;
+import gov.nasa.worldwind.globes.EarthFlat;
+import gov.nasa.worldwind.layers.LatLonGraticuleLayer;
+import gov.nasa.worldwind.layers.RenderableLayer;
 import model.Prevision;
 import model.WindBarb;
 
@@ -91,7 +90,7 @@ public class FlatWorld extends ApplicationTemplate {
       btnEdition.setMnemonic(KeyEvent.VK_I);
       btnEdition.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          //new Edition();
+          // new Edition();
         }
       });
 
@@ -102,10 +101,11 @@ public class FlatWorld extends ApplicationTemplate {
       menuBar.add(mnDate);
       this.setVisible(true);
 
-      JLabel label = new JLabel("                                                                                                     ");
+      JLabel label = new JLabel(
+          "                                                                                                     ");
       menuBar.add(label);
-      
-      JLabel lblDate = new JLabel("Date s�lectionn�e : ");
+
+      JLabel lblDate = new JLabel("Date sélectionnée : ");
       menuBar.add(lblDate);
       btnImporter.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -121,25 +121,26 @@ public class FlatWorld extends ApplicationTemplate {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
               File file = fc.getSelectedFile();
 
-            System.out.println("Opening: " + file.getAbsolutePath());
-            Prevision prevv = MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
-            List<Date> dates =MeteoFacade.getInstance().getDates(MeteoFacade.getInstance().loadGrib(file.getAbsolutePath()));
-            for(Date d : dates) {
-              JMenuItem da = new JMenuItem(d.toString());
-              
-              da.addActionListener(new ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent e) {
-                  JMenuItem selected = (JMenuItem) e.getSource();
-                  System.out.println(selected.getText());
-                  MeteoFacade.getInstance().displayDate(prevv, d );
-                  lblDate.setText("Date s�lectionn�e : "+d.toString());
-               }
-              });
-              
-              mnDate.add(da);
+              System.out.println("Opening: " + file.getAbsolutePath());
+              Prevision prevv = MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
+              List<Date> dates = MeteoFacade.getInstance()
+                  .getDates(MeteoFacade.getInstance().loadGrib(file.getAbsolutePath()));
+              for (Date d : dates) {
+                JMenuItem da = new JMenuItem(d.toString());
+
+                da.addActionListener(new ActionListener() {
+                  public void actionPerformed(java.awt.event.ActionEvent e) {
+                    JMenuItem selected = (JMenuItem) e.getSource();
+                    System.out.println(selected.getText());
+                    MeteoFacade.getInstance().displayDate(prevv, d);
+                    lblDate.setText("Date sélectionnée : " + d.toString());
+                  }
+                });
+                lblDate.setText("Date sélectionnée : " + dates.get(0).toString());
+                mnDate.add(da);
+              }
             }
-          }
-          }catch (URISyntaxException e1) {
+          } catch (URISyntaxException e1) {
             e1.printStackTrace();
           }
         }
