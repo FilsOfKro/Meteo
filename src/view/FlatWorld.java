@@ -31,6 +31,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import model.Prevision;
 import model.WindBarb;
 
 /**
@@ -137,7 +138,8 @@ public class FlatWorld extends ApplicationTemplate {
               
               mnDate.add(da);
             }
-          } catch (URISyntaxException e1) {
+          }
+          }catch (URISyntaxException e1) {
             e1.printStackTrace();
           }
         }
