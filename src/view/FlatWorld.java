@@ -124,7 +124,7 @@ public class FlatWorld extends ApplicationTemplate {
               System.out.println("Opening: " + file.getAbsolutePath());
               Prevision prevv = MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
               List<Date> dates = MeteoFacade.getInstance()
-                  .getDates(MeteoFacade.getInstance().loadGrib(file.getAbsolutePath()));
+                  .getDates(prevv);
               for (Date d : dates) {
                 JMenuItem da = new JMenuItem(d.toString());
 
