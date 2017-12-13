@@ -36,7 +36,8 @@ public class Edition {
    */
   private void initialize() {
     frame = new JFrame();
-    frame.setBounds(100, 100, 450, 300);
+    frame.setTitle("Edition");
+    frame.setBounds(100, 100, 650, 500);
     frame.setVisible(true);
   }
 
