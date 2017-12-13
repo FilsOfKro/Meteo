@@ -14,6 +14,7 @@ public class WindBarb extends PointPlacemark {
   private double direction; // 0-360 degrees
   private double knots;
   private final double DECALAGE = 90.0;
+  private final Double MS_TO_KNOTS = 0.51444444444;
 
   public WindBarb(Position position) {
     this(position, 0, 0);
@@ -22,7 +23,7 @@ public class WindBarb extends PointPlacemark {
   public WindBarb(Position position, double dir, double spd) {
     super(position);
     this.direction = dir + DECALAGE;
-    this.knots = 0.51444444444 * spd;
+    this.knots = MS_TO_KNOTS * spd;
     initialize();
   }
 
@@ -39,6 +40,8 @@ public class WindBarb extends PointPlacemark {
     attrs.setScale(1.0);
     attrs.setImageOffset(new Offset(0.5d, 0.5d, AVKey.FRACTION, AVKey.FRACTION));
     attrs.setLabelOffset(new Offset(0.9d, 0.6d, AVKey.FRACTION, AVKey.FRACTION));
+    attrs.setHeading(0.0);
+    attrs.setHeadingReference(AVKey.RELATIVE_TO_GLOBE);
 
     this.setAttributes(attrs);
 
@@ -55,7 +58,6 @@ public class WindBarb extends PointPlacemark {
 
   public void setDirection(double direction) {
     PointPlacemarkAttributes attrs = this.getAttributes();
-    attrs.setHeading(direction + DECALAGE);
     this.direction = direction + DECALAGE;
   }
 

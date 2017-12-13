@@ -35,7 +35,7 @@ public class MeteoFacade {
   }
 
   private void init() {
- //   FlatWorld.main(null);
+    FlatWorld.main(null);
     this.appframe = (AppFrame) FlatWorld.getFrame();
     this.parser = new GribParser();
   }
@@ -69,6 +69,9 @@ public class MeteoFacade {
         Vent vent = myPrevision.getVents()[y][x];
         Double latitude = prev.getGrille().getLatitude(y);
         Double longitude = prev.getGrille().getLongitude(x);
+        // Placemar p = new WindBarb(latitude, longitude, vent.getDirection(),
+        // vent.getVitesse());
+        // p.getI
         windbarbs.add(new WindBarb(latitude, longitude, vent.getDirection(), vent.getVitesse()));
       }
     }

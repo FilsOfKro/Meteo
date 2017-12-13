@@ -89,21 +89,20 @@ public class FlatWorld extends ApplicationTemplate {
 
       btnImporter = new JButton("Importer fichier grib");
       menuBar.add(btnImporter);
-      
-      
+
       mnDate = new JMenu("Date");
       menuBar.add(mnDate);
-      
+
       mntmDate = new JMenuItem("date1");
       mnDate.add(mntmDate);
-      
+
       mntmDate_1 = new JMenuItem("date2");
       mnDate.add(mntmDate_1);
-      
+
       mntmDate_2 = new JMenuItem("date3");
       mnDate.add(mntmDate_2);
       this.setVisible(true);
-      
+
       btnImporter.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           final JFileChooser fc = new JFileChooser();
@@ -114,8 +113,8 @@ public class FlatWorld extends ApplicationTemplate {
             File file = fc.getSelectedFile();
 
             System.out.println("Opening: " + file.getAbsolutePath());
-            MeteoFacade.getInstance().loadGrib(file.getAbsolutePath() );
-          } 
+            MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
+          }
 
         }
       });
@@ -137,8 +136,6 @@ public class FlatWorld extends ApplicationTemplate {
 
         windBarbLayer.addRenderable(windBarb);
       }
-      windBarbLayer.addRenderable(new WindBarb(Position.fromDegrees(48, -4), 25.0, 25.0));
-
     }
   }
 }
