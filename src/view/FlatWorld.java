@@ -59,6 +59,10 @@ public class FlatWorld extends ApplicationTemplate {
   protected static JMenuItem mntmDate;
   protected static JMenuItem mntmDate_1;
   protected static JMenuItem mntmDate_2;
+  
+  protected static JButton btnNoeud;
+  protected static JButton btnms;
+  protected static JButton btnkmh;
 
   /**
    * @wbp.parser.entryPoint
@@ -102,9 +106,20 @@ public class FlatWorld extends ApplicationTemplate {
       btnEdition = new JButton("Edition");
       menuBar.add(btnEdition);
       
-
-      btnImporter = new JButton("Importer fichier grib");
+      btnkmh = new JButton("Importer fichier grib");
+      menuBar.add(btnkmh);
+      
+      //echelle vitesse
+      btnImporter = new JButton("Noeud");
       menuBar.add(btnImporter);
+      
+      btnNoeud = new JButton("m/s");
+      menuBar.add(btnNoeud);
+      
+      btnms = new JButton("km/h");
+      menuBar.add(btnms);
+      
+      
 
       mnDate = new JMenu("Date");
       menuBar.add(mnDate);
