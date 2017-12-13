@@ -35,7 +35,7 @@ public class MeteoFacade {
   }
 
   private void init() {
-    FlatWorld.main(null);
+ //   FlatWorld.main(null);
     this.appframe = (AppFrame) FlatWorld.getFrame();
     this.parser = new GribParser();
   }

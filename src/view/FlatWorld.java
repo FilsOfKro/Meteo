@@ -8,9 +8,11 @@ package view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JMenuBar;
 
 import facade.MeteoFacade;
@@ -83,7 +85,18 @@ public class FlatWorld extends ApplicationTemplate {
       menuBar.add(btnImporter);
       btnImporter.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          MeteoFacade.getInstance().loadGrib("TTxOcMxLToSYmtRzKDl0e75I4HAjqqDApv_.grb");
+
+          final JFileChooser fc = new JFileChooser();
+
+          int returnVal = fc.showOpenDialog(null);
+
+          if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+
+            System.out.println("Opening: " + file.getAbsolutePath());
+            MeteoFacade.getInstance().loadGrib(file.getAbsolutePath() );
+          } 
+
         }
       });
 
