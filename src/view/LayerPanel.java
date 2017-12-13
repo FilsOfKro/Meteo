@@ -28,6 +28,10 @@ import javax.swing.JPanel;
  * @see OnScreenLayerManager
  */
 public class LayerPanel extends JPanel {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   protected LayerManagerPanel layerManagerPanel;
   protected ElevationModelManagerPanel elevationModelManagerPanel;
 
@@ -50,7 +54,7 @@ public class LayerPanel extends JPanel {
     this.elevationModelManagerPanel.update(wwd);
   }
 
-  @SuppressWarnings("UnusedParameters")
+  
   /**
    * @deprecated There is no need to call this method. As of 6/30/14 it is a
    *             no-op.
