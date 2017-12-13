@@ -3,13 +3,23 @@
  * National Aeronautics and Space Administration.
  * All Rights Reserved.
  */
+
 package view;
 
-import java.awt.Color;
+import facade.MeteoFacade;
+import gov.nasa.worldwind.Configuration;
+import gov.nasa.worldwind.avlist.AVKey;
+import gov.nasa.worldwind.geom.Position;
+import gov.nasa.worldwind.globes.EarthFlat;
+import gov.nasa.worldwind.layers.LatLonGraticuleLayer;
+import gov.nasa.worldwind.layers.RenderableLayer;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,14 +31,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import facade.MeteoFacade;
-import gov.nasa.worldwind.Configuration;
-import gov.nasa.worldwind.avlist.AVKey;
-import gov.nasa.worldwind.geom.Position;
-import gov.nasa.worldwind.globes.EarthFlat;
-import gov.nasa.worldwind.layers.LatLonGraticuleLayer;
-import gov.nasa.worldwind.layers.RenderableLayer;
-import model.Prevision;
 import model.WindBarb;
 
 /**
@@ -102,16 +104,21 @@ public class FlatWorld extends ApplicationTemplate {
       JLabel label = new JLabel("                                                                                                     ");
       menuBar.add(label);
       
-      JLabel lblDate = new JLabel("Date sélectionnée : ");
+      JLabel lblDate = new JLabel("Date sï¿½lectionnï¿½e : ");
       menuBar.add(lblDate);
       btnImporter.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          final JFileChooser fc = new JFileChooser();
+          try {
+            // On rÃ©cupÃ¨re le chemin du projet pour lancer le FileChooser Ã  cet endroit lÃ 
+            URL u = getClass().getProtectionDomain().getCodeSource().getLocation();
+            File f = new File(u.toURI());
 
-          int returnVal = fc.showOpenDialog(null);
+            final JFileChooser fc = new JFileChooser();
+            fc.setCurrentDirectory(f.getParentFile());
+            int returnVal = fc.showOpenDialog(null);
 
-          if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+              File file = fc.getSelectedFile();
 
             System.out.println("Opening: " + file.getAbsolutePath());
             Prevision prevv = MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
@@ -124,14 +131,15 @@ public class FlatWorld extends ApplicationTemplate {
                   JMenuItem selected = (JMenuItem) e.getSource();
                   System.out.println(selected.getText());
                   MeteoFacade.getInstance().displayDate(prevv, d );
-                  lblDate.setText("Date sélectionnée : "+d.toString());
+                  lblDate.setText("Date sï¿½lectionnï¿½e : "+d.toString());
                }
               });
               
               mnDate.add(da);
             }
+          } catch (URISyntaxException e1) {
+            e1.printStackTrace();
           }
-
         }
       });
 
@@ -147,6 +155,12 @@ public class FlatWorld extends ApplicationTemplate {
       getWwd().getView().setEyePosition(Position.fromDegrees(48.39039, -4.486076, 42000));
     }
 
+    /**
+     * Affiche les barbules sur la carte.
+     * 
+     * @param windbarbs
+     *          La liste des barbules Ã  afficher
+     */
     public void displayWindbarbs(ArrayList<WindBarb> windbarbs) {
       windBarbLayer.dispose();
       for (WindBarb windBarb : windbarbs) {
