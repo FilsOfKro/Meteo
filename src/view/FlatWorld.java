@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JButton;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import gov.nasa.worldwind.Configuration;
 import gov.nasa.worldwind.avlist.AVKey;
@@ -51,6 +53,10 @@ public class FlatWorld extends ApplicationTemplate {
   protected static JButton btnEdition;
   protected static JButton btnModification;
   protected static JButton btnImporter;
+  protected static JMenu mnDate;
+  protected static JMenuItem mntmDate;
+  protected static JMenuItem mntmDate_1;
+  protected static JMenuItem mntmDate_2;
 
   public static class AppFrame extends ApplicationTemplate.AppFrame {
     public AppFrame() {
@@ -85,6 +91,20 @@ public class FlatWorld extends ApplicationTemplate {
       
       btnImporter = new JButton("Importer fichier grib");
       menuBar.add(btnImporter);
+      
+      
+      mnDate = new JMenu("Date");
+      menuBar.add(mnDate);
+      
+      mntmDate = new JMenuItem("date1");
+      mnDate.add(mntmDate);
+      
+      mntmDate_1 = new JMenuItem("date2");
+      mnDate.add(mntmDate_1);
+      
+      mntmDate_2 = new JMenuItem("date3");
+      mnDate.add(mntmDate_2);
+      this.setVisible(true);
       
 
       // Path over Florida.
