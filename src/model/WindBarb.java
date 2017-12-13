@@ -7,13 +7,11 @@ import gov.nasa.worldwind.render.Offset;
 import gov.nasa.worldwind.render.PointPlacemark;
 import gov.nasa.worldwind.render.PointPlacemarkAttributes;
 
-import java.awt.Color;
-
 public class WindBarb extends PointPlacemark {
   private String name;
   private double direction; // 0-360 degrees
   private double knots;
-  private static  final double DECALAGE = 90.0;
+  private static final double DECALAGE = 90.0;
   private static final Double MS_TO_KNOTS = 0.51444444444;
 
   public WindBarb(Position position) {
@@ -22,13 +20,17 @@ public class WindBarb extends PointPlacemark {
 
   /**
    * Construit une barbule de vent.
-   * @param position La position du barbule utilisée par l'API NWW
-   * @param dir La direction du barbule
-   * @param spd La vitesse du barbule
+   * 
+   * @param position
+   *          La position du barbule utilisée par l'API NWW
+   * @param dir
+   *          La direction du barbule
+   * @param spd
+   *          La vitesse du barbule
    */
   public WindBarb(Position position, double dir, double spd) {
     super(position);
-    this.direction = dir + DECALAGE;
+    this.direction = dir;
     this.knots = MS_TO_KNOTS * spd;
     initialize();
   }
@@ -42,7 +44,6 @@ public class WindBarb extends PointPlacemark {
     this.setAltitudeMode(WorldWind.CLAMP_TO_GROUND);
     PointPlacemarkAttributes attrs = new PointPlacemarkAttributes();
 
-    attrs.setImageColor(new Color(1f, 1f, 1f, 0.6f));
     attrs.setScale(1.0);
     attrs.setImageOffset(new Offset(0.5d, 0.5d, AVKey.FRACTION, AVKey.FRACTION));
     attrs.setLabelOffset(new Offset(0.9d, 0.6d, AVKey.FRACTION, AVKey.FRACTION));
@@ -54,6 +55,7 @@ public class WindBarb extends PointPlacemark {
 
   /**
    * Retourne la direction effective du barbule (en tenant compte du décalage).
+   * 
    * @return the direction
    */
   public double getDirection() {
@@ -62,6 +64,7 @@ public class WindBarb extends PointPlacemark {
 
   public void setDirection(double direction) {
     this.direction = direction + DECALAGE;
+    System.out.println("was " + direction + " set at " + this.direction);
     PointPlacemarkAttributes attrs = this.getAttributes();
     attrs.setHeadingReference(AVKey.RELATIVE_TO_GLOBE);
     attrs.setHeading(this.direction);
@@ -69,6 +72,7 @@ public class WindBarb extends PointPlacemark {
 
   /**
    * Retourne la vitesse du barbule en noeuds.
+   * 
    * @return the knots
    */
   public double getKnots() {
@@ -77,7 +81,9 @@ public class WindBarb extends PointPlacemark {
 
   /**
    * Fixe la vitesse du barbule en noeuds.
-   * @param knots La nouvelle vitesse du barbule en noeuds.
+   * 
+   * @param knots
+   *          La nouvelle vitesse du barbule en noeuds.
    */
   public void setKnots(double knots) {
     PointPlacemarkAttributes attrs = this.getAttributes();
@@ -85,9 +91,9 @@ public class WindBarb extends PointPlacemark {
     if (speed < 0) {
       speed = 0;
     }
-    
-    if (speed > 200) {
-      speed = 200;
+
+    if (speed > 70) {
+      speed = 70;
     }
     attrs.setImageAddress("barbs/wind_" + speed + ".png");
 
