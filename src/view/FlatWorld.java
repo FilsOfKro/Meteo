@@ -11,6 +11,8 @@ import gov.nasa.worldwind.Configuration;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.globes.EarthFlat;
+import gov.nasa.worldwind.globes.projections.ProjectionMercator;
+import gov.nasa.worldwind.globes.projections.ProjectionModifiedSinusoidal;
 import gov.nasa.worldwind.layers.LatLonGraticuleLayer;
 import gov.nasa.worldwind.layers.RenderableLayer;
 
@@ -65,8 +67,7 @@ public class FlatWorld extends ApplicationTemplate {
    */
   public static void main(String[] args) { // Adjust configuration values before instantiation
     Configuration.setValue(AVKey.GLOBE_CLASS_NAME, EarthFlat.class.getName());
-    Configuration.setValue(AVKey.PROJECTION_NAME,
-        gov.nasa.worldwind.globes.projections.ProjectionMercator.class.getName());
+    Configuration.setValue(AVKey.PROJECTION_NAME, ProjectionMercator.class.getName());
     frame = (AppFrame) start("World Wind Flat World", AppFrame.class);
   }
 
