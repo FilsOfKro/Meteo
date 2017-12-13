@@ -22,9 +22,9 @@ public class Prevision {
   }
 
   /**
-   * Retourne la liste des dates qui existent dans les données
+   * Retourne la liste des dates qui existent dans les données.
    * 
-   * @return
+   * @return La liste des dates trouvées
    */
   public List<Date> getListeDates() {
     List<Date> dates = new ArrayList<Date>();
@@ -37,11 +37,10 @@ public class Prevision {
   }
 
   /**
-   * Retourne la prévision pour la date passée en paramètre si elle existe, null
-   * sinon
+   * Retourne la prévision pour la date passée en paramètre si elle existe, sinon null.
    * 
-   * @param date
-   * @return
+   * @param date La date recherchée
+   * @return La PrevisionParDate trouvée
    */
   public PrevisionParDate getPrevisionParDate(Date date) {
 
@@ -58,8 +57,12 @@ public class Prevision {
     return grille;
   }
 
+  /**
+   * Retourne une représentation en chaine de caractère de cette Prevision.
+   */
   public String toString() {
-    StringBuilder sb = new StringBuilder("Prévisions présentes : ").append(previsionsParDate.size()).append("\n");
+    StringBuilder sb = new StringBuilder("Prévisions présentes : ")
+        .append(previsionsParDate.size()).append("\n");
     sb.append("Informations sur la grille :\n").append(grille.toString()).append("\n\n");
 
     for (PrevisionParDate prevision : previsionsParDate) {

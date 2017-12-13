@@ -3,19 +3,8 @@
  * National Aeronautics and Space Administration.
  * All Rights Reserved.
  */
+
 package view;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.io.File;
-import java.util.ArrayList;
-
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 
 import facade.MeteoFacade;
 import gov.nasa.worldwind.Configuration;
@@ -24,6 +13,20 @@ import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.globes.EarthFlat;
 import gov.nasa.worldwind.layers.LatLonGraticuleLayer;
 import gov.nasa.worldwind.layers.RenderableLayer;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.io.File;
+
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 import model.WindBarb;
 
 /**
@@ -131,6 +134,10 @@ public class FlatWorld extends ApplicationTemplate {
       getWwd().getView().setEyePosition(Position.fromDegrees(48.39039, -4.486076, 42000));
     }
 
+    /**
+     * Affiche les barbules sur la carte.
+     * @param windbarbs La liste des barbules à afficher
+     */
     public void displayWindbarbs(ArrayList<WindBarb> windbarbs) {
       for (WindBarb windBarb : windbarbs) {
 
