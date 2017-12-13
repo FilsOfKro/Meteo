@@ -85,7 +85,9 @@ public class MeteoFacade {
         Double latitude = prev.getGrille().getLatitude(y);
         Double longitude = prev.getGrille().getLongitude(x);
         WindBarb wb = new WindBarb(latitude, longitude, vent.getDirection(), vent.getVitesse());
-        wb.setValue(AVKey.DISPLAY_NAME, Math.round(vent.getDirection())+"°"+" "+Math.round(vent.getVitesse())+" m/s");
+        wb.setValue(
+            AVKey.DISPLAY_NAME, Math.round(vent.getDirection()) + "°" + " " 
+                + Math.round(vent.getVitesse()) + " m/s");
         windbarbs.add(wb);
       }
     }
