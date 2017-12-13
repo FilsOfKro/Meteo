@@ -5,15 +5,21 @@
  */
 package view;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import facade.MeteoFacade;
 import gov.nasa.worldwind.Configuration;
@@ -22,6 +28,7 @@ import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.globes.EarthFlat;
 import gov.nasa.worldwind.layers.LatLonGraticuleLayer;
 import gov.nasa.worldwind.layers.RenderableLayer;
+import model.Prevision;
 import model.WindBarb;
 
 /**
@@ -42,6 +49,10 @@ public class FlatWorld extends ApplicationTemplate {
   protected static JButton btnEdition;
   protected static JButton btnModification;
   protected static JButton btnImporter;
+  protected static JMenu mnDate;
+  protected static JMenuItem mntmDate;
+  protected static JMenuItem mntmDate_1;
+  protected static JMenuItem mntmDate_2;
 
   /**
    * @wbp.parser.entryPoint
@@ -77,15 +88,24 @@ public class FlatWorld extends ApplicationTemplate {
       btnEdition.setMnemonic(KeyEvent.VK_I);
       btnEdition.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          new Edition();
+          //new Edition();
         }
       });
 
       btnImporter = new JButton("Importer fichier grib");
       menuBar.add(btnImporter);
+
+      mnDate = new JMenu("Date");
+      menuBar.add(mnDate);
+      this.setVisible(true);
+
+      JLabel label = new JLabel("                                                                                                     ");
+      menuBar.add(label);
+      
+      JLabel lblDate = new JLabel("Date sélectionnée : ");
+      menuBar.add(lblDate);
       btnImporter.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-
           final JFileChooser fc = new JFileChooser();
 
           int returnVal = fc.showOpenDialog(null);
@@ -94,8 +114,23 @@ public class FlatWorld extends ApplicationTemplate {
             File file = fc.getSelectedFile();
 
             System.out.println("Opening: " + file.getAbsolutePath());
-            MeteoFacade.getInstance().loadGrib(file.getAbsolutePath() );
-          } 
+            Prevision prevv = MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
+            List<Date> dates =MeteoFacade.getInstance().getDates(MeteoFacade.getInstance().loadGrib(file.getAbsolutePath()));
+            for(Date d : dates) {
+              JMenuItem da = new JMenuItem(d.toString());
+              
+              da.addActionListener(new ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                  JMenuItem selected = (JMenuItem) e.getSource();
+                  System.out.println(selected.getText());
+                  MeteoFacade.getInstance().displayDate(prevv, d );
+                  lblDate.setText("Date sélectionnée : "+d.toString());
+               }
+              });
+              
+              mnDate.add(da);
+            }
+          }
 
         }
       });
@@ -117,8 +152,6 @@ public class FlatWorld extends ApplicationTemplate {
 
         windBarbLayer.addRenderable(windBarb);
       }
-      windBarbLayer.addRenderable(new WindBarb(Position.fromDegrees(48, -4), 25.0, 25.0));
-
     }
   }
 }
