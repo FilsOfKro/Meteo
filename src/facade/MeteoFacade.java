@@ -61,7 +61,6 @@ public class MeteoFacade {
       e.printStackTrace();
     }
     System.out.println("Temps d'exécution : " + (System.currentTimeMillis() - start));
-    System.out.println(prevision.toString());
     this.displayDate(prevision, prevision.getListeDates().get(0));
     return prevision;
   }

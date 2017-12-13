@@ -64,7 +64,7 @@ public class WindBarb extends PointPlacemark {
 
   public void setDirection(double direction) {
     this.direction = direction + DECALAGE;
-    System.out.println("was " + direction + " set at " + this.direction);
+
     PointPlacemarkAttributes attrs = this.getAttributes();
     attrs.setHeadingReference(AVKey.RELATIVE_TO_GLOBE);
     attrs.setHeading(this.direction);
