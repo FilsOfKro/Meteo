@@ -165,6 +165,7 @@ public class FlatWorld extends ApplicationTemplate {
      *          La liste des barbules à afficher
      */
     public void displayWindbarbs(ArrayList<WindBarb> windbarbs) {
+      // TODO : Be sure this clears the old windbarb off the ram
       windBarbLayer.dispose();
       for (WindBarb windBarb : windbarbs) {
         windBarbLayer.addRenderable(windBarb);
