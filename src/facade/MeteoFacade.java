@@ -114,4 +114,8 @@ public class MeteoFacade {
     this.prevision = prevision;
   }
   
+  public Prevision getCurrentPrevision() {
+    return prevision;
+  }
+  
 }
