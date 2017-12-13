@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import gov.nasa.worldwind.geom.Position;
 import grib.parser.GribParser;
 import model.Prevision;
 import model.PrevisionParDate;
@@ -63,7 +62,6 @@ public class MeteoFacade {
     PrevisionParDate myPrevision = prev.getPrevisionParDate(date);
 
     ArrayList<WindBarb> windbarbs = new ArrayList<>();
-    windbarbs.add(new WindBarb(Position.fromDegrees(48, -4), 25.0, 25.0));
     for (int y = 0; y < myPrevision.getVents().length; y++) {
       for (int x = 0; x < myPrevision.getVents()[y].length; x++) {
         Vent vent = myPrevision.getVents()[y][x];
@@ -72,7 +70,7 @@ public class MeteoFacade {
         windbarbs.add(new WindBarb(latitude, longitude, vent.getDirection(), vent.getVitesse()));
       }
     }
-   appframe.displayWindbarbs(windbarbs);
+    appframe.displayWindbarbs(windbarbs);
   }
 
 }
