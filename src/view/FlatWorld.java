@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -103,7 +104,8 @@ public class FlatWorld extends ApplicationTemplate {
       mnDate.add(mntmDate_2);
       this.setVisible(true);
       
-
+      btnImporter.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
           final JFileChooser fc = new JFileChooser();
 
           int returnVal = fc.showOpenDialog(null);
