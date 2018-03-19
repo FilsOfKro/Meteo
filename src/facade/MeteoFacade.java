@@ -69,6 +69,9 @@ public class MeteoFacade {
 
     currentDate = prevision.getListeDates().get(0);
     this.displayDate(prevision, currentDate);
+    
+    appframe.updateDateCursor();
+    
     return prevision;
   }
 
@@ -101,6 +104,7 @@ public class MeteoFacade {
   }
 
   public void refreshWindbarbs() {
+	appframe.updateSelectedDateLabel();
     displayDate(prevision, currentDate);
   }
 
