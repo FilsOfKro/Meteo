@@ -72,9 +72,8 @@ public class FlatWorld extends ApplicationTemplate {
    */
   public static void main(String[] args) { // Adjust configuration values before instantiation
     Configuration.setValue(AVKey.GLOBE_CLASS_NAME, EarthFlat.class.getName());
-    Configuration.setValue(AVKey.PROJECTION_NAME,
-        gov.nasa.worldwind.globes.projections.ProjectionMercator.class.getName());
     frame = (AppFrame) start("World Wind Flat World", AppFrame.class);
+
   }
 
   public static view.ApplicationTemplate.AppFrame getFrame() {
