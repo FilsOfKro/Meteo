@@ -3,13 +3,14 @@ package view;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JSpinner;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.border.BevelBorder;
 
 import facade.MeteoFacade;
 import modification.Contraste;
@@ -34,6 +35,17 @@ public class VueModification implements ActionListener{
       public void run() {
         try {
           VueModification window = new VueModification();
+          
+          window.frame.addWindowListener(new WindowAdapter()
+          {
+              @Override
+              public void windowClosing(WindowEvent e)
+              {
+                  System.out.println("> Fermeture VueModification");
+                  e.getWindow().dispose();
+              }
+          });
+          
           window.frame.setVisible(true);
         } catch (Exception e) {
           e.printStackTrace();
