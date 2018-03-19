@@ -38,6 +38,7 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import cursor.DateCursor;
 import model.Prevision;
 import model.WindBarb;
 
@@ -72,6 +73,11 @@ public class FlatWorld extends ApplicationTemplate {
   protected static JCheckBox btnAdvancedMenu;
   protected static boolean advancedMode = true;
 
+  protected static JPanel dateCursorPanel;
+  protected static DateCursor dateCursor;
+  
+  protected static JLabel lblDate;
+  
   /**
    * @wbp.parser.entryPoint
    */
@@ -175,9 +181,17 @@ public class FlatWorld extends ApplicationTemplate {
       JPanel jpl = new JPanel();
       menuBar.add(jpl);
 
-      JLabel lblDate = new JLabel("Date sélectionnée : ");
-      lblDate.setHorizontalAlignment(SwingConstants.CENTER);
+      lblDate = new JLabel("Date sélectionnée : ");
+      lblDate.setHorizontalAlignment(SwingConstants.LEFT);
       jpl.add(lblDate);
+      
+      dateCursorPanel = new JPanel();
+      dateCursor = new DateCursor();
+      
+      dateCursorPanel.add(dateCursor.getSlider());
+      
+      jpl.add(dateCursorPanel);
+      
       btnImporter.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           try {
@@ -212,10 +226,10 @@ public class FlatWorld extends ApplicationTemplate {
                     System.out.println(selected.getText());
                     MeteoFacade.getInstance().setCurrentDate(d);
                     MeteoFacade.getInstance().refreshWindbarbs();
-                    lblDate.setText("Date sélectionnée : " + d.toString());
                   }
                 });
-                lblDate.setText("Date sélectionnée : " + MeteoFacade.getInstance().getCurrentDate().toString());
+                
+                updateSelectedDateLabel();
                 lblDate.setAlignmentY(CENTER_ALIGNMENT);
                 mnDate.add(da);
               }
@@ -273,6 +287,23 @@ public class FlatWorld extends ApplicationTemplate {
     
     protected void removeAdvancedMode() {
 		this.controlPanel.remove(this.layerPanel);
+    }
+    
+    public void updateDateCursor() {
+    		MeteoFacade facade = MeteoFacade.getInstance();
+   
+    		Prevision currentPrevision = facade.getCurrentPrevision();
+    		List<Date> dates = facade.getDates(currentPrevision);
+    		Date currentDate = facade.getCurrentDate();
+    		
+    		dateCursor.setNewDates(dates, currentDate);
+    		
+    		this.revalidate();
+    		this.repaint();
+    }
+    
+    public void updateSelectedDateLabel() {
+        lblDate.setText("Date sélectionnée : " + MeteoFacade.getInstance().getCurrentDate().toString());
     }
     
   }
