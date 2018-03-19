@@ -294,6 +294,7 @@ public class ApplicationTemplate {
   public static AppFrame start(String appName, Class appFrameClass) {
     if (Configuration.isMacOS() && appName != null) {
       System.setProperty("com.apple.mrj.application.apple.menu.about.name", appName);
+      System.setProperty("apple.laf.useScreenMenuBar", "false");
     }
 
     try {
