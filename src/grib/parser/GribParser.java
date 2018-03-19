@@ -1,9 +1,13 @@
 package grib.parser;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.NoSuchElementException;
-
 import model.Grille;
 import model.Prevision;
 import model.PrevisionParDate;
@@ -15,29 +19,21 @@ import net.sourceforge.jgrib.NoValidGribException;
 import net.sourceforge.jgrib.NotSupportedException;
 
 /**
- * Classe pour parser un fichier Grib et le mettre au format du modèle de
- * prévision.
+ * Classe pour parser un fichier Grib et le mettre au format du modèle de prévision.
  * 
  * @author Sebastien Palud
  */
 public class GribParser {
 
   /**
-   * Parse un fichier .grb et retourne l'objet prévision lu si aucun problème ne
-   * se passe
+   * Parse un fichier .grb et retourne l'objet prévision lu si aucun problème ne se passe
    * 
-   * @param filename
-   *          Le nom du fichier à parser
-   * @return L'objet prévision équivalent aux données présentes dans le fichier
-   *         .grb
-   * @throws NoSuchElementException
-   *           Exception JGrib
-   * @throws IOException
-   *           Exception JGrib
-   * @throws NoValidGribException
-   *           Exception JGrib
-   * @throws NotSupportedException
-   *           Exception JGrib
+   * @param filename Le nom du fichier à parser
+   * @return L'objet prévision équivalent aux données présentes dans le fichier .grb
+   * @throws NoSuchElementException Exception JGrib
+   * @throws IOException Exception JGrib
+   * @throws NoValidGribException Exception JGrib
+   * @throws NotSupportedException Exception JGrib
    */
   public Prevision parsePrevisionFromGrib(String filename)
       throws NoSuchElementException, IOException, NoValidGribException, NotSupportedException {
@@ -62,11 +58,9 @@ public class GribParser {
   }
 
   /**
-   * Retourne un objet Grille en lisant les paramètres de la grille du fichier
-   * .grb
+   * Retourne un objet Grille en lisant les paramètres de la grille du fichier .grb
    * 
-   * @param gridRecords
-   *          L'objet GribRecordGDS récupéré par JGrib
+   * @param gridRecords L'objet GribRecordGDS récupéré par JGrib
    * @return La grille lue dans le fichier
    */
   private Grille getGrille(GribRecordGDS gridRecords) {
@@ -87,9 +81,8 @@ public class GribParser {
   }
 
   /**
-   * Retourne un objet PrevisionParDate qui contient un tableau à deux dimensions 
-   * des vents passés en paramètre. Utilise un objet prévision pour avoir les
-   * informations de la grille
+   * Retourne un objet PrevisionParDate qui contient un tableau à deux dimensions des vents passés
+   * en paramètre. Utilise un objet prévision pour avoir les informations de la grille
    * 
    * @param prevision l'objet Prevision en cours de création
    * @param ventUGrid les vecteurs U du vent
@@ -97,9 +90,8 @@ public class GribParser {
    * @return l'objet PrevisionParDate créé
    * @throws NoValidGribException erreur JGrib
    */
-  private PrevisionParDate getPrevisionParDate(Prevision prevision, 
-      GribRecord ventUGrid, GribRecord ventVGrid)
-      throws NoValidGribException {
+  private PrevisionParDate getPrevisionParDate(Prevision prevision, GribRecord ventUGrid,
+      GribRecord ventVGrid) throws NoValidGribException {
     Date date = ventUGrid.getTime().getTime();
     PrevisionParDate previsionParDate = prevision.buildPrevisionParDate(date);
 
@@ -118,4 +110,36 @@ public class GribParser {
     return previsionParDate;
   }
 
+  public void download(Date date, String gribZoneNumber) {
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(date);
+    int year = Calendar.YEAR;
+    int month = Calendar.MONTH + 1;
+    int day = Calendar.DAY_OF_MONTH;
+
+    StringBuilder url = new StringBuilder().append("https://nomads.ncdc.noaa.gov/data/gfs/");
+    url.append(year);
+    url.append(month);
+    url.append('/');
+    url.append(year);
+    url.append(month);
+    url.append(day);
+    url.append("/gfs-avn_");
+    url.append(gribZoneNumber);
+    url.append('_');
+    url.append(year);
+    url.append(month);
+    url.append(day);
+    url.append("_0000_000.grb");
+    try {
+      URL website = new URL(url.toString());
+      ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+      FileOutputStream fos = new FileOutputStream("information.html");
+      fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+      fos.close();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
 }
