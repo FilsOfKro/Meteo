@@ -2,6 +2,7 @@ package facade;
 
 import grib.parser.GribParser;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -118,6 +119,13 @@ public class MeteoFacade {
   
   public Prevision getCurrentPrevision() {
     return prevision;
+  }
+
+  public void changeUnit(ActionEvent e) {
+    for (iterable_type  : iterable) {
+      
+    }
+    
   }
   
 }
