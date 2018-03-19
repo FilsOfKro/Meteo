@@ -9,11 +9,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -31,8 +27,6 @@ import gov.nasa.worldwind.exception.WWAbsentRequirementException;
 import gov.nasa.worldwind.layers.CompassLayer;
 import gov.nasa.worldwind.layers.Layer;
 import gov.nasa.worldwind.layers.LayerList;
-import gov.nasa.worldwind.layers.ViewControlsLayer;
-import gov.nasa.worldwind.layers.ViewControlsSelectListener;
 import gov.nasa.worldwind.layers.WorldMapLayer;
 import gov.nasa.worldwind.layers.placename.PlaceNameLayer;
 import gov.nasa.worldwind.util.StatisticsPanel;
@@ -102,8 +96,6 @@ public class ApplicationTemplate {
     protected view.LayerPanel layerPanel;
     protected StatisticsPanel statsPanel;
 
-    protected boolean advancedMode = true;
-
     public AppFrame() {
       this.initialize(true, true, false);
     }
@@ -126,25 +118,7 @@ public class ApplicationTemplate {
       this.getContentPane().add(wwjPanel, BorderLayout.CENTER);
       if (includeLayerPanel) {
         this.controlPanel = new JPanel(new BorderLayout(10, 10));
-       
-        	if (advancedMode) {
-        		addAdvancedMode();
-        	}
         
-        JPanel upperPanel = new JPanel(new FlowLayout());
-        this.controlPanel.add(upperPanel, BorderLayout.NORTH);
-        upperPanel.add(new FlatWorldPanel(this.getWwd()));
-        
-        JCheckBox advancedCB = new JCheckBox("Avancé", advancedMode);
-        advancedCB.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				toggleAdvancedMode();
-			}
-		});
-        
-        upperPanel.add(advancedCB);
-        // this.controlPanel.add(new view.LayerPanel(getWwd()), BorderLayout.SOUTH);
         this.getContentPane().add(this.controlPanel, BorderLayout.WEST);
       }
 
@@ -240,30 +214,6 @@ public class ApplicationTemplate {
         this.wwjPanel.highlightController.dispose();
 
       this.wwjPanel.highlightController = controller;
-    }
-    
-    
-
-    protected void toggleAdvancedMode() {
-	    	advancedMode = !advancedMode;
-	
-	    	if (advancedMode) {
-	    		addAdvancedMode();
-	    	} else {
-	    		removeAdvancedMode();
-	    	}
-	
-	    	this.revalidate();
-	    	this.repaint();
-    }
-    
-    protected void addAdvancedMode() {
-    		this.layerPanel = new view.LayerPanel(getWwd());
-		this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);
-    }
-    
-    protected void removeAdvancedMode() {
-		this.controlPanel.remove(this.layerPanel);
     }
     
   }
