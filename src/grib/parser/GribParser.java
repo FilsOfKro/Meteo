@@ -1,11 +1,6 @@
 package grib.parser;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.NoSuchElementException;
 import model.Grille;
@@ -108,38 +103,5 @@ public class GribParser {
     }
 
     return previsionParDate;
-  }
-
-  public void download(Date date, String gribZoneNumber) {
-    Calendar cal = Calendar.getInstance();
-    cal.setTime(date);
-    int year = Calendar.YEAR;
-    int month = Calendar.MONTH + 1;
-    int day = Calendar.DAY_OF_MONTH;
-
-    StringBuilder url = new StringBuilder().append("https://nomads.ncdc.noaa.gov/data/gfs/");
-    url.append(year);
-    url.append(month);
-    url.append('/');
-    url.append(year);
-    url.append(month);
-    url.append(day);
-    url.append("/gfs-avn_");
-    url.append(gribZoneNumber);
-    url.append('_');
-    url.append(year);
-    url.append(month);
-    url.append(day);
-    url.append("_0000_000.grb");
-    try {
-      URL website = new URL(url.toString());
-      ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-      FileOutputStream fos = new FileOutputStream("information.html");
-      fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-      fos.close();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
   }
 }
