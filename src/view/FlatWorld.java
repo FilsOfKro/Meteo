@@ -14,6 +14,7 @@ import gov.nasa.worldwind.globes.EarthFlat;
 import gov.nasa.worldwind.layers.LatLonGraticuleLayer;
 import gov.nasa.worldwind.layers.RenderableLayer;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -67,14 +69,16 @@ public class FlatWorld extends ApplicationTemplate {
   protected static JRadioButton rdbtnKmh;
   protected static JRadioButton rdbtnMs;
 
+  protected static JCheckBox btnAdvancedMenu;
+  protected static boolean advancedMode = true;
+
   /**
    * @wbp.parser.entryPoint
    */
   public static void main(String[] args) { // Adjust configuration values before instantiation
     Configuration.setValue(AVKey.GLOBE_CLASS_NAME, EarthFlat.class.getName());
-    Configuration.setValue(AVKey.PROJECTION_NAME,
-        gov.nasa.worldwind.globes.projections.ProjectionMercator.class.getName());
     frame = (AppFrame) start("World Wind Flat World", AppFrame.class);
+
   }
 
   public static view.ApplicationTemplate.AppFrame getFrame() {
@@ -89,9 +93,10 @@ public class FlatWorld extends ApplicationTemplate {
     RenderableLayer windBarbLayer;
 
     public AppFrame() {
+    	  super(true, true, false);
       this.init();
     }
-
+    
     protected void init() {
       // menu
       menuBar = new JMenuBar();
@@ -127,6 +132,18 @@ public class FlatWorld extends ApplicationTemplate {
       bg.add(rdbtnMs);
       menuBar.add(rdbtnMs);
       
+      btnAdvancedMenu = new JCheckBox("Avancé", advancedMode);
+      btnAdvancedMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				toggleAdvancedMode();
+			}
+		});
+      
+      if (advancedMode) {
+    	  	addAdvancedMode();
+      }
+      
       rdbtnNoeud.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -150,6 +167,9 @@ public class FlatWorld extends ApplicationTemplate {
 
       mnDate = new JMenu("Date");
       menuBar.add(mnDate);
+      
+      menuBar.add(btnAdvancedMenu);
+      
       this.setVisible(true);
       
       JPanel jpl = new JPanel();
@@ -231,5 +251,29 @@ public class FlatWorld extends ApplicationTemplate {
         windBarbLayer.addRenderable(windBarb);
       }
     }
+    
+
+    protected void toggleAdvancedMode() {
+	    	advancedMode = !advancedMode;
+	
+	    	if (advancedMode) {
+	    		addAdvancedMode();
+	    	} else {
+	    		removeAdvancedMode();
+	    	}
+	
+	    	this.revalidate();
+	    	this.repaint();
+    }
+    
+    protected void addAdvancedMode() {
+    		this.layerPanel = new view.LayerPanel(getWwd());
+		this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);
+    }
+    
+    protected void removeAdvancedMode() {
+		this.controlPanel.remove(this.layerPanel);
+    }
+    
   }
 }
