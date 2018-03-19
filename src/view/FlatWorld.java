@@ -13,7 +13,6 @@ import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.globes.EarthFlat;
 import gov.nasa.worldwind.layers.LatLonGraticuleLayer;
 import gov.nasa.worldwind.layers.RenderableLayer;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -67,6 +66,7 @@ public class FlatWorld extends ApplicationTemplate {
   protected static JRadioButton rdbtnKmh;
   protected static JRadioButton rdbtnMs;
 
+  
   /**
    * @wbp.parser.entryPoint
    */
@@ -89,9 +89,10 @@ public class FlatWorld extends ApplicationTemplate {
     RenderableLayer windBarbLayer;
 
     public AppFrame() {
+    	  super(true, true, false);
       this.init();
     }
-
+    
     protected void init() {
       // menu
       menuBar = new JMenuBar();
@@ -231,5 +232,6 @@ public class FlatWorld extends ApplicationTemplate {
         windBarbLayer.addRenderable(windBarb);
       }
     }
+    
   }
 }
