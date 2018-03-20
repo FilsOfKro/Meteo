@@ -7,5 +7,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="libs/worldwindx.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Utilisateur/Downloads/org.apache.commons.io_.jar_/org.apache.commons.io.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
