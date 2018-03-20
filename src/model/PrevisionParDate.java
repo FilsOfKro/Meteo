@@ -7,6 +7,13 @@ public class PrevisionParDate {
 
   Date date;
 
+  /**
+   * Used for cloning purpose
+   */
+  private PrevisionParDate() {
+	  
+  }
+  
   public PrevisionParDate(Date date, int nbx, int nby) {
     this.date = date;
     vents = new Vent[nby][nbx];
@@ -54,5 +61,14 @@ public class PrevisionParDate {
     }
     return cpt++;
   }
+  
+  @Override
+	protected Object clone() throws CloneNotSupportedException {
+		PrevisionParDate ppd = new PrevisionParDate();
+		ppd.vents = this.vents.clone();
+		ppd.date = (Date) this.date.clone();
+		
+		return ppd;
+	}
   
 }
