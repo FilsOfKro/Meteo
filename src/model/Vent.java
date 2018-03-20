@@ -8,6 +8,10 @@ public class Vent {
     this.direction = Vent.calculerDirection(ventU, ventV);
     this.vitesse = Vent.calculerVitesse(ventU, ventV);
   }
+  public Vent(double vit, double dir, int a) {
+	  this.vitesse = vit;
+	  this.direction = dir;
+	  }
   
   public double getDirection() {
     return direction;
