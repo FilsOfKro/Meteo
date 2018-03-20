@@ -8,6 +8,13 @@ public class PrevisionParDate {
   Date date;
 
   /**
+   * Used for cloning purpose
+   */
+  private PrevisionParDate() {
+	  
+  }
+  
+  /**
    * @param date La date associée aux prévisions
    * @param nbx Le nombre de colonne de la grille, donc du tableau
    * @param nby Le nombre de lignes de la grille, donc du tableau
@@ -69,5 +76,14 @@ public class PrevisionParDate {
     }
     return cpt++;
   }
+  
+  @Override
+	protected Object clone() throws CloneNotSupportedException {
+		PrevisionParDate ppd = new PrevisionParDate();
+		ppd.vents = this.vents.clone();
+		ppd.date = (Date) this.date.clone();
+		
+		return ppd;
+	}
   
 }

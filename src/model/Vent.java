@@ -5,6 +5,13 @@ public class Vent {
   private double vitesse;
   
   /**
+   * Used for cloning purpose
+   */
+  private Vent() {
+	  
+  }
+  
+  /**
    * Build a wind from two vectors, U and V
    * Calculates the wind's direction and velocity from these two vectors (see {@link Vent#calculerDirection(double, double)} and {@link Vent#calculerVitesse(double, double)}
    * @param ventU
@@ -72,4 +79,12 @@ public class Vent {
     
     this.vitesse = vitesse;
   }
+  
+  @Override
+	protected Object clone() throws CloneNotSupportedException {
+		Vent v = new Vent();
+		v.direction = this.direction;
+		v.vitesse = this.vitesse;
+		return v;
+	}
 }

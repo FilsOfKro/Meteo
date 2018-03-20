@@ -122,4 +122,15 @@ public class Prevision implements IVisitable {
     
     return this.previsionsParDate;
   }
+  
+  @Override
+	protected Object clone() throws CloneNotSupportedException {
+		Prevision p = new Prevision((Grille) grille.clone());
+		
+		for (PrevisionParDate ppd : this.previsionsParDate) {
+			p.previsionsParDate.add((PrevisionParDate) ppd.clone());
+		}
+		
+		return p;
+	}
 }
