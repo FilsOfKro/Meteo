@@ -234,7 +234,7 @@ public class FlatWorld extends ApplicationTemplate {
 
       btnDownload.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          Date date = new Date(1054944000000L);
+          Date date = new Date(1520985600000L);
           String gribZoneNumber = "201";
 
           Calendar cal = Calendar.getInstance();
@@ -246,20 +246,20 @@ public class FlatWorld extends ApplicationTemplate {
 
           System.out.println("DAAAAAATE=" + year + "/" + month + "/" + day);
 
-          StringBuilder url = new StringBuilder().append("https://nomads.ncdc.noaa.gov/data/gfs/");
+          StringBuilder url = new StringBuilder().append("https://nomads.ncdc.noaa.gov/data/gfs4/");
           url.append(year);
           url.append(month);
           url.append('/');
           url.append(year);
           url.append(month);
           url.append(day);
-          url.append("/gfs-avn_");
-          url.append(gribZoneNumber);
-          url.append('_');
+          url.append("/gfs_4_");
           url.append(year);
           url.append(month);
           url.append(day);
-          url.append("_0000_000.grb");
+          // url.append(gribZoneNumber);
+          // url.append('_');
+          url.append("_0000_000.grb2");
           try {
             URL website = new URL(url.toString());
             ReadableByteChannel rbc = Channels.newChannel(website.openStream());
