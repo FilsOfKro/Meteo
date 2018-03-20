@@ -7,9 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import gov.nasa.worldwind.avlist.AVKey;
-import gov.nasa.worldwind.geom.Frustum;
-import gov.nasa.worldwindx.examples.analytics.AnalyticSurface;
-import gov.nasa.worldwindx.examples.lineofsight.GridOfPoints;
 import grib.parser.GribParser;
 import model.Prevision;
 import model.PrevisionParDate;
@@ -126,25 +123,6 @@ public class MeteoFacade {
   public void changeUnit(ActionEvent e) {
     throw new NotImplementedException();
 
-  }
-
-  public void testAnal() {
-    AnalyticSurface surf = new AnalyticSurface();
-    surf.setValues(AnalyticSurface.createDefaultValues(10000));
-    // surf.setClientLayer(appframe.getL));
-
-  }
-
-  public void testGrid() {
-    GridOfPoints pp = new GridOfPoints();
-    // pp
-  }
-
-  public void testFrustrum() {
-    Frustum froufrou = appframe.getWwd().getView().getFrustum();
-    appframe.getWwd().getView();
-
-    // froufrou.getCorners().ftl;
   }
 
 }
