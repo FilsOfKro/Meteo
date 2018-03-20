@@ -1,6 +1,6 @@
 package cursor;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -9,13 +9,13 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import facade.MeteoFacade;
-
 public class DateCursor {
 
 	private JSlider dateSlider;
 	
-	private Date[] dates;
+	private List<Date> dates;
+	
+	
 	
 	/**
 	 * Initialize with empty structures to prevent null pointers
@@ -23,7 +23,7 @@ public class DateCursor {
 	 * Even if no data is entered in this constructor, the cursor is fully functional and only needs new data as input by calling setNewDates()
 	 */
 	public DateCursor() {
-		dates = new Date[0];
+		dates = new ArrayList<Date>();
 		dateSlider = new JSlider();
 		initSlider(0, null);
 		
@@ -38,31 +38,7 @@ public class DateCursor {
 	
 	/**
 	 * Initialize a cursor
-	 * Sorts the array before cloning it and initializes the slider
-	 * Attach a ChangeListener to the slider which refreshes the windbarbs on change
-	 * @param dates
-	 * @param current
-	 */
-	public DateCursor(Date[] dates, Date current) {
-		Arrays.sort(dates);
-		
-		this.dates = dates.clone();
-		dateSlider = new JSlider();
-		
-		initSlider(this.dates.length, current);
-
-		dateSlider.addChangeListener(new ChangeListener() {
-			
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				refresh();
-			}
-		});
-	}
-	
-	/**
-	 * Initialize a cursor
-	 * Sorts the list before converting it to an array and initializes the slider
+	 * Sorts the list and initializes the slider
 	 * Attach a ChangeListener to the slider which refreshes the windbarbs on change
 	 * @param dates
 	 * @param current
@@ -70,16 +46,17 @@ public class DateCursor {
 	public DateCursor(List<Date> dates, Date current) {
 		Collections.sort(dates);
 		
-		this.dates = dates.toArray(new Date[0]);
+		this.dates = dates;
 		
 		dateSlider = new JSlider();
 		
-		initSlider(this.dates.length, current);
+		initSlider(this.dates.size(), current);
 		
 		dateSlider.addChangeListener(new ChangeListener() {
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
+				
 				refresh();
 			}
 		});
@@ -87,26 +64,14 @@ public class DateCursor {
 	
 	/**
 	 * Set a new array of data to the cursor and re-initializes the slider according to the new data
-	 * @param dates The new array of data, will be sorted and cloned
-	 * @param current The current date of the application, to determine the default value of the slider
-	 */
-	public void setNewDates(Date[] dates, Date current) {
-		Arrays.sort(dates);
-		this.dates = dates.clone();
-
-		initSlider(this.dates.length, current);
-	}
-	
-	/**
-	 * Set a new array of data to the cursor and re-initializes the slider according to the new data
-	 * @param dates The new list of data, will be sorted and converted to an array
+	 * @param dates The new list of data, will be sorted
 	 * @param current The current date of the application, to determine the default value of the slider
 	 */
 	public void setNewDates(List<Date> dates, Date current) {
 		Collections.sort(dates);
-		this.dates = dates.toArray(new Date[0]);
+		this.dates = dates;
 		
-		initSlider(this.dates.length, current);
+		initSlider(this.dates.size(), current);
 	}
 	
 	/**
@@ -121,24 +86,19 @@ public class DateCursor {
 			dateSlider.setValue(0);
 		} else {
 			dateSlider.setMinimum(1);
-			dateSlider.setMaximum(this.dates.length);
+			dateSlider.setMaximum(this.dates.size());
 			int index = getDateIndex(current);
 			dateSlider.setValue(index >= 0 ? index+1 : 1);	
 		}
 	}
 	
 	/**
-	 * Called when the slider's cursor moves. Refreshes the data on screen.
+	 * Called when the slider's cursor moves.
+	 * Call a delayer method which will refresh the data on screen when a determined amount of time has passed since the last change
+	 * The delayed call is used for optimization purpose, to prevent useless refreshing
 	 */
 	private void refresh() {
-		Date newDate;
-		try {
-			newDate = getDateAtIndex(dateSlider.getValue()-1);
-			MeteoFacade.getInstance().setCurrentDate(newDate);
-			MeteoFacade.getInstance().refreshWindbarbs();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+		DelayedRefresh.delayRefresh(this);
 	}
 	
 	/**
@@ -148,13 +108,7 @@ public class DateCursor {
 	 * @return
 	 */
 	private int getDateIndex(Date toSearch) {
-		for (int j = 0; j < dates.length; j++) {			
-			if (dates[j].equals(toSearch)) {
-				return j;
-			}
-		}
-		
-		return -1;
+		return dates.indexOf(toSearch);
 	}
 	
 	/**
@@ -164,10 +118,10 @@ public class DateCursor {
 	 * @throws Exception
 	 */
 	public Date getDateAtIndex(int index) throws Exception {
-		if (index >= 0 && index < dates.length) {
-			return dates[index];
+		if (index >= 0 && index < dates.size()) {
+			return dates.get(index);
 		} else {
-			throw new Exception("Erreur de curseur : index introuvable");
+			throw new IndexOutOfBoundsException("Erreur de curseur : index introuvable");
 		}
 	}
 	
