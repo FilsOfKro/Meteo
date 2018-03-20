@@ -141,4 +141,9 @@ public class Grille {
     return sb.toString();
   }
 
+  @Override
+	protected Object clone() throws CloneNotSupportedException {
+		return new Grille(nbx, nby, lonHautGauche, latHautGauche, dx, dy, uvOrienteEst);
+	}
+  
 }

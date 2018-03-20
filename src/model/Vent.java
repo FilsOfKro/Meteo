@@ -4,6 +4,13 @@ public class Vent {
   private double direction;
   private double vitesse;
   
+  /**
+   * Used for cloning purpose
+   */
+  private Vent() {
+	  
+  }
+  
   public Vent(double ventU, double ventV) {
     this.direction = Vent.calculerDirection(ventU, ventV);
     this.vitesse = Vent.calculerVitesse(ventU, ventV);
@@ -40,4 +47,12 @@ public class Vent {
     
     this.vitesse = vitesse;
   }
+  
+  @Override
+	protected Object clone() throws CloneNotSupportedException {
+		Vent v = new Vent();
+		v.direction = this.direction;
+		v.vitesse = this.vitesse;
+		return v;
+	}
 }
