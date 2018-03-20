@@ -1,22 +1,20 @@
 package facade;
 
-import grib.parser.GribParser;
-
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
-
 import gov.nasa.worldwind.avlist.AVKey;
-import gov.nasa.worldwind.render.PointPlacemarkAttributes;
+import grib.parser.GribParser;
 import model.Prevision;
 import model.PrevisionParDate;
 import model.Vent;
 import model.WindBarb;
 import net.sourceforge.jgrib.NoValidGribException;
 import net.sourceforge.jgrib.NotSupportedException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import view.FlatWorld;
 import view.FlatWorld.AppFrame;
 
@@ -27,12 +25,12 @@ public class MeteoFacade {
 
   private Prevision prevision;
   private Date currentDate;
-  
-  private MeteoFacade() {
-  }
+
+  private MeteoFacade() {}
 
   /**
    * Singleton de la classe.
+   * 
    * @return Le singleton de la classe
    */
   public static MeteoFacade getInstance() {
@@ -52,6 +50,7 @@ public class MeteoFacade {
 
   /**
    * Charge un fichier Grib.
+   * 
    * @param filename le nom du fichier à charger
    * @return L'objet Prevision parsé à partir du fichier
    */
@@ -61,15 +60,18 @@ public class MeteoFacade {
     try {
       prevision = parser.parsePrevisionFromGrib(filename);
       System.out.println(prevision.toString());
-    } catch (NoSuchElementException | IOException 
-        | NoValidGribException | NotSupportedException e) {
+    } catch (NoSuchElementException | IOException | NoValidGribException
+        | NotSupportedException e) {
       e.printStackTrace();
     }
-    
+
     System.out.println("Temps d'exécution : " + (System.currentTimeMillis() - start));
-    
+
     currentDate = prevision.getListeDates().get(0);
     this.displayDate(prevision, currentDate);
+    
+    appframe.updateDateCursor();
+    
     return prevision;
   }
 
@@ -79,6 +81,7 @@ public class MeteoFacade {
 
   /**
    * Affiche les données des vents à la date sélectionnée en paramètre.
+   * 
    * @param prev L'objet Prevision du fichier en cours
    * @param date La date sélectionnée
    */
@@ -92,40 +95,40 @@ public class MeteoFacade {
         Double latitude = prev.getGrille().getLatitude(y);
         Double longitude = prev.getGrille().getLongitude(x);
         WindBarb wb = new WindBarb(latitude, longitude, vent.getDirection(), vent.getVitesse());
-        wb.setValue(
-            AVKey.DISPLAY_NAME, Math.round(vent.getDirection()) + "°" + " " 
-                + Math.round(vent.getVitesse()) + " m/s");
+        wb.setValue(AVKey.DISPLAY_NAME,
+            Math.round(vent.getDirection()) + "°" + " " + Math.round(vent.getVitesse()) + " m/s");
         windbarbs.add(wb);
       }
     }
     appframe.displayWindbarbs(windbarbs);
   }
-  
+
   public void refreshWindbarbs() {
+	appframe.updateSelectedDateLabel();
     displayDate(prevision, currentDate);
+    appframe.revalidate();
+    appframe.repaint();
   }
 
   public void setCurrentDate(Date date) {
     currentDate = date;
   }
-  
+
   public Date getCurrentDate() {
     return currentDate;
   }
-  
+
   public void setCurrentPrevision(Prevision prevision) {
     this.prevision = prevision;
   }
-  
+
   public Prevision getCurrentPrevision() {
     return prevision;
   }
 
   public void changeUnit(ActionEvent e) {
-    for (iterable_type  : iterable) {
-      
-    }
-    
+    throw new NotImplementedException();
+
   }
-  
+
 }

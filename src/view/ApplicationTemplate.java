@@ -27,8 +27,6 @@ import gov.nasa.worldwind.exception.WWAbsentRequirementException;
 import gov.nasa.worldwind.layers.CompassLayer;
 import gov.nasa.worldwind.layers.Layer;
 import gov.nasa.worldwind.layers.LayerList;
-import gov.nasa.worldwind.layers.ViewControlsLayer;
-import gov.nasa.worldwind.layers.ViewControlsSelectListener;
 import gov.nasa.worldwind.layers.WorldMapLayer;
 import gov.nasa.worldwind.layers.placename.PlaceNameLayer;
 import gov.nasa.worldwind.util.StatisticsPanel;
@@ -120,15 +118,7 @@ public class ApplicationTemplate {
       this.getContentPane().add(wwjPanel, BorderLayout.CENTER);
       if (includeLayerPanel) {
         this.controlPanel = new JPanel(new BorderLayout(10, 10));
-        // this.layerPanel = new LayerPanel(this.getWwd(), new
-        // LayerManagerLayer(getWwd()));
-        // this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);
-
-        this.layerPanel = new view.LayerPanel(getWwd());
-        this.controlPanel.add(layerPanel, BorderLayout.CENTER);
-
-        this.controlPanel.add(new FlatWorldPanel(this.getWwd()), BorderLayout.NORTH);
-        // this.controlPanel.add(new view.LayerPanel(getWwd()), BorderLayout.SOUTH);
+        
         this.getContentPane().add(this.controlPanel, BorderLayout.WEST);
       }
 
@@ -139,9 +129,9 @@ public class ApplicationTemplate {
 
       // Create and install the view controls layer and register a controller for it
       // with the World Window.
-      ViewControlsLayer viewControlsLayer = new ViewControlsLayer();
-      insertBeforeCompass(getWwd(), viewControlsLayer);
-      this.getWwd().addSelectListener(new ViewControlsSelectListener(this.getWwd(), viewControlsLayer));
+      //ViewControlsLayer viewControlsLayer = new ViewControlsLayer();
+      //insertBeforeCompass(getWwd(), viewControlsLayer);
+      //this.getWwd().addSelectListener(new ViewControlsSelectListener(this.getWwd(), viewControlsLayer));
 
       // Register a rendering exception listener that's notified when exceptions occur
       // during rendering.
@@ -225,6 +215,7 @@ public class ApplicationTemplate {
 
       this.wwjPanel.highlightController = controller;
     }
+    
   }
 
   public static void insertBeforeCompass(WorldWindow wwd, Layer layer) {
@@ -294,6 +285,7 @@ public class ApplicationTemplate {
   public static AppFrame start(String appName, Class appFrameClass) {
     if (Configuration.isMacOS() && appName != null) {
       System.setProperty("com.apple.mrj.application.apple.menu.about.name", appName);
+      System.setProperty("apple.laf.useScreenMenuBar", "false");
     }
 
     try {
@@ -312,7 +304,7 @@ public class ApplicationTemplate {
       return null;
     }
   }
-
+  
   /**
    * @return
    * @wbp.parser.entryPoint
