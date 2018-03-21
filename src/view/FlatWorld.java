@@ -66,12 +66,12 @@ public class FlatWorld extends ApplicationTemplate {
 	protected static JMenuBar menuBar;
 	protected static JButton btnEdition;
 	protected static JButton btnModification;
-	protected static JButton btnImporter;
+	protected static JButton btnImporterGRIB;
+	protected static JButton btnImporterXML;
 
 	protected static JPanel menuDateJPanel;
 	protected static JMenu mnDate;
 	protected static JMenuItem mntmDate;
-	protected static JLabel lblDate;
 
 	protected static JPanel dateCursorPanel;
 	protected static DateCursor dateCursor;
@@ -151,9 +151,13 @@ public class FlatWorld extends ApplicationTemplate {
 			});
 
 		
-			btnImporter = new JButton("Importer fichier grib");
-			menuBar.add(btnImporter);
-			jpl.add(btnImporter);
+			btnImporterGRIB = new JButton("Importer grib");
+			menuBar.add(btnImporterGRIB);
+			jpl.add(btnImporterGRIB);
+			
+			btnImporterXML = new JButton("Importer xml");
+			menuBar.add(btnImporterXML);
+			jpl.add(btnImporterXML);
 
 			// echelle vitesse
 			bg = new ButtonGroup();
@@ -194,16 +198,11 @@ public class FlatWorld extends ApplicationTemplate {
 			});
 			
 			menuDateJPanel = new JPanel();
-			//mnDate = new JMenu("Date");
-			//this.setVisible(true);
-
-			lblDate = new JLabel("Date sélectionnée : ");
-			lblDate.setHorizontalAlignment(SwingConstants.LEFT);
 
 			dateCursorPanel = new JPanel();
 			dateCursor = new DateCursor();
 			
-			btnImporter.addActionListener(new ActionListener() {
+			btnImporterGRIB.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
 						// On récupère le chemin du projet pour lancer le FileChooser à cet endroit là
@@ -235,15 +234,11 @@ public class FlatWorld extends ApplicationTemplate {
 									MeteoFacade.getInstance().refreshWindbarbs();
 								}
 							});
-							
 							updateSelectedDateLabel();
-							
-							lblDate.setAlignmentY(CENTER_ALIGNMENT);					
-							
+
 							jpl.add(listeDate);
 							dateCursorPanel.add(dateCursor.getSlider());
 							
-							jpl.add(lblDate);
 							jpl.add(dateCursorPanel);
 						}
 					} catch (URISyntaxException e1) {
@@ -309,10 +304,9 @@ public class FlatWorld extends ApplicationTemplate {
 		public void updateDateCursor() {
 			MeteoFacade facade = MeteoFacade.getInstance();
 
-			Prevision currentPrevision = facade.getCurrentPrevision();
+			Prevision currentPrevision = facade.getCurrentPrevision();			
 			List<Date> dates = facade.getDates(currentPrevision);
-			
-			
+						
 			Date currentDate = facade.getCurrentDate();
 
 			dateCursor.setNewDates(dates, currentDate);
@@ -322,8 +316,7 @@ public class FlatWorld extends ApplicationTemplate {
 		}
 
 		public void updateSelectedDateLabel() {
-			lblDate.setText("Date sélectionnée : " + MeteoFacade.getInstance().getCurrentDate().toString());
-			
+			listeDate.getModel().setSelectedItem(MeteoFacade.getInstance().getCurrentDate());
 		}
 
 	}
