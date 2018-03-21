@@ -55,5 +55,5 @@ public class TestInterpolation {
 		assertTrue((vent_sup.getWind().getVitesse() == v1.getVitesse()) 
 				&& (vent_sup.getWind().getDirection() == v1.getDirection()));
 	}
-	}
+	
 }
