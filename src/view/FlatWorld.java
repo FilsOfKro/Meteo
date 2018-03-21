@@ -30,6 +30,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
@@ -43,6 +44,8 @@ import gov.nasa.worldwind.layers.LatLonGraticuleLayer;
 import gov.nasa.worldwind.layers.RenderableLayer;
 import model.Prevision;
 import model.WindBarb;
+import java.net.*;
+import java.io.*;
 
 /**
  * Example of displaying a flat globe instead of a round globe. The flat globe displays elevation in
@@ -232,11 +235,15 @@ public class FlatWorld extends ApplicationTemplate {
         }
       });
 
+      // a l'appuye sur le btn faudra ouvrir un s�lecteur pour select une date voulu avec la date actuel d�j� ins�rer
       btnDownload.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          Date date = new Date(1520985600000L);
+        	//recup date actuel
+        
+        	 
+        Date date = new Date(1520985600000L);
           String gribZoneNumber = "201";
-
+          //retrieving the year month and day
           Calendar cal = Calendar.getInstance();
           cal.setTime(date);
           int year = cal.get(Calendar.YEAR);
@@ -253,49 +260,71 @@ public class FlatWorld extends ApplicationTemplate {
           url.append(year);
           url.append(month);
           url.append(day);
-          url.append("/gfs_4_");
-          url.append(year);
-          url.append(month);
-          url.append(day);
-          // url.append(gribZoneNumber);
-          // url.append('_');
-          url.append("_0000_000.grb2");
+          boolean exist;
+          
+          String urlExist =  url.toString();
+          //check if url exist
           try {
-            URL website = new URL(url.toString());
-            ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-            FileOutputStream fos = new FileOutputStream("latest.grb");
-            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-            fos.close();
-          } catch (IOException e2) {
-            // TODO Auto-generated catch block
-            e2.printStackTrace();
-          }
-
-          File file = new File("latest.grb");
-
-          System.out.println("Opening: " + file.getAbsolutePath());
-          Prevision prevv = MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
-          MeteoFacade.getInstance().setCurrentPrevision(prevv);
-
-          List<Date> dates = MeteoFacade.getInstance().getDates(prevv);
-          mnDate.removeAll();
-          for (Date d : dates) {
-            JMenuItem da = new JMenuItem(d.toString());
-
-            da.addActionListener(new ActionListener() {
-              public void actionPerformed(java.awt.event.ActionEvent e) {
-                JMenuItem selected = (JMenuItem) e.getSource();
-                System.out.println(selected.getText());
-                MeteoFacade.getInstance().setCurrentDate(d);
-                MeteoFacade.getInstance().refreshWindbarbs();
-                lblDate.setText("Date sélectionnée : " + d.toString());
+              HttpURLConnection.setFollowRedirects(false);
+              // note : you may also need
+              //        HttpURLConnection.setInstanceFollowRedirects(false)
+              HttpURLConnection con = (HttpURLConnection) new URL(urlExist).openConnection();
+              con.setRequestMethod("HEAD");
+              exist = (con.getResponseCode() == HttpURLConnection.HTTP_OK);
+            }
+            catch (Exception e1) {
+               e1.printStackTrace();
+               exist = false;
+            }
+          if(exist) {
+        	//envoi url avec jour pour savoir si il existe
+              url.append("/gfs_4_");
+              url.append(year);
+              url.append(month);
+              url.append(day);
+              // url.append(gribZoneNumber);
+              // url.append('_');
+              url.append("_0000_000.grb2");
+              try {
+                URL website = new URL(url.toString());
+                ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+                FileOutputStream fos = new FileOutputStream("latest.grb");
+                fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+                fos.close();
+              } catch (IOException e2) {
+                // TODO Auto-generated catch block
+                e2.printStackTrace();
               }
-            });
-            lblDate.setText(
-                "Date sélectionnée : " + MeteoFacade.getInstance().getCurrentDate().toString());
-            lblDate.setAlignmentY(CENTER_ALIGNMENT);
-            mnDate.add(da);
+
+              File file = new File("latest.grb");
+
+              System.out.println("Opening: " + file.getAbsolutePath());
+              Prevision prevv = MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
+              MeteoFacade.getInstance().setCurrentPrevision(prevv);
+
+              List<Date> dates = MeteoFacade.getInstance().getDates(prevv);
+              mnDate.removeAll();
+              for (Date d : dates) {
+                JMenuItem da = new JMenuItem(d.toString());
+
+                da.addActionListener(new ActionListener() {
+                  public void actionPerformed(java.awt.event.ActionEvent e) {
+                    JMenuItem selected = (JMenuItem) e.getSource();
+                    System.out.println(selected.getText());
+                    MeteoFacade.getInstance().setCurrentDate(d);
+                    MeteoFacade.getInstance().refreshWindbarbs();
+                    lblDate.setText("Date sélectionnée : " + d.toString());
+                  }
+                });
+                lblDate.setText(
+                    "Date sélectionnée : " + MeteoFacade.getInstance().getCurrentDate().toString());
+                lblDate.setAlignmentY(CENTER_ALIGNMENT);
+                mnDate.add(da);
+              }
           }
+          
+        
+          
         }
       });
 
