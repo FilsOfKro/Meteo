@@ -46,6 +46,7 @@ public class MeteoFacade {
     FlatWorld.main(null);
     this.appframe = (AppFrame) FlatWorld.getFrame();
     this.parser = new GribParser();
+    this.prevision = null;
   }
 
   /**

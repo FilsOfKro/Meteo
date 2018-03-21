@@ -7,7 +7,7 @@ public class Vent {
   /**
    * Used for cloning purpose
    */
-  private Vent() {
+  public Vent() {
 	  
   }
   
@@ -20,8 +20,18 @@ public class Vent {
     return direction;
   }
   
+  public void setDirection(double direction) {
+    
+    this.direction = direction;
+  }
+  
   public double getVitesse() {
     return vitesse;
+  }
+  
+  public void setVitesse(double vitesse) {
+    
+    this.vitesse = vitesse ;
   }
   
   public static double calculerDirection(double vecteurU, double vecteurV) {
@@ -41,11 +51,6 @@ public class Vent {
     sb.append(direction).append(" | Vitesse=").append(vitesse);
     
     return sb.toString();
-  }
-  
-  public void setVitesse(double vitesse) {
-    
-    this.vitesse = vitesse;
   }
   
   @Override

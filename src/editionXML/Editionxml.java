@@ -1,6 +1,7 @@
 package editionXML;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -15,91 +16,82 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import model.Grille;
-import model.Prevision;
 import model.PrevisionParDate;
 import model.Vent;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-
-
 public class Editionxml {
 
-  protected Grille zonePrevision;
-  protected Prevision prevision;
   protected PrevisionParDate previsionDate;
   protected Date datefin;
 
   /**
    * Classe pour creer un fichier xml a partir d'une prevision.
    */
-  public Editionxml(Grille zonePrevision, Prevision prevision, 
-      PrevisionParDate previsionDate, Date datefin) {
-    this.zonePrevision = zonePrevision;
-    this.prevision = prevision;
-    this.previsionDate = previsionDate;
-    this.datefin = datefin;
+  public static void sauvergarderXML(Grille aZonePrevision, PrevisionParDate aPrevisionDate,
+      String path) {
+    Grille grille = aZonePrevision;
+    PrevisionParDate previsionDate = aPrevisionDate;
 
     final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
     try {
       final DocumentBuilder builder = factory.newDocumentBuilder();
       final Document document = builder.newDocument();
-      final Element zone = document.createElement("zone");
-      document.appendChild(zone);
-      final Element point1X = document.createElement("point1X");
-      point1X.appendChild(document.createTextNode("" + zonePrevision.getLonHautGauche()));
+      final Element eGrille = document.createElement("grille");
+      document.appendChild(eGrille);
 
-      final Element point1Y = document.createElement("point1Y");
-      point1Y.appendChild(document.createTextNode("" + zonePrevision.getLatHautGauche()));
+      final Element eProprietesGrille = document.createElement("proprietesGrille");
+      eGrille.appendChild(eProprietesGrille);
 
-      final Element nombreX = document.createElement("nombreX");
-      nombreX.appendChild(document.createTextNode("" + zonePrevision.getNbx()));
+      final Element eLonHautGauche = document.createElement("lonHautGauche");
+      eLonHautGauche.appendChild(document.createTextNode("" + grille.getLonHautGauche()));
 
-      final Element nombreY = document.createElement("nombreY");
-      nombreY.appendChild(document.createTextNode("" + zonePrevision.getNby()));
+      final Element eLatHautGauche = document.createElement("latHautGauche");
+      eLatHautGauche.appendChild(document.createTextNode("" + grille.getLatHautGauche()));
 
-      final Element deltaX = document.createElement("deltaX");
-      deltaX.appendChild(document.createTextNode("" + zonePrevision.getDx()));
+      final Element eNbx = document.createElement("nbx");
+      eNbx.appendChild(document.createTextNode("" + grille.getNbx()));
 
-      final Element deltaY = document.createElement("deltaY");
-      deltaY.appendChild(document.createTextNode("" + zonePrevision.getDy()));
+      final Element eNby = document.createElement("nby");
+      eNby.appendChild(document.createTextNode("" + grille.getNby()));
 
-      zone.appendChild(point1X);
-      zone.appendChild(point1Y);
-      zone.appendChild(nombreX);
-      zone.appendChild(nombreY);
-      zone.appendChild(deltaX);
-      zone.appendChild(deltaY);
+      final Element eDx = document.createElement("dx");
+      eDx.appendChild(document.createTextNode("" + grille.getDx()));
+
+      final Element eDy = document.createElement("dy");
+      eDy.appendChild(document.createTextNode("" + grille.getDy()));
+
+      eProprietesGrille.appendChild(eLonHautGauche);
+      eProprietesGrille.appendChild(eLatHautGauche);
+      eProprietesGrille.appendChild(eNbx);
+      eProprietesGrille.appendChild(eNby);
+      eProprietesGrille.appendChild(eDx);
+      eProprietesGrille.appendChild(eDy);
+
+      final Element ePrevision_date = document.createElement("previsionDate");
+      SimpleDateFormat sDF = new SimpleDateFormat("dd/mm/yyyy");
+      ePrevision_date.setAttribute("date_debut", "" + sDF.format(previsionDate.getDate()));
+      eGrille.appendChild(ePrevision_date);
 
       // boucle
-      int i = 1;
       for (Vent[] tabVent : previsionDate.getVents()) {
         for (Vent vent : tabVent) {
           if (vent != null) {
 
-            final Element nom_vent = document.createElement("vent");
-            nom_vent.setAttribute("numero", "" + i++);
-            zone.appendChild(nom_vent);
+            final Element eNom_vent = document.createElement("vent");
+            ePrevision_date.appendChild(eNom_vent);
 
-            final Element direction = document.createElement("direction");
-            direction.appendChild(document.createTextNode("" + vent.getDirection()));
+            final Element eDirection = document.createElement("direction");
+            eDirection.appendChild(document.createTextNode("" + vent.getDirection()));
 
-            final Element vitesse = document.createElement("vitesse");
-            vitesse.appendChild(document.createTextNode("" + vent.getVitesse()));
+            final Element eVitesse = document.createElement("vitesse");
+            eVitesse.appendChild(document.createTextNode("" + vent.getVitesse()));
 
-            final Element date_debut = document.createElement("date_debut");
-            date_debut.appendChild(document.createTextNode("" + previsionDate.getDate()));
-
-            final Element date_fin = document.createElement("date_fin");
-            date_fin.appendChild(document.createTextNode("" + datefin));
-
-            nom_vent.appendChild(direction);
-            nom_vent.appendChild(vitesse);
-            nom_vent.appendChild(date_debut);
-            nom_vent.appendChild(date_fin);
-
+            eNom_vent.appendChild(eDirection);
+            eNom_vent.appendChild(eVitesse);
           }
         }
       }
@@ -108,7 +100,7 @@ public class Editionxml {
       final TransformerFactory transformerFactory = TransformerFactory.newInstance();
       final Transformer transformer = transformerFactory.newTransformer();
       final DOMSource source = new DOMSource(document);
-      final StreamResult sortie = new StreamResult(new File("file.xml"));
+      final StreamResult sortie = new StreamResult(new File(path));
       // final StreamResult result = new StreamResult(System.out);
 
       // prologue
@@ -130,5 +122,4 @@ public class Editionxml {
       e.printStackTrace();
     }
   }
-
 }
