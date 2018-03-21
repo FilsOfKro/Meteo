@@ -109,13 +109,15 @@ public class FlatWorld extends ApplicationTemplate {
       this.setJMenuBar(menuBar);
 
       btnModification = new JButton("Modification");
-      menuBar.add(btnModification);
       btnModification.setMnemonic(KeyEvent.VK_I);
       btnModification.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          new VueModification();
+          if(MeteoFacade.getInstance().getCurrentPrevision() != null){
+            new VueModification();
+          }
         }
       });
+      menuBar.add(btnModification);
 
       btnEdition = new JButton("Edition");
       menuBar.add(btnEdition);
