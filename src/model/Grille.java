@@ -16,6 +16,9 @@ public class Grille {
   /**
    * Construit un objet Grille à partir des informations en paramètre.
    * 
+   * Cet objet Grille permet de faire le lien entre la représentation logicielle des données (un tableau de vent à deux dimensions),
+   *  et la représentation réelle des données, soit des points avec une latitude et une longitude 
+   * 
    * @param nbx
    *          Le nombre de colonnes de la grille
    * @param nby
@@ -43,6 +46,10 @@ public class Grille {
     this.uvOrienteEst = uvOrienteEst;
   }
 
+  /**
+   * Le nombre de colonnes de la grille (donc du tableau)
+   * @return
+   */
   public int getNbx() {
     return nbx;
   }
@@ -51,6 +58,10 @@ public class Grille {
     this.nbx = nbx;
   }
 
+  /**
+   * Le nombre de lignes de la grille (donc du tableau)
+   * @return
+   */
   public int getNby() {
     return nby;
   }
@@ -59,6 +70,11 @@ public class Grille {
     this.nby = nby;
   }
 
+  /**
+   * Retourne la longitude du point en haut à gauche de la grille (0,0)
+   * Sert de référence pour les calculs de longitude des points suivants
+   * @return
+   */
   public double getLonHautGauche() {
     return lonHautGauche;
   }
@@ -67,6 +83,11 @@ public class Grille {
     this.lonHautGauche = lonHautGauche;
   }
 
+  /**
+   * Retourne la latitude du point en haut à gauche de la grille (0,0)
+   * Sert de référence pour calculs de latitude des points suivants
+   * @return
+   */
   public double getLatHautGauche() {
     return latHautGauche;
   }
@@ -75,6 +96,10 @@ public class Grille {
     this.latHautGauche = latHautGauche;
   }
 
+  /**
+   * Présent dans les données GRIB mais on ne s'en sert pas
+   * @return
+   */
   public boolean isUvOrienteEst() {
     return uvOrienteEst;
   }
@@ -83,6 +108,11 @@ public class Grille {
     this.uvOrienteEst = uvOrienteEst;
   }
 
+  /**
+   * Le décalage horizontal entre 2 points 
+   * Sert à calculer la longitude
+   * @return
+   */
   public double getDx() {
     return dx;
   }
@@ -91,6 +121,11 @@ public class Grille {
     this.dx = dx;
   }
 
+  /**
+   * Le décalage vertical entre 2 points
+   * Sert à calculer la latitude
+   * @return
+   */
   public double getDy() {
     return dy;
   }
