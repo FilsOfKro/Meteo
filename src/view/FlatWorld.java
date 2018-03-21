@@ -15,6 +15,7 @@ import gov.nasa.worldwind.layers.LatLonGraticuleLayer;
 import gov.nasa.worldwind.layers.RenderableLayer;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -36,6 +37,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import cursor.DateCursor;
@@ -55,256 +57,286 @@ import model.WindBarb;
  * @see EarthFlat
  */
 public class FlatWorld extends ApplicationTemplate {
-  public static view.FlatWorld.AppFrame frame;
-  protected static JMenuBar menuBar;
-  protected static JButton btnEdition;
-  protected static JButton btnModification;
-  protected static JButton btnImporter;
-  protected static JMenu mnDate;
-  protected static JMenuItem mntmDate;
-  protected static JMenuItem mntmDate_1;
-  protected static JMenuItem mntmDate_2;
-  
-  protected static ButtonGroup bg;
-  protected static JRadioButton rdbtnNoeud;
-  protected static JRadioButton rdbtnKmh;
-  protected static JRadioButton rdbtnMs;
 
-  protected static JCheckBox btnAdvancedMenu;
-  protected static boolean advancedMode = true;
+	public static view.FlatWorld.AppFrame frame;
 
-  protected static JPanel dateCursorPanel;
-  protected static DateCursor dateCursor;
-  
-  protected static JLabel lblDate;
-  
-  /**
-   * @wbp.parser.entryPoint
-   */
-  public static void main(String[] args) { // Adjust configuration values before instantiation
-    Configuration.setValue(AVKey.GLOBE_CLASS_NAME, EarthFlat.class.getName());
-    frame = (AppFrame) start("World Wind Flat World", AppFrame.class);
+	protected static JPanel jpl;
 
-  }
+	protected static JMenuBar menuBar;
+	protected static JButton btnEdition;
+	protected static JButton btnModification;
+	protected static JButton btnImporter;
 
-  public static view.ApplicationTemplate.AppFrame getFrame() {
-    return frame;
-  }
+	protected static JPanel menuDateJPanel;
+	protected static JMenu mnDate;
+	protected static JMenuItem mntmDate;
+	protected static JLabel lblDate;
 
-  public static class AppFrame extends ApplicationTemplate.AppFrame {
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-    RenderableLayer windBarbLayer;
+	protected static JPanel dateCursorPanel;
+	protected static DateCursor dateCursor;
 
-    public AppFrame() {
-    	  super(true, true, false);
-      this.init();
-    }
-    
-    protected void init() {
-      // menu
-      menuBar = new JMenuBar();
-      this.setJMenuBar(menuBar);
+	protected static ButtonGroup bg;
+	protected static JRadioButton rdbtnNoeud;
+	protected static JRadioButton rdbtnKmh;
+	protected static JRadioButton rdbtnMs;
+	// protected static boolean rdbtn = true;
 
-      btnModification = new JButton("Modification");
-      menuBar.add(btnModification);
-      btnModification.setMnemonic(KeyEvent.VK_I);
-      btnModification.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-          new VueModification();
-        }
-      });
+	protected static JCheckBox btnAdvancedMenu;
+	protected static boolean advancedMode = false;
+	
+	protected static JMenu menu;
+	protected static JMenuItem menuItem;
 
-      btnEdition = new JButton("Edition");
-      menuBar.add(btnEdition);
-      
-      btnImporter = new JButton("Importer fichier grib");
-      menuBar.add(btnImporter);
-      
-      //echelle vitesse
-      bg = new ButtonGroup();
-      
-      rdbtnNoeud = new JRadioButton("Noeud");
-      bg.add(rdbtnNoeud);
-      menuBar.add(rdbtnNoeud);
-      
-      rdbtnKmh = new JRadioButton("km/h");
-      bg.add(rdbtnKmh);
-      menuBar.add(rdbtnKmh);
-      
-      rdbtnMs = new JRadioButton("m/s");
-      bg.add(rdbtnMs);
-      menuBar.add(rdbtnMs);
-      
-      btnAdvancedMenu = new JCheckBox("Avancé", advancedMode);
-      btnAdvancedMenu.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				toggleAdvancedMode();
+	/**
+	 * @wbp.parser.entryPoint
+	 */
+	public static void main(String[] args) { // Adjust configuration values before instantiation
+		Configuration.setValue(AVKey.GLOBE_CLASS_NAME, EarthFlat.class.getName());
+		frame = (AppFrame) start("LEMOLAS Wind", AppFrame.class);
+
+	}
+
+	public static view.ApplicationTemplate.AppFrame getFrame() {
+		return frame;
+	}
+
+	public static class AppFrame extends ApplicationTemplate.AppFrame {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		RenderableLayer windBarbLayer;
+
+		public AppFrame() {
+			super(true, true, false);
+			this.init();
+		}
+
+		protected void init() {
+
+			jpl = new JPanel();
+
+			// menu
+			menuBar = new JMenuBar();
+			this.setJMenuBar(menuBar);
+			
+			JPanel jpan = new JPanel();
+			menu = new JMenu("menu");
+			menuItem = new JMenuItem("menu item");
+			menu.add(menuItem);
+			jpan.add(menu);
+			
+			jpl.add(jpan);
+
+			// options avancées
+			btnAdvancedMenu = new JCheckBox("Plus d'options", advancedMode);
+			jpl.add(btnAdvancedMenu);
+
+			btnAdvancedMenu.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					toggleAdvancedMode();
+				}
+			});
+
+			if (advancedMode) {
+				addAdvancedMode();
 			}
-		});
-      
-      if (advancedMode) {
-    	  	addAdvancedMode();
-      }
-      
-      rdbtnNoeud.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          MeteoFacade.getInstance().changeUnit(e);
-        }
-      });
-      rdbtnKmh.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          MeteoFacade.getInstance().changeUnit(e);
-        }
-      });
-      rdbtnMs.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          MeteoFacade.getInstance().changeUnit(e);
-        }
-      });
-      
-      
+			
 
-      mnDate = new JMenu("Date");
-      menuBar.add(mnDate);
-      
-      menuBar.add(btnAdvancedMenu);
-      
-      this.setVisible(true);
-      
-      JPanel jpl = new JPanel();
-      menuBar.add(jpl);
+			// boutons
+			btnModification = new JButton("Modification");
+			menuBar.add(btnModification);
+			jpl.add(btnModification);
+			btnModification.setMnemonic(KeyEvent.VK_I);
+			btnModification.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new VueModification();
+				}
+			});
 
-      lblDate = new JLabel("Date sélectionnée : ");
-      lblDate.setHorizontalAlignment(SwingConstants.LEFT);
-      jpl.add(lblDate);
-      
-      dateCursorPanel = new JPanel();
-      dateCursor = new DateCursor();
-      
-      dateCursorPanel.add(dateCursor.getSlider());
-      
-      jpl.add(dateCursorPanel);
-      
-      btnImporter.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-          try {
-            // On récupère le chemin du projet pour lancer le FileChooser à cet endroit là
-            URL u = getClass().getProtectionDomain().getCodeSource().getLocation();
-            File f = new File(u.toURI());
+			btnEdition = new JButton("Edition");
+			menuBar.add(btnEdition);
+			jpl.add(btnEdition);
 
-            final JFileChooser gribFileChooser = new JFileChooser();
-            gribFileChooser.setCurrentDirectory(f.getParentFile());
-            
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("GRIB FILES", "grb");
-            gribFileChooser.setFileFilter(filter);
-            
-            int returnVal = gribFileChooser.showOpenDialog(null);
+			btnImporter = new JButton("Importer fichier grib");
+			menuBar.add(btnImporter);
+			jpl.add(btnImporter);
 
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-              File file = gribFileChooser.getSelectedFile();
+			// echelle vitesse
+			bg = new ButtonGroup();
 
-              System.out.println("Opening: " + file.getAbsolutePath());
-              Prevision prevv = MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
-              MeteoFacade.getInstance().setCurrentPrevision(prevv);
-              
-              List<Date> dates = MeteoFacade.getInstance()
-                  .getDates(prevv);
-              mnDate.removeAll();
-              for (Date d : dates) {
-                JMenuItem da = new JMenuItem(d.toString());
+			rdbtnNoeud = new JRadioButton("Noeud");
+			bg.add(rdbtnNoeud);
+			menuBar.add(rdbtnNoeud);
 
-                da.addActionListener(new ActionListener() {
-                  public void actionPerformed(java.awt.event.ActionEvent e) {
-                    JMenuItem selected = (JMenuItem) e.getSource();
-                    System.out.println(selected.getText());
-                    MeteoFacade.getInstance().setCurrentDate(d);
-                    MeteoFacade.getInstance().refreshWindbarbs();
-                  }
-                });
-                
-                updateSelectedDateLabel();
-                lblDate.setAlignmentY(CENTER_ALIGNMENT);
-                mnDate.add(da);
-              }
-            }
-          } catch (URISyntaxException e1) {
-            e1.printStackTrace();
-          }
-        }
-      });
+			rdbtnKmh = new JRadioButton("km/h");
+			bg.add(rdbtnKmh);
+			menuBar.add(rdbtnKmh);
 
-      // Initialise graticule
-      insertBeforePlacenames(getWwd(), new LatLonGraticuleLayer());
-      // Initialise layer
-      windBarbLayer = new RenderableLayer();
-      windBarbLayer.setName("Winds");
+			rdbtnMs = new JRadioButton("m/s");
+			bg.add(rdbtnMs);
+			menuBar.add(rdbtnMs);
 
-      insertBeforePlacenames(getWwd(), windBarbLayer);
+			jpl.add(rdbtnKmh);
+			jpl.add(rdbtnMs);
+			jpl.add(rdbtnNoeud);
 
-      // Initialise point of view
-      getWwd().getView().setEyePosition(Position.fromDegrees(48.39039, -4.486076, 42000));
-    }
+			rdbtnNoeud.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					MeteoFacade.getInstance().changeUnit(e);
+				}
+			});
+			rdbtnKmh.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					MeteoFacade.getInstance().changeUnit(e);
+				}
+			});
+			rdbtnMs.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					MeteoFacade.getInstance().changeUnit(e);
+				}
+			});
+			
+			menuDateJPanel = new JPanel();
+			mnDate = new JMenu("Date");
+			//this.setVisible(true);
 
-    /**
-     * Affiche les barbules sur la carte.
-     * 
-     * @param windbarbs
-     *          La liste des barbules à afficher
-     */
-    public void displayWindbarbs(ArrayList<WindBarb> windbarbs) {
-      // TODO : Be sure this clears the old windbarb off the ram
-      windBarbLayer.dispose();
-      for (WindBarb windBarb : windbarbs) {
-        windBarbLayer.addRenderable(windBarb);
-      }
-    }
-    
+			lblDate = new JLabel("Date sélectionnée : ");
+			lblDate.setHorizontalAlignment(SwingConstants.LEFT);
 
-    protected void toggleAdvancedMode() {
-	    	advancedMode = !advancedMode;
-	
-	    	if (advancedMode) {
-	    		addAdvancedMode();
-	    	} else {
-	    		removeAdvancedMode();
-	    	}
-	
-	    	this.revalidate();
-	    	this.repaint();
-    }
-    
-    protected void addAdvancedMode() {
-    		this.layerPanel = new view.LayerPanel(getWwd());
-		this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);
-    }
-    
-    protected void removeAdvancedMode() {
-		this.controlPanel.remove(this.layerPanel);
-    }
-    
-    public void updateDateCursor() {
-    		MeteoFacade facade = MeteoFacade.getInstance();
-   
-    		Prevision currentPrevision = facade.getCurrentPrevision();
-    		List<Date> dates = facade.getDates(currentPrevision);
-    		Date currentDate = facade.getCurrentDate();
-    		
-    		dateCursor.setNewDates(dates, currentDate);
-    		
-    		this.revalidate();
-    		this.repaint();
-    }
-    
-    public void updateSelectedDateLabel() {
-        lblDate.setText("Date sélectionnée : " + MeteoFacade.getInstance().getCurrentDate().toString());
-    }
-    
-  }
+			dateCursorPanel = new JPanel();
+			dateCursor = new DateCursor();
+			
+			btnImporter.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						// On récupère le chemin du projet pour lancer le FileChooser à cet endroit là
+						URL u = getClass().getProtectionDomain().getCodeSource().getLocation();
+						File f = new File(u.toURI());
+
+						final JFileChooser gribFileChooser = new JFileChooser();
+						gribFileChooser.setCurrentDirectory(f.getParentFile());
+
+						FileNameExtensionFilter filter = new FileNameExtensionFilter("GRIB FILES", "grb");
+						gribFileChooser.setFileFilter(filter);
+
+						int returnVal = gribFileChooser.showOpenDialog(null);
+
+						if (returnVal == JFileChooser.APPROVE_OPTION) {
+							File file = gribFileChooser.getSelectedFile();
+
+							System.out.println("Opening: " + file.getAbsolutePath());
+							Prevision prevv = MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
+							MeteoFacade.getInstance().setCurrentPrevision(prevv);
+
+							List<Date> dates = MeteoFacade.getInstance().getDates(prevv);
+							mnDate.removeAll();
+							for (Date d : dates) {
+								mntmDate = new JMenuItem(d.toString());
+
+								mntmDate.addActionListener(new ActionListener() {
+									public void actionPerformed(java.awt.event.ActionEvent e) {
+										JMenuItem selected = (JMenuItem) e.getSource();
+										System.out.println(selected.getText());
+										MeteoFacade.getInstance().setCurrentDate(d);
+										MeteoFacade.getInstance().refreshWindbarbs();
+									}
+								});
+
+								updateSelectedDateLabel();
+								mnDate.add(mntmDate);
+								menuDateJPanel.add(mnDate);
+								
+								
+								lblDate.setAlignmentY(CENTER_ALIGNMENT);
+								
+							}
+							
+							
+							dateCursorPanel.add(dateCursor.getSlider());
+							
+							jpl.add(menuDateJPanel);
+							
+							jpl.add(lblDate);
+							jpl.add(dateCursorPanel);
+						}
+					} catch (URISyntaxException e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
+			
+			//ajouter tout au jpanel
+			menuBar.add(jpl);
+
+			// Initialise graticule
+			insertBeforePlacenames(getWwd(), new LatLonGraticuleLayer());
+			// Initialise layer
+			windBarbLayer = new RenderableLayer();
+			windBarbLayer.setName("Winds");
+
+			insertBeforePlacenames(getWwd(), windBarbLayer);
+
+			// Initialise point of view
+			getWwd().getView().setEyePosition(Position.fromDegrees(48.39039, -4.486076, 42000));
+		}
+
+		/**
+		 * Affiche les barbules sur la carte.
+		 * 
+		 * @param windbarbs
+		 *            La liste des barbules à afficher
+		 */
+		public void displayWindbarbs(ArrayList<WindBarb> windbarbs) {
+			// TODO : Be sure this clears the old windbarb off the ram
+			windBarbLayer.dispose();
+			for (WindBarb windBarb : windbarbs) {
+				windBarbLayer.addRenderable(windBarb);
+			}
+		}
+
+		protected void toggleAdvancedMode() {
+			advancedMode = !advancedMode;
+
+			if (advancedMode) {
+				addAdvancedMode();
+			} else {
+				removeAdvancedMode();
+			}
+
+			this.revalidate();
+			this.repaint();
+		}
+
+		protected void addAdvancedMode() {
+			this.layerPanel = new view.LayerPanel(getWwd());
+			this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);
+		}
+
+		protected void removeAdvancedMode() {
+			this.controlPanel.remove(this.layerPanel);
+		}
+
+		public void updateDateCursor() {
+			MeteoFacade facade = MeteoFacade.getInstance();
+
+			Prevision currentPrevision = facade.getCurrentPrevision();
+			List<Date> dates = facade.getDates(currentPrevision);
+			Date currentDate = facade.getCurrentDate();
+
+			dateCursor.setNewDates(dates, currentDate);
+
+			this.revalidate();
+			this.repaint();
+		}
+
+		public void updateSelectedDateLabel() {
+			lblDate.setText("Date sélectionnée : " + MeteoFacade.getInstance().getCurrentDate().toString());
+		}
+
+	}
 }
