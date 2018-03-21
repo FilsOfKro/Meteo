@@ -10,6 +10,15 @@ public class InterpolationPoint {
 	private Vent wind;
 	private WindBarb barbule;
 	
+	/**
+	 * function that allows the user to interpolate a point 
+	 * @param g the grid of winds to see if the point is in it
+	 * @param x the longitude of the point to interpolate
+	 * @param y the latitude of the point to interpolate
+	 * @param d the date of the point to interpolate
+	 * @return true if the interpolation has been made, false else
+	 */
+	
 	public boolean InterpolateOneWind(Grille g, double x, double y, Date d) {
 		
 		boolean ret = true;
@@ -32,10 +41,6 @@ public class InterpolationPoint {
 			double posyGrille = posy/g.getDy();
 			
 			//recherche des points voisin
-			//xb1 == partie entiere de posxGrille
-			//xb2 == partie entiere de posxGrill + pasx
-			//ya1 == partie entiere de posyGrille
-			//ya2 == partie entiere de posygrille + pasy
 			
 			int xB = (int) posxGrille;
 			int xBB = (int) (posxGrille+g.getDx());
@@ -46,7 +51,7 @@ public class InterpolationPoint {
 			//creation du vent creer par interpolation grace au coordonnées
 			PrevisionParDate prev = MeteoFacade.getInstance().getCurrentPrevision().getPrevisionParDate(d);
 			if(prev != null) {
-				
+				//https://fr.wikihow.com/faire-une-double-interpolation-linéaire
 				double dir = (((xBB-posxGrille)/(xBB-xB))*prev.getVents()[yA][xB].getDirection()+((posxGrille-xB)/(xBB-xB))*prev.getVents()[yA][xBB].getDirection())*((yAA-posyGrille)/(yAA-yA))+ (((xBB-posxGrille)/(xBB-xB))*prev.getVents()[yAA][xB].getDirection()+((posxGrille-xB)/(xBB-xB))*prev.getVents()[yAA][xBB].getDirection())*((posyGrille-yA)/(yAA-yA));
 				double vitesse = (((xBB-posxGrille)/(xBB-xB))*prev.getVents()[yA][xB].getVitesse()+((posxGrille-xB)/(xBB-xB))*prev.getVents()[yA][xBB].getVitesse())*((yAA-posyGrille)/(yAA-yA))+ (((xBB-posxGrille)/(xBB-xB))*prev.getVents()[yAA][xB].getVitesse()+((posxGrille-xB)/(xBB-xB))*prev.getVents()[yAA][xBB].getVitesse())*((posyGrille-yA)/(yAA-yA));
 				wind = new Vent(vitesse, dir, 4);
