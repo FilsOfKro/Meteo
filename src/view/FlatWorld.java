@@ -29,6 +29,7 @@ import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -84,8 +85,7 @@ public class FlatWorld extends ApplicationTemplate {
 	protected static JCheckBox btnAdvancedMenu;
 	protected static boolean advancedMode = false;
 	
-	protected static JMenu menu;
-	protected static JMenuItem menuItem;
+	protected static JComboBox listeDate;
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -119,17 +119,9 @@ public class FlatWorld extends ApplicationTemplate {
 			// menu
 			menuBar = new JMenuBar();
 			this.setJMenuBar(menuBar);
-			
-			JPanel jpan = new JPanel();
-			menu = new JMenu("menu");
-			menuItem = new JMenuItem("menu item");
-			menu.add(menuItem);
-			jpan.add(menu);
-			
-			jpl.add(jpan);
 
 			// options avancées
-			btnAdvancedMenu = new JCheckBox("Plus d'options", advancedMode);
+			btnAdvancedMenu = new JCheckBox("Avancé", advancedMode);
 			jpl.add(btnAdvancedMenu);
 
 			btnAdvancedMenu.addActionListener(new ActionListener() {
@@ -143,6 +135,9 @@ public class FlatWorld extends ApplicationTemplate {
 				addAdvancedMode();
 			}
 			
+			btnEdition = new JButton("Edition");
+			menuBar.add(btnEdition);
+			jpl.add(btnEdition);
 
 			// boutons
 			btnModification = new JButton("Modification");
@@ -155,10 +150,7 @@ public class FlatWorld extends ApplicationTemplate {
 				}
 			});
 
-			btnEdition = new JButton("Edition");
-			menuBar.add(btnEdition);
-			jpl.add(btnEdition);
-
+		
 			btnImporter = new JButton("Importer fichier grib");
 			menuBar.add(btnImporter);
 			jpl.add(btnImporter);
@@ -202,7 +194,7 @@ public class FlatWorld extends ApplicationTemplate {
 			});
 			
 			menuDateJPanel = new JPanel();
-			mnDate = new JMenu("Date");
+			//mnDate = new JMenu("Date");
 			//this.setVisible(true);
 
 			lblDate = new JLabel("Date sélectionnée : ");
@@ -234,32 +226,22 @@ public class FlatWorld extends ApplicationTemplate {
 							MeteoFacade.getInstance().setCurrentPrevision(prevv);
 
 							List<Date> dates = MeteoFacade.getInstance().getDates(prevv);
-							mnDate.removeAll();
-							for (Date d : dates) {
-								mntmDate = new JMenuItem(d.toString());
-
-								mntmDate.addActionListener(new ActionListener() {
-									public void actionPerformed(java.awt.event.ActionEvent e) {
-										JMenuItem selected = (JMenuItem) e.getSource();
-										System.out.println(selected.getText());
-										MeteoFacade.getInstance().setCurrentDate(d);
-										MeteoFacade.getInstance().refreshWindbarbs();
-									}
-								});
-
-								updateSelectedDateLabel();
-								mnDate.add(mntmDate);
-								menuDateJPanel.add(mnDate);
-								
-								
-								lblDate.setAlignmentY(CENTER_ALIGNMENT);
-								
-							}
+							//listeDate.removeAll();
 							
+							listeDate = new JComboBox(dates.toArray());							
+							listeDate.addActionListener(new ActionListener() {
+								public void actionPerformed(java.awt.event.ActionEvent e) {
+									MeteoFacade.getInstance().setCurrentDate((Date)listeDate.getModel().getSelectedItem());
+									MeteoFacade.getInstance().refreshWindbarbs();
+								}
+							});
 							
+							updateSelectedDateLabel();
+							
+							lblDate.setAlignmentY(CENTER_ALIGNMENT);					
+							
+							jpl.add(listeDate);
 							dateCursorPanel.add(dateCursor.getSlider());
-							
-							jpl.add(menuDateJPanel);
 							
 							jpl.add(lblDate);
 							jpl.add(dateCursorPanel);
@@ -320,12 +302,17 @@ public class FlatWorld extends ApplicationTemplate {
 		protected void removeAdvancedMode() {
 			this.controlPanel.remove(this.layerPanel);
 		}
+		
+		
+
 
 		public void updateDateCursor() {
 			MeteoFacade facade = MeteoFacade.getInstance();
 
 			Prevision currentPrevision = facade.getCurrentPrevision();
 			List<Date> dates = facade.getDates(currentPrevision);
+			
+			
 			Date currentDate = facade.getCurrentDate();
 
 			dateCursor.setNewDates(dates, currentDate);
@@ -336,6 +323,7 @@ public class FlatWorld extends ApplicationTemplate {
 
 		public void updateSelectedDateLabel() {
 			lblDate.setText("Date sélectionnée : " + MeteoFacade.getInstance().getCurrentDate().toString());
+			
 		}
 
 	}
