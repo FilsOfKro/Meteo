@@ -252,18 +252,19 @@ public class FlatWorld extends ApplicationTemplate {
 							
 							menuBar.add(btnExporterXML);
 							jpl.add(btnExporterXML);
-							
-							menuBar.add(rdbtnNoeud);
-							menuBar.add(rdbtnKmh);
-							menuBar.add(rdbtnMs);
-							jpl.add(rdbtnKmh);
-							jpl.add(rdbtnMs);
-							jpl.add(rdbtnNoeud);
 
 							jpl.add(listeDate);
 							dateCursorPanel.add(dateCursor.getSlider());
 							
 							jpl.add(dateCursorPanel);
+							
+							menuBar.add(rdbtnMs);
+							menuBar.add(rdbtnKmh);
+							menuBar.add(rdbtnNoeud);
+							
+							jpl.add(rdbtnMs);
+							jpl.add(rdbtnKmh);
+							jpl.add(rdbtnNoeud);
 						}
 					} catch (URISyntaxException e1) {
 						e1.printStackTrace();
