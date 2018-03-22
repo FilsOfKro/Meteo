@@ -250,15 +250,15 @@ public class FlatWorld extends ApplicationTemplate {
 								}
 							});
 							
+							menuBar.add(btnExporterXML);
+							jpl.add(btnExporterXML);
+							
 							menuBar.add(rdbtnNoeud);
 							menuBar.add(rdbtnKmh);
 							menuBar.add(rdbtnMs);
 							jpl.add(rdbtnKmh);
 							jpl.add(rdbtnMs);
 							jpl.add(rdbtnNoeud);
-							
-							menuBar.add(btnExporterXML);
-							jpl.add(btnExporterXML);
 
 							jpl.add(listeDate);
 							dateCursorPanel.add(dateCursor.getSlider());
