@@ -11,7 +11,6 @@ public class WindBarb extends PointPlacemark {
   private double direction; // 0-360 degrees
   private double knots;
   private static  final double DECALAGE = 90.0;
-  private static final Double MS_TO_KNOTS = 1.94384;
 
   public WindBarb(Position position) {
     this(position, 0, 0);
@@ -30,7 +29,7 @@ public class WindBarb extends PointPlacemark {
   public WindBarb(Position position, double dir, double spd) {
     super(position);
     this.direction = dir;
-    this.knots = MS_TO_KNOTS * spd;
+    this.knots = Util.msToKnots(spd);
     initialize();
   }
 
