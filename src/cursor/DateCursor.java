@@ -92,6 +92,19 @@ public class DateCursor {
 		}
 	}
 	
+	public void updateSlider(int size, Date current) {
+		if (size == 0) {
+			dateSlider.setMinimum(0);
+			dateSlider.setMaximum(0);
+			dateSlider.setValue(0);
+		} else {
+			dateSlider.setMinimum(1);
+			dateSlider.setMaximum(this.dates.size());
+			int index = getDateIndex(current);
+			dateSlider.setValue(index >= 0 ? index+1 : 1);	
+		}
+	}
+	
 	/**
 	 * Called when the slider's cursor moves.
 	 * Call a delayer method which will refresh the data on screen when a determined amount of time has passed since the last change
