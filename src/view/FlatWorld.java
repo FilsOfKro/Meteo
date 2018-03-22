@@ -60,36 +60,36 @@ import model.WindBarb;
  */
 public class FlatWorld extends ApplicationTemplate {
 
-	public static view.FlatWorld.AppFrame frame;
+  public static view.FlatWorld.AppFrame frame;
 
-	protected static JPanel jpl;
+  protected static JPanel jpl;
 
-	protected static JMenuBar menuBar;
-	protected static JButton btnEdition;
-	protected static JButton btnModification;
-	protected static JButton btnImporterGRIB;
-	protected static JButton btnImporterXML;
-	protected static JButton btnExporterXML;
+  protected static JMenuBar menuBar;
+  protected static JButton btnEdition;
+  protected static JButton btnModification;
+  protected static JButton btnImporterGRIB;
+  protected static JButton btnImporterXML;
+  protected static JButton btnExporterXML;
 
-	protected static JPanel menuDateJPanel;
-	protected static JMenu mnDate;
-	protected static JMenuItem mntmDate;
+  protected static JPanel menuDateJPanel;
+  protected static JMenu mnDate;
+  protected static JMenuItem mntmDate;
 
-	protected static JPanel dateCursorPanel;
-	protected static DateCursor dateCursor;
+  protected static JPanel dateCursorPanel;
+  protected static DateCursor dateCursor;
 
-	protected static ButtonGroup bg;
-	protected static JRadioButton rdbtnNoeud;
-	protected static JRadioButton rdbtnKmh;
-	protected static JRadioButton rdbtnMs;
-	// protected static boolean rdbtn = true;
+  protected static ButtonGroup bg;
+  protected static JRadioButton rdbtnNoeud;
+  protected static JRadioButton rdbtnKmh;
+  protected static JRadioButton rdbtnMs;
+  // protected static boolean rdbtn = true;
 
 	protected static JCheckBox btnAdvancedMenu;
 	protected static boolean advancedMode = false;
 	
 	protected static JComboBox listeDate;
 
-	/**
+  /**
 	 * @wbp.parser.entryPoint
 	 */
 	public static void main(String[] args) { // Adjust configuration values before instantiation
@@ -98,7 +98,7 @@ public class FlatWorld extends ApplicationTemplate {
 
 	}
 
-	public static view.ApplicationTemplate.AppFrame getFrame() {
+  public static view.ApplicationTemplate.AppFrame getFrame() {
 		return frame;
 	}
 
@@ -287,62 +287,55 @@ public class FlatWorld extends ApplicationTemplate {
 			getWwd().getView().setEyePosition(Position.fromDegrees(48.39039, -4.486076, 42000));
 		}
 
-		/**
-		 * Affiche les barbules sur la carte.
-		 * 
-		 * @param windbarbs
-		 *            La liste des barbules à afficher
-		 */
-		public void displayWindbarbs(ArrayList<WindBarb> windbarbs) {
-			// TODO : Be sure this clears the old windbarb off the ram
-			windBarbLayer.dispose();
-			for (WindBarb windBarb : windbarbs) {
-				windBarbLayer.addRenderable(windBarb);
-			}
-		}
+  /**
+   * Affiche les barbules sur la carte.
+   * 
+   * @param windbarbs
+   *          La liste des barbules à afficher
+   */
+  public void displayWindbarbs(ArrayList<WindBarb> windbarbs) {
+    // TODO : Be sure this clears the old windbarb off the ram
+    windBarbLayer.dispose();
+    for (WindBarb windBarb : windbarbs) {
+      windBarbLayer.addRenderable(windBarb);
+    }
+  }
 
-		protected void toggleAdvancedMode() {
-			advancedMode = !advancedMode;
+  protected void toggleAdvancedMode() {
+    advancedMode = !advancedMode;
 
-			if (advancedMode) {
-				addAdvancedMode();
-			} else {
-				removeAdvancedMode();
-			}
+    if (advancedMode) {
+      addAdvancedMode();
+    } else {
+      removeAdvancedMode();
+    }
 
-			this.revalidate();
-			this.repaint();
-		}
+    this.revalidate();
+    this.repaint();
+  }
 
-		protected void addAdvancedMode() {
-			this.layerPanel = new view.LayerPanel(getWwd());
-			this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);
-		}
+  protected void addAdvancedMode() {
+    this.layerPanel = new view.LayerPanel(getWwd());
+    this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);
+  }
 
-		protected void removeAdvancedMode() {
-			this.controlPanel.remove(this.layerPanel);
-		}
-		
-		
+  protected void removeAdvancedMode() {
+    this.controlPanel.remove(this.layerPanel);
+  }
 
+  public void updateDateCursor() {
+    MeteoFacade facade = MeteoFacade.getInstance();
 
-		public void updateDateCursor() {
-			MeteoFacade facade = MeteoFacade.getInstance();
+    Prevision currentPrevision = facade.getCurrentPrevision();
+    List<Date> dates = facade.getDates(currentPrevision);
 
-			Prevision currentPrevision = facade.getCurrentPrevision();			
-			List<Date> dates = facade.getDates(currentPrevision);
-						
-			Date currentDate = facade.getCurrentDate();
+    Date currentDate = facade.getCurrentDate();
 
-			dateCursor.setNewDates(dates, currentDate);
+    dateCursor.setNewDates(dates, currentDate);
 
-			this.revalidate();
-			this.repaint();
-		}
-		
-	    public void updateSelectedDateLabel() { 
-	        listeDate.getModel().setSelectedItem(MeteoFacade.getInstance().getCurrentDate()); 
-	      } 
+    this.revalidate();
+    this.repaint();
+  }
 
 	}
 }
