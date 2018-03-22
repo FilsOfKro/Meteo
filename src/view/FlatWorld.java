@@ -69,7 +69,6 @@ public class FlatWorld extends ApplicationTemplate {
 	protected static JButton btnModification;
 	protected static JButton btnImporterGRIB;
 	protected static JButton btnImporterXML;
-	protected static JButton btnExporterXML;
 
 	protected static JPanel menuDateJPanel;
 	protected static JMenu mnDate;
@@ -156,8 +155,6 @@ public class FlatWorld extends ApplicationTemplate {
 			btnImporterGRIB = new JButton("Importer grib");
 			menuBar.add(btnImporterGRIB);
 			jpl.add(btnImporterGRIB);
-			
-			btnExporterXML = new JButton("Exporter xml");
 			
 			btnImporterXML = new JButton("Importer xml");
 			menuBar.add(btnImporterXML);
@@ -249,9 +246,6 @@ public class FlatWorld extends ApplicationTemplate {
 									MeteoFacade.getInstance().refreshWindbarbs();
 								}
 							});
-							
-							menuBar.add(btnExporterXML);
-							jpl.add(btnExporterXML);
 
 							jpl.add(listeDate);
 							dateCursorPanel.add(dateCursor.getSlider());
