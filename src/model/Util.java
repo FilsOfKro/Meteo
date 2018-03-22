@@ -86,7 +86,11 @@ public class Util {
 	  
 	  }
 	  
-	  return Double.parseDouble(df.format(ret));
+	  try {
+	    return Double.parseDouble(df.format(ret));
+	  } catch (Exception e) {
+	    return Math.round(ret);
+	  }
   }
   
   public enum UNIT {

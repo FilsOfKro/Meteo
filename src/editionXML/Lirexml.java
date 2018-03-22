@@ -77,7 +77,7 @@ public class Lirexml {
           
           System.out.println("Latitude haut gauche : "
               + eProprietesGrille.getElementsByTagName("latHautGauche").item(0).getTextContent());
-          latHautGauche = Double.parseDouble(eProprietesGrille.getElementsByTagName("lonHautGauche").item(0).getTextContent());
+          latHautGauche = Double.parseDouble(eProprietesGrille.getElementsByTagName("latHautGauche").item(0).getTextContent());
           
           System.out.println("Nombre X : "
               + eProprietesGrille.getElementsByTagName("nbx").item(0).getTextContent());
