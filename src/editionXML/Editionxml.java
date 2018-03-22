@@ -1,7 +1,6 @@
 package editionXML;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -72,8 +71,7 @@ public class Editionxml {
       eProprietesGrille.appendChild(eDy);
 
       final Element ePrevision_date = document.createElement("previsionDate");
-      SimpleDateFormat sDF = new SimpleDateFormat("dd/mm/yyyy");
-      ePrevision_date.setAttribute("date_debut", "" + sDF.format(previsionDate.getDate()));
+      ePrevision_date.setAttribute("date_debut", "" + previsionDate.getDate());
       eGrille.appendChild(ePrevision_date);
 
       // boucle
