@@ -60,6 +60,8 @@ public class MeteoFacade {
     try {
       prevision = parser.parsePrevisionFromGrib(filename);
       System.out.println(prevision.toString());
+      System.out.println("pas de mes couille en y : "+prevision.getGrille().getDy() + " pas de mes couille en x : "+prevision.getGrille().getDx());
+      System.out.println("latitude haut gauche : "+prevision.getGrille().getLatHautGauche()+"longitude haut gauche : "+prevision.getGrille().getLonHautGauche());
     } catch (NoSuchElementException | IOException | NoValidGribException
         | NotSupportedException e) {
       e.printStackTrace();

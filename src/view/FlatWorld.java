@@ -23,8 +23,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -33,6 +35,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import facade.MeteoFacade;
@@ -235,93 +238,133 @@ public class FlatWorld extends ApplicationTemplate {
         }
       });
 
-      // a l'appuye sur le btn faudra ouvrir un sélecteur pour select une date voulu avec la date actuel déjà insérer
+      // a l'appuye sur le btn  ouverture d'un sélecteur pour selectinnée une date voulu
       btnDownload.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-        	//recup date actuel
-        
-        	 
-        Date date = new Date(1520985600000L);
-          String gribZoneNumber = "201";
-          //retrieving the year month and day
-          Calendar cal = Calendar.getInstance();
-          cal.setTime(date);
-          int year = cal.get(Calendar.YEAR);
-          NumberFormat f = new DecimalFormat("00");
-          String month = String.valueOf(f.format(cal.get(Calendar.MONTH) + 1));
-          String day = String.valueOf(f.format(cal.get(Calendar.DAY_OF_MONTH)));
+            String[] tabYear = {"2003","2004", "2005"};
+            JComboBox yearField = new JComboBox(tabYear);
+            
+            String[] tabMonth = {"01", "02", "03", "04", "05", "06", "07", "08","09","10","11","12"};
+            JComboBox monthField = new JComboBox(tabMonth);
+            
+            String[] tabDay = {"01", "02", "03", "04", "05", "06", "07", "08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
+            JComboBox dayField = new JComboBox(tabDay);
 
-          System.out.println("DAAAAAATE=" + year + "/" + month + "/" + day);
 
-          StringBuilder url = new StringBuilder().append("https://nomads.ncdc.noaa.gov/data/gfs4/");
-          url.append(year);
-          url.append(month);
-          url.append('/');
-          url.append(year);
-          url.append(month);
-          url.append(day);
-          boolean exist;
-          
-          String urlExist =  url.toString();
-          //check if url exist
-          try {
-              HttpURLConnection.setFollowRedirects(false);
-              // note : you may also need
-              //        HttpURLConnection.setInstanceFollowRedirects(false)
-              HttpURLConnection con = (HttpURLConnection) new URL(urlExist).openConnection();
-              con.setRequestMethod("HEAD");
-              exist = (con.getResponseCode() == HttpURLConnection.HTTP_OK);
+            JPanel myPanel = new JPanel();
+            myPanel.add(new JLabel("Année:"));
+            myPanel.add(yearField);
+            myPanel.add(new JLabel("Mois:"));
+            myPanel.add(monthField);
+            myPanel.add(new JLabel("jour:"));
+            myPanel.add(dayField);
+
+            int result = JOptionPane.showConfirmDialog(null, myPanel, "Entrer une date : ", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+               System.out.println("year value: " + yearField.getSelectedItem());
+               System.out.println("month value: " + monthField.getSelectedItem());
+               System.out.println("day value: " + dayField.getSelectedItem());
+
+               String year = String.valueOf(yearField.getSelectedItem());
+               String month = String.valueOf(monthField.getSelectedItem());
+               String day = String.valueOf(dayField.getSelectedItem());
+
+               System.out.println("DAAAAAATE=" + year + "/" + month + "/" + day);
+
+               StringBuilder url = new StringBuilder().append("https://nomads.ncdc.noaa.gov/data/gfs/");
+               url.append(year);
+               url.append(month);
+               url.append('/');
+               url.append(year);
+               url.append(month);
+               url.append(day);
+               boolean exist;
+               
+               //check if url exist
+               
+             	//envoi url avec jour pour savoir si il existe
+                   url.append("/gfs-avn_201_");
+                   url.append(year);
+                   url.append(month);
+                   url.append(day);
+                   // url.append(gribZoneNumber);
+                   // url.append('_');
+                   url.append("_0000_000.grb");
+                   String urlExist =  url.toString();
+                   System.out.println("url to check : "+urlExist);
+
+                   try {
+                       HttpURLConnection.setFollowRedirects(false);
+                       // note : you may also need
+                       //        HttpURLConnection.setInstanceFollowRedirects(false)
+                       HttpURLConnection con = (HttpURLConnection) new URL(urlExist).openConnection();
+                       con.setRequestMethod("HEAD");
+                       con.setInstanceFollowRedirects(false);
+                       exist = (con.getResponseCode() != 404);
+                       System.out.println("code de reponse : "+con.getResponseCode());
+                       System.out.println("existe ou pas : " + exist);
+                     }
+                     catch (Exception e1) {
+                        e1.printStackTrace();
+                        System.out.println("la bite");
+                        exist = false;
+                     }
+                   if(exist) {
+                   try {
+                     URL website = new URL(url.toString());
+                     ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+                     FileOutputStream fos = new FileOutputStream("latest.grb");
+                     //recup taille file
+                     //recup data télécharger
+                     
+                     // mettre ça dans un thread
+                    // ImageIcon icon = new ImageIcon(Test.class.getResource("loading.gif").getFile());
+                     
+                     
+                   System.out.println("debut tel");
+
+                     fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+                     System.out.println("fin tel");
+                     fos.close();
+                   } catch (IOException e2) {
+                     // TODO Auto-generated catch block
+                     e2.printStackTrace();
+                   }
+
+                   File file = new File("latest.grb");
+
+                   System.out.println("Opening: " + file.getAbsolutePath());
+                   //ici faut parser le fichier avec methode grib2
+                   
+                   Prevision prevv = MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
+                   MeteoFacade.getInstance().setCurrentPrevision(prevv);
+
+                   List<Date> dates = MeteoFacade.getInstance().getDates(prevv);
+                   mnDate.removeAll();
+                   for (Date d : dates) {
+                     JMenuItem da = new JMenuItem(d.toString());
+
+                     da.addActionListener(new ActionListener() {
+                       public void actionPerformed(java.awt.event.ActionEvent e) {
+                         JMenuItem selected = (JMenuItem) e.getSource();
+                         System.out.println(selected.getText());
+                         MeteoFacade.getInstance().setCurrentDate(d);
+                         MeteoFacade.getInstance().refreshWindbarbs();
+                         lblDate.setText("Date sÃ©lectionnÃ©e : " + d.toString());
+                       }
+                     });
+                     lblDate.setText(
+                         "Date sÃ©lectionnÃ©e : " + MeteoFacade.getInstance().getCurrentDate().toString());
+                     lblDate.setAlignmentY(CENTER_ALIGNMENT);
+                     mnDate.add(da);
+                   }
+               }else {
+            	   JOptionPane errorPan= new JOptionPane();
+
+            	   errorPan.showMessageDialog(null, "Le jeux de donnée n'existe pas", "Erreur", JOptionPane.ERROR_MESSAGE);
+               }
             }
-            catch (Exception e1) {
-               e1.printStackTrace();
-               exist = false;
-            }
-          if(exist) {
-        	//envoi url avec jour pour savoir si il existe
-              url.append("/gfs_4_");
-              url.append(year);
-              url.append(month);
-              url.append(day);
-              // url.append(gribZoneNumber);
-              // url.append('_');
-              url.append("_0000_000.grb2");
-              try {
-                URL website = new URL(url.toString());
-                ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-                FileOutputStream fos = new FileOutputStream("latest.grb");
-                fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-                fos.close();
-              } catch (IOException e2) {
-                // TODO Auto-generated catch block
-                e2.printStackTrace();
-              }
-
-              File file = new File("latest.grb");
-
-              System.out.println("Opening: " + file.getAbsolutePath());
-              Prevision prevv = MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
-              MeteoFacade.getInstance().setCurrentPrevision(prevv);
-
-              List<Date> dates = MeteoFacade.getInstance().getDates(prevv);
-              mnDate.removeAll();
-              for (Date d : dates) {
-                JMenuItem da = new JMenuItem(d.toString());
-
-                da.addActionListener(new ActionListener() {
-                  public void actionPerformed(java.awt.event.ActionEvent e) {
-                    JMenuItem selected = (JMenuItem) e.getSource();
-                    System.out.println(selected.getText());
-                    MeteoFacade.getInstance().setCurrentDate(d);
-                    MeteoFacade.getInstance().refreshWindbarbs();
-                    lblDate.setText("Date sÃ©lectionnÃ©e : " + d.toString());
-                  }
-                });
-                lblDate.setText(
-                    "Date sÃ©lectionnÃ©e : " + MeteoFacade.getInstance().getCurrentDate().toString());
-                lblDate.setAlignmentY(CENTER_ALIGNMENT);
-                mnDate.add(da);
-              }
-          }
+         
           
         
           
