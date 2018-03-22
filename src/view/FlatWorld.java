@@ -40,6 +40,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import cursor.DateCursor;
 import model.Prevision;
+import model.Util;
 import model.WindBarb;
 
 /**
@@ -152,22 +153,34 @@ public class FlatWorld extends ApplicationTemplate {
     	  	addAdvancedMode();
       }
       
+      if (MeteoFacade.getInstance().currentUnit.equals(Util.UNIT.knots)) {
+    	  	rdbtnNoeud.setSelected(true);
+      }
+      
       rdbtnNoeud.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          MeteoFacade.getInstance().changeUnit(e);
+          MeteoFacade.getInstance().changeUnitToKnot();
         }
       });
+      
+      if (MeteoFacade.getInstance().currentUnit.equals(Util.UNIT.kmh)) {
+    	  rdbtnKmh.setSelected(true);
+      }
       rdbtnKmh.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          MeteoFacade.getInstance().changeUnit(e);
+          MeteoFacade.getInstance().changeUnitToKmh();
         }
       });
+      
+      if (MeteoFacade.getInstance().currentUnit.equals(Util.UNIT.ms)) {
+    	  rdbtnMs.setSelected(true);
+      }
       rdbtnMs.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          MeteoFacade.getInstance().changeUnit(e);
+          MeteoFacade.getInstance().changeUnitToMs();
         }
       });
       
