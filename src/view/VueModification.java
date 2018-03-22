@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JSpinner;
@@ -12,12 +13,16 @@ import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.SpinnerNumberModel;
 
+import editionXML.Editionxml;
 import facade.MeteoFacade;
+import model.Grille;
 import model.Prevision;
+import model.PrevisionParDate;
 import modification.Contraste;
 import modification.ServicesModification;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 
 public class VueModification {
 
@@ -114,7 +119,17 @@ public class VueModification {
     JButton btnSauvegarder = new JButton("Sauvergarder");
     btnSauvegarder.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ae) {
+        JFileChooser choix = new JFileChooser();
+        int retour=choix.showSaveDialog(null);
         
+        if(retour==JFileChooser.APPROVE_OPTION) {
+
+           String path = choix.getSelectedFile().getAbsolutePath();
+           Date date = MeteoFacade.getInstance().getCurrentDate();
+           Grille grille = MeteoFacade.getInstance().getCurrentPrevision().getGrille();
+           PrevisionParDate previsionParDate = MeteoFacade.getInstance().getCurrentPrevision().getPrevisionParDate(date);
+           Editionxml.sauvergarderXML(grille, previsionParDate, path);
+        } 
       }
     });
     btnSauvegarder.setBounds(280, 165, 115, 29);

@@ -2,7 +2,11 @@ package editionXML;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,7 +30,6 @@ import model.Vent;
  */
 public class Lirexml {
 
-  @SuppressWarnings("deprecation")
   public static void chargerXML(String path){
     /*
      * Etape 1 : r�cup�ration d'une instance de la classe
@@ -105,9 +108,16 @@ public class Lirexml {
         if (nPrevisionDate.getNodeType() == Node.ELEMENT_NODE) {
           Element ePrevisionDate = (Element) nPrevisionDate;
 
+          
           System.out.println("Date : " + ePrevisionDate.getAttribute("date_debut"));
-          date = new Date(ePrevisionDate.getAttribute("date_debut"));
-          // date = new Date();
+          DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
+          try {
+            
+            date = df.parse(ePrevisionDate.getAttribute("date_debut"));
+          } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
         }
       }
       
@@ -122,9 +132,6 @@ public class Lirexml {
 
         if (nVent.getNodeType() == Node.ELEMENT_NODE) {
           Element eVent = (Element) nVent;
-
-          System.out.println("Direction : " + eVent.getElementsByTagName("direction").item(0).getTextContent());
-          System.out.println("Vitesse : " + eVent.getElementsByTagName("vitesse").item(0).getTextContent());
           
           Double direction = Double.parseDouble(eVent.getElementsByTagName("direction").item(0).getTextContent());
           Double vitesse = Double.parseDouble(eVent.getElementsByTagName("vitesse").item(0).getTextContent());
@@ -149,16 +156,13 @@ public class Lirexml {
       
       for(Vent[] listVents : previsionParDate.getVents()){
         for(Vent vent : listVents){
-          System.out.println("\n\n\nDirection : " + vent.getDirection());
+          System.out.println("\nDirection : " + vent.getDirection());
           System.out.println("Vitesse : " + vent.getVitesse());
         }
       }
       
       MeteoFacade.getInstance().setCurrentDate(previsionParDate.getDate());
       MeteoFacade.getInstance().setCurrentPrevision(prevision);
-
-      // Affichage des donnees
-      // System.out.println(racine.getTextContent());
 
     } catch (final ParserConfigurationException e) {
       e.printStackTrace();
