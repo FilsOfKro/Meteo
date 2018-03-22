@@ -26,7 +26,11 @@ public class InterpolationPoint {
 		if((x < p.getGrille().getLonHautGauche()) && (y < p.getGrille().getLatHautGauche())) {
 			ret = false;
 		}
-		if((x < (p.getGrille().getLonHautGauche()+(p.getGrille().getDx()*p.getGrille().getNbx()))) && (y < (p.getGrille().getLonHautGauche()+(p.getGrille().getDy()*p.getGrille().getNby())))) {
+		System.out.println("taille longeur : "+(p.getGrille().getLonHautGauche()+(p.getGrille().getDx()*p.getGrille().getNbx())));
+		System.out.println("taille lateur : "+(p.getGrille().getLatHautGauche()+(p.getGrille().getDy()*p.getGrille().getNby())));
+		System.out.println("x : "+x);
+		System.out.println("y : "+y);
+		if((x >= (p.getGrille().getLonHautGauche()+(p.getGrille().getDx()*p.getGrille().getNbx()))) && (y >= (p.getGrille().getLatHautGauche()+(p.getGrille().getDy()*p.getGrille().getNby())))) {
 			ret = false;
 		}
 		
@@ -35,25 +39,28 @@ public class InterpolationPoint {
 			//on positionne le point � interpoler dans la grille
 			double posx = x-p.getGrille().getLonHautGauche();
 			double posy = y-p.getGrille().getLatHautGauche();
-			
 			//on cherche entre quel colonne et ligne se trouve le point
-			double posxGrille = posx/p.getGrille().getDx();
-			double posyGrille = posy/p.getGrille().getDy();
-			
+			double posxGrille = posx;
+			double posyGrille = posy;
 			//recherche des points voisin
 			
-			int xB = (int) posxGrille;
+			int xB = (int) Math.floor(posxGrille);
 			int xBB = (int) (posxGrille+p.getGrille().getDx());
 			
-			int yA = (int) posyGrille;
+			int yA = (int) Math.floor(posyGrille);
 			int yAA = (int) (posyGrille + p.getGrille().getDy());
-			
+
 			//creation du vent creer par interpolation grace au coordonn�es
 			PrevisionParDate prev = p.getPrevisionParDate(d);
 			if(prev != null) {
 				//https://fr.wikihow.com/faire-une-double-interpolation-lin�aire
+				System.out.println(prev.toString());
+				
+				//calcul qui pu
 				double dir = (((xBB-posxGrille)/(xBB-xB))*prev.getVents()[yA][xB].getDirection()+((posxGrille-xB)/(xBB-xB))*prev.getVents()[yA][xBB].getDirection())*((yAA-posyGrille)/(yAA-yA))+ (((xBB-posxGrille)/(xBB-xB))*prev.getVents()[yAA][xB].getDirection()+((posxGrille-xB)/(xBB-xB))*prev.getVents()[yAA][xBB].getDirection())*((posyGrille-yA)/(yAA-yA));
 				double vitesse = (((xBB-posxGrille)/(xBB-xB))*prev.getVents()[yA][xB].getVitesse()+((posxGrille-xB)/(xBB-xB))*prev.getVents()[yA][xBB].getVitesse())*((yAA-posyGrille)/(yAA-yA))+ (((xBB-posxGrille)/(xBB-xB))*prev.getVents()[yAA][xB].getVitesse()+((posxGrille-xB)/(xBB-xB))*prev.getVents()[yAA][xBB].getVitesse())*((posyGrille-yA)/(yAA-yA));
+			
+				
 				wind = new Vent(vitesse, dir, 4);
 		        barbule = new WindBarb(y, x, wind.getDirection(), wind.getVitesse());
 

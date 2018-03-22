@@ -29,7 +29,7 @@ public class TestInterpolation {
 	
 	@Test
 	public void testPointVentIdentique() {
-		g = new Grille(5, 5	, 2.0, 5.0, 0.5, 0.5, false);
+		g = new Grille(2,2	, 1.0, 1.0, 0.5, 0.5, false);
 		
 		maprevision = new Prevision(g);
 		
@@ -47,11 +47,11 @@ public class TestInterpolation {
 		maprevision.addPrevision(ppd);
 		
 		ppd.addVent(0, 0, v1);
-		ppd.addVent(2, 0, v2);
-		ppd.addVent(0, 2, v3);
-		ppd.addVent(2, 2, v4);
+		ppd.addVent(1, 0, v2);
+		ppd.addVent(0, 1, v3);
+		ppd.addVent(1, 1, v4);
 	
-		assertTrue(vent_sup.InterpolateOneWind(maprevision, g.getLongitude(1), g.getLatitude(1), d));
+		assertTrue(vent_sup.InterpolateOneWind(maprevision, 1.5, 1.5, d));
 		
 		assertTrue(((vent_sup.getWind().getVitesse() == v1.getVitesse()) 
 				&& (vent_sup.getWind().getDirection() == v1.getDirection())));
