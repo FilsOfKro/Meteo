@@ -32,8 +32,9 @@ public class MeteoFacade {
 
   public Util.UNIT defaultUnit;
   public Util.UNIT currentUnit;
-  
-  private MeteoFacade() {}
+
+  private MeteoFacade() {
+  }
 
   /**
    * Singleton de la classe.
@@ -54,7 +55,7 @@ public class MeteoFacade {
     this.prevision = null;
     this.defaultUnit = startingUnit;
     this.currentUnit = startingUnit;
-    
+
     FlatWorld.main(null);
     this.appframe = (AppFrame) FlatWorld.getFrame();
   }
@@ -62,7 +63,8 @@ public class MeteoFacade {
   /**
    * Charge un fichier Grib.
    * 
-   * @param filename le nom du fichier à charger
+   * @param filename
+   *          le nom du fichier à charger
    * @return L'objet Prevision parsé à partir du fichier
    */
   public Prevision loadGrib(String filename) {
@@ -71,8 +73,7 @@ public class MeteoFacade {
     try {
       prevision = parser.parsePrevisionFromGrib(filename);
       System.out.println(prevision.toString());
-    } catch (NoSuchElementException | IOException | NoValidGribException
-        | NotSupportedException e) {
+    } catch (NoSuchElementException | IOException | NoValidGribException | NotSupportedException e) {
       e.printStackTrace();
     }
 
@@ -80,9 +81,9 @@ public class MeteoFacade {
 
     currentDate = prevision.getListeDates().get(0);
     this.displayDate(prevision, currentDate);
-    
+
     appframe.updateDateCursor();
-    
+
     return prevision;
   }
 
@@ -93,36 +94,44 @@ public class MeteoFacade {
   /**
    * Affiche les données des vents à la date sélectionnée en paramètre.
    * 
-   * @param prev L'objet Prevision du fichier en cours
-   * @param date La date sélectionnée
+   * @param prev
+   *          L'objet Prevision du fichier en cours
+   * @param date
+   *          La date sélectionnée
    */
   public void displayDate(Prevision prev, Date date) {
     PrevisionParDate myPrevision = prev.getPrevisionParDate(date);
     System.out.println(myPrevision.toString());
-    
+
     ArrayList<WindBarb> windbarbs = new ArrayList<>();
-    
+
     for (int y = 0; y < myPrevision.getVents().length; y++) {
-    	
+
       for (int x = 0; x < myPrevision.getVents()[y].length; x++) {
-    	  
+
         Vent vent = myPrevision.getVents()[y][x];
         Double latitude = prev.getGrille().getLatitude(y);
         Double longitude = prev.getGrille().getLongitude(x);
         WindBarb wb = new WindBarb(latitude, longitude, vent.getDirection(), vent.getVitesse());
-        
-        wb.setValue(AVKey.DISPLAY_NAME,
-            Math.round(vent.getDirection()) + "°" + " " + Util.convertWindSpeed(vent, currentUnit) + " " + currentUnit.text);
-        
+
+        wb.setValue(AVKey.DISPLAY_NAME, Math.round(vent.getDirection()) + "°" + " "
+            + Util.convertWindSpeed(vent, currentUnit) + " " + currentUnit.text);
+
         windbarbs.add(wb);
       }
     }
-    
+
     appframe.displayWindbarbs(windbarbs);
   }
 
   public void refreshWindbarbs() {
-	appframe.updateSelectedDateLabel();
+    appframe.updateSelectedDateLabel();
+    displayDate(prevision, currentDate);
+    appframe.revalidate();
+    appframe.repaint();
+  }
+  
+  public void refreshWindbarbsWithoutDateLabel() {
     displayDate(prevision, currentDate);
     appframe.revalidate();
     appframe.repaint();
@@ -143,22 +152,22 @@ public class MeteoFacade {
   public Prevision getCurrentPrevision() {
     return prevision;
   }
-  
+
   public void changeUnitToKnot() {
-	  updateUnit(Util.UNIT.knots);
+    updateUnit(Util.UNIT.knots);
   }
-  
+
   public void changeUnitToKmh() {
-	  updateUnit(Util.UNIT.kmh);
+    updateUnit(Util.UNIT.kmh);
   }
-  
+
   public void changeUnitToMs() {
-	  updateUnit(Util.UNIT.ms);
+    updateUnit(Util.UNIT.ms);
   }
-  
+
   private void updateUnit(Util.UNIT newUnit) {
-	  currentUnit = newUnit;
-	  refreshWindbarbs();
+    currentUnit = newUnit;
+    refreshWindbarbs();
   }
 
 }
