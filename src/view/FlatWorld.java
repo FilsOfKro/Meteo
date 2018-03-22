@@ -88,16 +88,6 @@ public class FlatWorld extends ApplicationTemplate {
 	protected static boolean advancedMode = false;
 	
 	protected static JComboBox listeDate;
-      btnModification = new JButton("Modification");
-      btnModification.setMnemonic(KeyEvent.VK_I);
-      btnModification.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-          if(MeteoFacade.getInstance().getCurrentPrevision() != null){
-            new VueModification();
-          }
-        }
-      });
-      menuBar.add(btnModification);
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -150,44 +140,6 @@ public class FlatWorld extends ApplicationTemplate {
 			btnEdition = new JButton("Edition");
 			menuBar.add(btnEdition);
 			jpl.add(btnEdition);
-		});
-      
-      if (advancedMode) {
-    	  	addAdvancedMode();
-      }
-      
-      if (MeteoFacade.getInstance().currentUnit.equals(Util.UNIT.knots)) {
-    	  	rdbtnNoeud.setSelected(true);
-      }
-      
-      rdbtnNoeud.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          MeteoFacade.getInstance().changeUnitToKnot();
-        }
-      });
-      
-      if (MeteoFacade.getInstance().currentUnit.equals(Util.UNIT.kmh)) {
-    	  rdbtnKmh.setSelected(true);
-      }
-      rdbtnKmh.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          MeteoFacade.getInstance().changeUnitToKmh();
-        }
-      });
-      
-      if (MeteoFacade.getInstance().currentUnit.equals(Util.UNIT.ms)) {
-    	  rdbtnMs.setSelected(true);
-      }
-      rdbtnMs.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          MeteoFacade.getInstance().changeUnitToMs();
-        }
-      });
-      
-      
 
 			// boutons
 			btnModification = new JButton("Modification");
@@ -227,24 +179,37 @@ public class FlatWorld extends ApplicationTemplate {
 			
 
 
-			rdbtnNoeud.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					MeteoFacade.getInstance().changeUnit(e);
-				}
-			});
-			rdbtnKmh.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					MeteoFacade.getInstance().changeUnit(e);
-				}
-			});
-			rdbtnMs.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					MeteoFacade.getInstance().changeUnit(e);
-				}
-			});
+
+		      if (MeteoFacade.getInstance().currentUnit.equals(Util.UNIT.knots)) {
+		    	  	rdbtnNoeud.setSelected(true);
+		      }
+		      
+		      rdbtnNoeud.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		          MeteoFacade.getInstance().changeUnitToKnot();
+		        }
+		      });
+		      
+		      if (MeteoFacade.getInstance().currentUnit.equals(Util.UNIT.kmh)) {
+		    	  rdbtnKmh.setSelected(true);
+		      }
+		      rdbtnKmh.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		          MeteoFacade.getInstance().changeUnitToKmh();
+		        }
+		      });
+		      
+		      if (MeteoFacade.getInstance().currentUnit.equals(Util.UNIT.ms)) {
+		    	  rdbtnMs.setSelected(true);
+		      }
+		      rdbtnMs.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		          MeteoFacade.getInstance().changeUnitToMs();
+		        }
+		      });
 			
 			menuDateJPanel = new JPanel();
 
