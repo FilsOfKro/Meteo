@@ -68,6 +68,7 @@ public class FlatWorld extends ApplicationTemplate {
 	protected static JButton btnModification;
 	protected static JButton btnImporterGRIB;
 	protected static JButton btnImporterXML;
+	protected static JButton btnExporterXML;
 
 	protected static JPanel menuDateJPanel;
 	protected static JMenu mnDate;
@@ -155,6 +156,8 @@ public class FlatWorld extends ApplicationTemplate {
 			menuBar.add(btnImporterGRIB);
 			jpl.add(btnImporterGRIB);
 			
+			btnExporterXML = new JButton("Exporter xml");
+			
 			btnImporterXML = new JButton("Importer xml");
 			menuBar.add(btnImporterXML);
 			jpl.add(btnImporterXML);
@@ -164,19 +167,16 @@ public class FlatWorld extends ApplicationTemplate {
 
 			rdbtnNoeud = new JRadioButton("Noeud");
 			bg.add(rdbtnNoeud);
-			menuBar.add(rdbtnNoeud);
+			
 
 			rdbtnKmh = new JRadioButton("km/h");
 			bg.add(rdbtnKmh);
-			menuBar.add(rdbtnKmh);
+			
 
 			rdbtnMs = new JRadioButton("m/s");
 			bg.add(rdbtnMs);
-			menuBar.add(rdbtnMs);
+			
 
-			jpl.add(rdbtnKmh);
-			jpl.add(rdbtnMs);
-			jpl.add(rdbtnNoeud);
 
 			rdbtnNoeud.addActionListener(new ActionListener() {
 				@Override
@@ -235,6 +235,16 @@ public class FlatWorld extends ApplicationTemplate {
 									MeteoFacade.getInstance().refreshWindbarbs();
 								}
 							});
+							
+							menuBar.add(rdbtnNoeud);
+							menuBar.add(rdbtnKmh);
+							menuBar.add(rdbtnMs);
+							jpl.add(rdbtnKmh);
+							jpl.add(rdbtnMs);
+							jpl.add(rdbtnNoeud);
+							
+							menuBar.add(btnExporterXML);
+							jpl.add(btnExporterXML);
 
 							jpl.add(listeDate);
 							dateCursorPanel.add(dateCursor.getSlider());
