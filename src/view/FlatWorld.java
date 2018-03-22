@@ -231,10 +231,10 @@ public class FlatWorld extends ApplicationTemplate {
 							listeDate.addActionListener(new ActionListener() {
 								public void actionPerformed(java.awt.event.ActionEvent e) {
 									MeteoFacade.getInstance().setCurrentDate((Date)listeDate.getModel().getSelectedItem());
+									dateCursor.updateSlider(dates.size(), (Date)listeDate.getModel().getSelectedItem());
 									MeteoFacade.getInstance().refreshWindbarbs();
 								}
 							});
-							updateSelectedDateLabel();
 
 							jpl.add(listeDate);
 							dateCursorPanel.add(dateCursor.getSlider());
@@ -314,10 +314,10 @@ public class FlatWorld extends ApplicationTemplate {
 			this.revalidate();
 			this.repaint();
 		}
-
-		public void updateSelectedDateLabel() {
-			listeDate.getModel().setSelectedItem(MeteoFacade.getInstance().getCurrentDate());
-		}
+		
+	    public void updateSelectedDateLabel() { 
+	        listeDate.getModel().setSelectedItem(MeteoFacade.getInstance().getCurrentDate()); 
+	      } 
 
 	}
 }
