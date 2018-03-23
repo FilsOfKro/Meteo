@@ -28,18 +28,19 @@ import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import cursor.DateCursor;
+import editionXML.Lirexml;
 import model.Prevision;
+import model.Util;
 import model.WindBarb;
 
 /**
@@ -55,35 +56,40 @@ import model.WindBarb;
  * @see EarthFlat
  */
 public class FlatWorld extends ApplicationTemplate {
+
   public static view.FlatWorld.AppFrame frame;
+
+  protected static JPanel jpl;
+
   protected static JMenuBar menuBar;
-  protected static JButton btnEdition;
   protected static JButton btnModification;
-  protected static JButton btnImporter;
+  protected static JButton btnImporterGRIB;
+  protected static JButton btnImporterXML;
+
+  protected static JPanel menuDateJPanel;
   protected static JMenu mnDate;
   protected static JMenuItem mntmDate;
-  protected static JMenuItem mntmDate_1;
-  protected static JMenuItem mntmDate_2;
-  
+
+  protected static JPanel dateCursorPanel;
+  protected static DateCursor dateCursor;
+
   protected static ButtonGroup bg;
   protected static JRadioButton rdbtnNoeud;
   protected static JRadioButton rdbtnKmh;
   protected static JRadioButton rdbtnMs;
 
   protected static JCheckBox btnAdvancedMenu;
-  protected static boolean advancedMode = true;
+  protected static boolean advancedMode = false;
 
-  protected static JPanel dateCursorPanel;
-  protected static DateCursor dateCursor;
-  
-  protected static JLabel lblDate;
-  
+  protected static JComboBox<Object> listeDate;
+
   /**
    * @wbp.parser.entryPoint
    */
-  public static void main(String[] args) { // Adjust configuration values before instantiation
+  public static void main(String[] args) { // Adjust configuration values before
+                                           // instantiation
     Configuration.setValue(AVKey.GLOBE_CLASS_NAME, EarthFlat.class.getName());
-    frame = (AppFrame) start("World Wind Flat World", AppFrame.class);
+    frame = (AppFrame) start("LEMOLAS Wind", AppFrame.class);
 
   }
 
@@ -99,17 +105,37 @@ public class FlatWorld extends ApplicationTemplate {
     RenderableLayer windBarbLayer;
 
     public AppFrame() {
-    	  super(true, true, false);
+      super(true, true, false);
       this.init();
     }
-    
+
     protected void init() {
+
+      jpl = new JPanel();
+
       // menu
       menuBar = new JMenuBar();
       this.setJMenuBar(menuBar);
 
+      // options avancées
+      btnAdvancedMenu = new JCheckBox("Avancé", advancedMode);
+      jpl.add(btnAdvancedMenu);
+
+      btnAdvancedMenu.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          toggleAdvancedMode();
+        }
+      });
+
+      if (advancedMode) {
+        addAdvancedMode();
+      }
+
+      // boutons
       btnModification = new JButton("Modification");
       menuBar.add(btnModification);
+      jpl.add(btnModification);
       btnModification.setMnemonic(KeyEvent.VK_I);
       btnModification.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -117,94 +143,89 @@ public class FlatWorld extends ApplicationTemplate {
         }
       });
 
-      btnEdition = new JButton("Edition");
-      menuBar.add(btnEdition);
-      
-      btnImporter = new JButton("Importer fichier grib");
-      menuBar.add(btnImporter);
-      
-      //echelle vitesse
+      btnImporterGRIB = new JButton("Importer grib");
+      menuBar.add(btnImporterGRIB);
+      jpl.add(btnImporterGRIB);
+
+      btnImporterXML = new JButton("Importer xml");
+      btnImporterXML.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          JFileChooser choix = new JFileChooser();
+          int retour = choix.showOpenDialog(null);
+
+          if (retour == JFileChooser.APPROVE_OPTION) {
+
+            String path = choix.getSelectedFile().getAbsolutePath();
+            Lirexml.chargerXML(path);
+            MeteoFacade.getInstance().refreshWindbarbsWithoutDateLabel();
+          }
+        }
+      });
+      menuBar.add(btnImporterXML);
+      jpl.add(btnImporterXML);
+
+      // echelle vitesse
       bg = new ButtonGroup();
-      
+
       rdbtnNoeud = new JRadioButton("Noeud");
       bg.add(rdbtnNoeud);
-      menuBar.add(rdbtnNoeud);
-      
+
       rdbtnKmh = new JRadioButton("km/h");
       bg.add(rdbtnKmh);
-      menuBar.add(rdbtnKmh);
-      
+
       rdbtnMs = new JRadioButton("m/s");
       bg.add(rdbtnMs);
-      menuBar.add(rdbtnMs);
-      
-      btnAdvancedMenu = new JCheckBox("Avancé", advancedMode);
-      btnAdvancedMenu.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				toggleAdvancedMode();
-			}
-		});
-      
-      if (advancedMode) {
-    	  	addAdvancedMode();
+
+      if (MeteoFacade.getInstance().currentUnit.equals(Util.UNIT.knots)) {
+        rdbtnNoeud.setSelected(true);
       }
-      
+
       rdbtnNoeud.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          MeteoFacade.getInstance().changeUnit(e);
+          MeteoFacade.getInstance().changeUnitToKnot();
         }
       });
+
+      if (MeteoFacade.getInstance().currentUnit.equals(Util.UNIT.kmh)) {
+        rdbtnKmh.setSelected(true);
+      }
       rdbtnKmh.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          MeteoFacade.getInstance().changeUnit(e);
+          MeteoFacade.getInstance().changeUnitToKmh();
         }
       });
+
+      if (MeteoFacade.getInstance().currentUnit.equals(Util.UNIT.ms)) {
+        rdbtnMs.setSelected(true);
+      }
       rdbtnMs.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          MeteoFacade.getInstance().changeUnit(e);
+          MeteoFacade.getInstance().changeUnitToMs();
         }
       });
-      
-      
 
-      mnDate = new JMenu("Date");
-      menuBar.add(mnDate);
-      
-      menuBar.add(btnAdvancedMenu);
-      
-      this.setVisible(true);
-      
-      JPanel jpl = new JPanel();
-      menuBar.add(jpl);
+      menuDateJPanel = new JPanel();
 
-      lblDate = new JLabel("Date sélectionnée : ");
-      lblDate.setHorizontalAlignment(SwingConstants.LEFT);
-      jpl.add(lblDate);
-      
       dateCursorPanel = new JPanel();
       dateCursor = new DateCursor();
-      
-      dateCursorPanel.add(dateCursor.getSlider());
-      
-      jpl.add(dateCursorPanel);
-      
-      btnImporter.addActionListener(new ActionListener() {
+
+      btnImporterGRIB.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           try {
-            // On récupère le chemin du projet pour lancer le FileChooser à cet endroit là
+            // On récupère le chemin du projet pour lancer le FileChooser à cet
+            // endroit là
             URL u = getClass().getProtectionDomain().getCodeSource().getLocation();
             File f = new File(u.toURI());
 
             final JFileChooser gribFileChooser = new JFileChooser();
             gribFileChooser.setCurrentDirectory(f.getParentFile());
-            
+
             FileNameExtensionFilter filter = new FileNameExtensionFilter("GRIB FILES", "grb");
             gribFileChooser.setFileFilter(filter);
-            
+
             int returnVal = gribFileChooser.showOpenDialog(null);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -213,32 +234,39 @@ public class FlatWorld extends ApplicationTemplate {
               System.out.println("Opening: " + file.getAbsolutePath());
               Prevision prevv = MeteoFacade.getInstance().loadGrib(file.getAbsolutePath());
               MeteoFacade.getInstance().setCurrentPrevision(prevv);
-              
-              List<Date> dates = MeteoFacade.getInstance()
-                  .getDates(prevv);
-              mnDate.removeAll();
-              for (Date d : dates) {
-                JMenuItem da = new JMenuItem(d.toString());
 
-                da.addActionListener(new ActionListener() {
-                  public void actionPerformed(java.awt.event.ActionEvent e) {
-                    JMenuItem selected = (JMenuItem) e.getSource();
-                    System.out.println(selected.getText());
-                    MeteoFacade.getInstance().setCurrentDate(d);
-                    MeteoFacade.getInstance().refreshWindbarbs();
-                  }
-                });
-                
-                updateSelectedDateLabel();
-                lblDate.setAlignmentY(CENTER_ALIGNMENT);
-                mnDate.add(da);
-              }
+              List<Date> dates = MeteoFacade.getInstance().getDates(prevv);
+
+              listeDate = new JComboBox<Object>(dates.toArray());
+              listeDate.addActionListener(new ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                		MeteoFacade.getInstance().setCurrentDate((Date)listeDate.getModel().getSelectedItem());
+                		dateCursor.updateSlider(dates.size(), (Date)listeDate.getModel().getSelectedItem());
+                		MeteoFacade.getInstance().refreshWindbarbs();
+                }
+              });
+
+              jpl.add(listeDate);
+              dateCursorPanel.add(dateCursor.getSlider());
+
+              jpl.add(dateCursorPanel);
+
+              menuBar.add(rdbtnMs);
+              menuBar.add(rdbtnKmh);
+              menuBar.add(rdbtnNoeud);
+
+              jpl.add(rdbtnMs);
+              jpl.add(rdbtnKmh);
+              jpl.add(rdbtnNoeud);
             }
           } catch (URISyntaxException e1) {
             e1.printStackTrace();
           }
         }
       });
+
+      // ajouter tout au jpanel
+      menuBar.add(jpl);
 
       // Initialise graticule
       insertBeforePlacenames(getWwd(), new LatLonGraticuleLayer());
@@ -265,46 +293,46 @@ public class FlatWorld extends ApplicationTemplate {
         windBarbLayer.addRenderable(windBarb);
       }
     }
-    
 
     protected void toggleAdvancedMode() {
-	    	advancedMode = !advancedMode;
-	
-	    	if (advancedMode) {
-	    		addAdvancedMode();
-	    	} else {
-	    		removeAdvancedMode();
-	    	}
-	
-	    	this.revalidate();
-	    	this.repaint();
+      advancedMode = !advancedMode;
+
+      if (advancedMode) {
+        addAdvancedMode();
+      } else {
+        removeAdvancedMode();
+      }
+
+      this.revalidate();
+      this.repaint();
     }
-    
+
     protected void addAdvancedMode() {
-    		this.layerPanel = new view.LayerPanel(getWwd());
-		this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);
+      this.layerPanel = new view.LayerPanel(getWwd());
+      this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);
     }
-    
+
     protected void removeAdvancedMode() {
-		this.controlPanel.remove(this.layerPanel);
+      this.controlPanel.remove(this.layerPanel);
     }
-    
+
     public void updateDateCursor() {
-    		MeteoFacade facade = MeteoFacade.getInstance();
-   
-    		Prevision currentPrevision = facade.getCurrentPrevision();
-    		List<Date> dates = facade.getDates(currentPrevision);
-    		Date currentDate = facade.getCurrentDate();
-    		
-    		dateCursor.setNewDates(dates, currentDate);
-    		
-    		this.revalidate();
-    		this.repaint();
+      MeteoFacade facade = MeteoFacade.getInstance();
+
+      Prevision currentPrevision = facade.getCurrentPrevision();
+      List<Date> dates = facade.getDates(currentPrevision);
+
+      Date currentDate = facade.getCurrentDate();
+
+      dateCursor.setNewDates(dates, currentDate);
+
+      this.revalidate();
+      this.repaint();
     }
-    
+
     public void updateSelectedDateLabel() {
-        lblDate.setText("Date sélectionnée : " + MeteoFacade.getInstance().getCurrentDate().toString());
+      listeDate.getModel().setSelectedItem(MeteoFacade.getInstance().getCurrentDate());
     }
-    
+
   }
 }

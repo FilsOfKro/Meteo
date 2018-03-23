@@ -33,7 +33,6 @@ import gov.nasa.worldwind.util.StatisticsPanel;
 import gov.nasa.worldwind.util.StatusBar;
 import gov.nasa.worldwind.util.WWUtil;
 import gov.nasa.worldwindx.examples.ClickAndGoSelectListener;
-import gov.nasa.worldwindx.examples.FlatWorldPanel;
 import gov.nasa.worldwindx.examples.util.HighlightController;
 import gov.nasa.worldwindx.examples.util.ToolTipController;
 
@@ -44,6 +43,7 @@ import gov.nasa.worldwindx.examples.util.ToolTipController;
  * @version $Id: ApplicationTemplate.java 2115 2014-07-01 17:58:16Z tgaskins $
  */
 public class ApplicationTemplate {
+  @SuppressWarnings("serial")
   public static class AppPanel extends JPanel {
     protected WorldWindow wwd;
     protected StatusBar statusBar;
@@ -88,6 +88,7 @@ public class ApplicationTemplate {
     }
   }
 
+  @SuppressWarnings("serial")
   protected static class AppFrame extends JFrame {
     private Dimension canvasSize = new Dimension(1000, 800);
 
@@ -282,6 +283,7 @@ public class ApplicationTemplate {
   /**
    * @wbp.parser.entryPoint
    */
+  @SuppressWarnings("rawtypes")
   public static AppFrame start(String appName, Class appFrameClass) {
     if (Configuration.isMacOS() && appName != null) {
       System.setProperty("com.apple.mrj.application.apple.menu.about.name", appName);

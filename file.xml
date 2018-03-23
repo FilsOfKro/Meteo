@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<zone>
-  <point1X>49.0</point1X>
-  <point1Y>5.0</point1Y>
-  <nombreX>10</nombreX>
-  <nombreY>10</nombreY>
-  <deltaX>0.25</deltaX>
-  <deltaY>0.25</deltaY>
-  <vent numero="1">
-    <direction>32.01</direction>
-    <vitesse>10.2</vitesse>
-    <date_debut>Wed Dec 13 16:48:02 CET 2017</date_debut>
-    <date_fin>Wed Dec 13 17:48:02 CET 2017</date_fin>
-  </vent>
-  <vent numero="2">
-    <direction>228.81407483429035</direction>
-    <vitesse>53.150729063673246</vitesse>
-    <date_debut>Wed Dec 13 16:48:02 CET 2017</date_debut>
-    <date_fin>Wed Dec 13 17:48:02 CET 2017</date_fin>
-  </vent>
-</zone>
+<grille>
+  <proprietesGrille>
+    <lonHautGauche>49.0</lonHautGauche>
+    <latHautGauche>5.0</latHautGauche>
+    <nbx>3</nbx>
+    <nby>2</nby>
+    <dx>0.25</dx>
+    <dy>0.25</dy>
+  </proprietesGrille>
+  <previsionDate date_debut="Thu Mar 22 09:57:04 CET 2018">
+    <vent>
+      <direction>228.81407483429035</direction>
+      <vitesse>53.150729063673246</vitesse>
+    </vent>
+    <vent>
+      <direction>221.63353933657018</direction>
+      <vitesse>30.103986446980738</vitesse>
+    </vent>
+    <vent>
+      <direction>228.14934332476128</direction>
+      <vitesse>81.08618871299846</vitesse>
+    </vent>
+    <vent>
+      <direction>258.23171106797935</direction>
+      <vitesse>12.257650672131263</vitesse>
+    </vent>
+    <vent>
+      <direction>228.81407483429035</direction>
+      <vitesse>53.150729063673246</vitesse>
+    </vent>
+    <vent>
+      <direction>221.63353933657018</direction>
+      <vitesse>30.103986446980738</vitesse>
+    </vent>
+  </previsionDate>
+</grille>

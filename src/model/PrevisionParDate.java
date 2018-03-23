@@ -2,6 +2,8 @@ package model;
 
 import java.util.Date;
 
+import facade.MeteoFacade;
+
 public class PrevisionParDate {
   private Vent[][] vents;
 
@@ -11,12 +13,12 @@ public class PrevisionParDate {
    * Used for cloning purpose
    */
   private PrevisionParDate() {
-	  
+    
   }
   
   public PrevisionParDate(Date date, int nbx, int nby) {
     this.date = date;
-    vents = new Vent[nby][nbx];
+    this.vents = new Vent[nby][nbx];
   }
 
   public void addVent(int x, int y, Vent vent) {
@@ -65,7 +67,19 @@ public class PrevisionParDate {
   @Override
 	protected Object clone() throws CloneNotSupportedException {
 		PrevisionParDate ppd = new PrevisionParDate();
-		ppd.vents = this.vents.clone();
+		
+		int nbx = MeteoFacade.getInstance().getCurrentPrevision().getGrille().getNbx();
+		int nby = MeteoFacade.getInstance().getCurrentPrevision().getGrille().getNby();
+
+		ppd.vents = new Vent[nby][nbx];
+		
+		for(int i=0; i<this.vents.length; i++){
+		  for(int j=0; j<this.vents[i].length; j++){
+		    
+		    ppd.vents[i][j] = (Vent) this.vents[i][j].clone();
+		  }
+		}
+		// ppd.vents = this.vents.clone();
 		ppd.date = (Date) this.date.clone();
 		
 		return ppd;
