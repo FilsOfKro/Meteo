@@ -4,11 +4,10 @@ import math.Vecteur;
 import math.VecteurCalcul;
 import math.impl.VecteurCalculImpl;
 
-public class InterpolationPoint{
+public class InterpolationPoint implements math.Interpolation{
 
 
 	private Vent wind;
-	private WindBarb barbule;
 	
 	
 	/**
@@ -41,21 +40,15 @@ public class InterpolationPoint{
 		
 		return ventInterpoler;
 	}
-	public Vent getWind() {
+	
+	/**
+	 * retourne le vent
+	 */
+	public Vent getVent() {
 		return wind;
 	}
 
-	public void setWind(Vent wind) {
-		this.wind = wind;
-	}
-
-	public WindBarb getBarbule() {
-		return barbule;
-	}
-
-	public void setBarbule(WindBarb barbule) {
-		this.barbule = barbule;
-	}
+	
 
 	
 	
