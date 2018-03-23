@@ -11,15 +11,29 @@ public class Prevision implements IVisitable {
   private Grille grille;
   private List<PrevisionParDate> previsionsParDate;
 
+  /**
+   * Construit un objet Prévision
+   * Cet objet possède une liste de {@link PrevisionParDate}
+   * @param grille La grille associée à cette prévision
+   */
   public Prevision(Grille grille) {
     previsionsParDate = new ArrayList<PrevisionParDate>();
     this.grille = grille;
   }
 
+  /**
+   * Retourne un nouvel objet PrevisionParDate, conforme à la grille de cet objet Prevision
+   * @param date La date à associer à la PrevisionParDate
+   * @return
+   */
   public PrevisionParDate buildPrevisionParDate(Date date) {
     return new PrevisionParDate(date, grille.getNbx(), grille.getNby());
   }
 
+  /**
+   * Ajoute la PrevisionParDate à cet objet Prevision
+   * @param prevision
+   */
   public void addPrevision(PrevisionParDate prevision) {
     previsionsParDate.add(prevision);
   }
@@ -54,6 +68,10 @@ public class Prevision implements IVisitable {
     return null;
   }
 
+  /**
+   * Retourne la grille associée à ces prévisions
+   * @return
+   */
   public Grille getGrille() {
     return grille;
   }

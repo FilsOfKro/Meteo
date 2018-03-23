@@ -16,11 +16,22 @@ public class PrevisionParDate {
     
   }
   
+  /**
+   * @param date La date associée aux prévisions
+   * @param nbx Le nombre de colonne de la grille, donc du tableau
+   * @param nby Le nombre de lignes de la grille, donc du tableau
+   */
   public PrevisionParDate(Date date, int nbx, int nby) {
     this.date = date;
     this.vents = new Vent[nby][nbx];
   }
 
+  /**
+   * Ajoute un vent à la grile
+   * @param x Coordonnée X du vent dans le tableau
+   * @param y Coordonnée Y du vent dans le tableau
+   * @param vent Le vent à ajouter
+   */
   public void addVent(int x, int y, Vent vent) {
     vents[y][x] = vent;
   }
@@ -34,7 +45,7 @@ public class PrevisionParDate {
    * prévision.
    * 
    * @param date La date à comparer
-   * @return vria ou faux si la date est égale
+   * @return vrai ou faux si la date est égale
    */
   public boolean estLaMemeDate(Date date) {
     return this.date.equals(date);
@@ -54,6 +65,10 @@ public class PrevisionParDate {
     return vents;
   }
   
+  /**
+   * Retourne le nombre de vents présents dans la prévision
+   * @return
+   */
   public int getNombreVent() {
     int cpt = 0;
     for(Vent[] tabVent : getVents()) {
