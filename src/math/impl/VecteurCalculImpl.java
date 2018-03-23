@@ -15,14 +15,14 @@ public class VecteurCalculImpl implements VecteurCalcul{
 	}
 
 	@Override
-	public double calculerComposanteU(double vitesse, double direction) {
-		return vitesse * Math.cos(direction);
+	public double calculerComposanteU(double force, double direction) {
+		return force * Math.cos(direction * Math.PI / 180);
 
 	}
 
 	@Override
-	public double calculerComposanteV(double vitesse, double direction) {
-		return vitesse * Math.sin(direction);
+	public double calculerComposanteV(double force, double direction) {
+		return force * Math.sin(direction * Math.PI / 180);
 	}
 
 }
