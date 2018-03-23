@@ -9,36 +9,50 @@ public class Vent implements Vecteur {
 	private double vitesse;
 
 	/**
-	 * Used for cloning purpose
-	 */
-	public Vent() {
-
-	}
-
-	/**
 	 * Build a wind from two vectors, U and V
 	 * Calculates the wind's direction and velocity from these two vectors (see {@link Vent#calculerDirection(double, double)} and {@link Vent#calculerVitesse(double, double)}
 	 * @param ventU
 	 * @param ventV
 	 */
-	public Vent(double ventU, double ventV) {
+	@Deprecated
+	public Vent(double composanteU, double composanteV) {
 		VecteurCalcul calc = new VecteurCalculImpl();
 
-		this.direction = calc.calculerDirection(ventU, ventV);
-		this.vitesse = calc.calculerVitesse(ventU, ventV);
+		this.direction = calc.calculerDirection(composanteU, composanteV);
+		this.vitesse = calc.calculerVitesse(composanteU, composanteV);
 	}
 
 	/**
-	 * Build a wind directly from its velocity and direction
-	 * The third parameter is useless and only serves the purpose of having a different signature
-	 * @param vit
-	 * @param dir
-	 * @param a Any value, will not change the resulting wind
+	 *  Build an empty wind
 	 */
-	public Vent(double vit, double dir, int a) {
-		this.vitesse = vit;
-		this.direction = dir;
+	private Vent() {
+		
 	}
+	
+	/**
+	 * Build a wind from two vectors, U and V
+	 * Calculates the wind's direction and velocity from these two vectors
+	 * @param composanteU
+	 * @param composanteV
+	 */
+	public static Vent buildVentFromUAndV(double composanteU, double composanteV) {
+		return new Vent(composanteU, composanteV);
+	}
+	
+	/**
+	 * Build a wind from the velocity and the direction
+	 * @param velocity
+	 * @param direction
+	 */
+	public static Vent buildVentFromVelocityAndDirection(double velocity, double direction) {
+		Vent ret = new Vent();
+		
+		ret.vitesse = velocity;
+		ret.direction = direction;
+		
+		return ret;
+	}
+
 
 	public double getDirection() {
 		return direction;
