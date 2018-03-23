@@ -125,9 +125,7 @@ public class Lirexml {
           Double vitesse =
               Double.parseDouble(eVent.getElementsByTagName("vitesse").item(0).getTextContent());
 
-          Vent ventTmp = new Vent();
-          ventTmp.setDirection(direction);
-          ventTmp.setVitesse(vitesse);
+          Vent ventTmp = Vent.buildVentFromVelocityAndDirection(vitesse, direction);
 
           x = (int) (temp % grille.getNbx());
 

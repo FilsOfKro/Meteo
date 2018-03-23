@@ -23,7 +23,7 @@ public class InterpolationPoint implements math.Interpolation{
 		Vent ventInterpoler;
 		VecteurCalcul calc = new VecteurCalculImpl();
 		
-		//recuperation des composantes U et V des différents vecteurs passé en parametres
+		//recuperation des composantes U et V des diffï¿½rents vecteurs passï¿½ en parametres
 		double Uv1 = calc.calculerComposanteU(v1.getVitesse(), v1.getDirection());
 		double Vv1 = calc.calculerComposanteV(v1.getVitesse(), v1.getDirection());
 		double Uv2 = calc.calculerComposanteU(v2.getVitesse(), v2.getDirection());
@@ -33,10 +33,10 @@ public class InterpolationPoint implements math.Interpolation{
 		double Uv4 = calc.calculerComposanteU(v4.getVitesse(), v4.getDirection());
 		double Vv4 = calc.calculerComposanteV(v4.getVitesse(), v4.getDirection());
 
-		//creation du vent se trouvant à l'intersection des 4 vecteurs
+		//creation du vent se trouvant ï¿½ l'intersection des 4 vecteurs
 		double UDeVentInterpoler = (Uv1+Uv2+Uv3+Uv4)/4;
 		double VDeVentInterpoler = (Vv1+Vv2+Vv3+Vv4)/4;
-		ventInterpoler = new Vent(UDeVentInterpoler, VDeVentInterpoler);
+		ventInterpoler = Vent.buildVentFromUAndV(UDeVentInterpoler, VDeVentInterpoler);
 		
 		return ventInterpoler;
 	}
