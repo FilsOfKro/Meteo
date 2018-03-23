@@ -62,11 +62,9 @@ public class FlatWorld extends ApplicationTemplate {
   protected static JPanel jpl;
 
   protected static JMenuBar menuBar;
-  protected static JButton btnEdition;
   protected static JButton btnModification;
   protected static JButton btnImporterGRIB;
   protected static JButton btnImporterXML;
-  protected static JButton btnExporterXML;
 
   protected static JPanel menuDateJPanel;
   protected static JMenu mnDate;
@@ -79,7 +77,6 @@ public class FlatWorld extends ApplicationTemplate {
   protected static JRadioButton rdbtnNoeud;
   protected static JRadioButton rdbtnKmh;
   protected static JRadioButton rdbtnMs;
-  // protected static boolean rdbtn = true;
 
   protected static JCheckBox btnAdvancedMenu;
   protected static boolean advancedMode = false;
@@ -135,10 +132,6 @@ public class FlatWorld extends ApplicationTemplate {
         addAdvancedMode();
       }
 
-      btnEdition = new JButton("Edition");
-      menuBar.add(btnEdition);
-      jpl.add(btnEdition);
-
       // boutons
       btnModification = new JButton("Modification");
       menuBar.add(btnModification);
@@ -153,8 +146,6 @@ public class FlatWorld extends ApplicationTemplate {
       btnImporterGRIB = new JButton("Importer grib");
       menuBar.add(btnImporterGRIB);
       jpl.add(btnImporterGRIB);
-
-      btnExporterXML = new JButton("Exporter xml");
 
       btnImporterXML = new JButton("Importer xml");
       btnImporterXML.addActionListener(new ActionListener() {
@@ -245,17 +236,15 @@ public class FlatWorld extends ApplicationTemplate {
               MeteoFacade.getInstance().setCurrentPrevision(prevv);
 
               List<Date> dates = MeteoFacade.getInstance().getDates(prevv);
-              // listeDate.removeAll();
 
               listeDate = new JComboBox<Object>(dates.toArray());
               listeDate.addActionListener(new ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
-                  MeteoFacade.getInstance().refreshWindbarbs();
+                		MeteoFacade.getInstance().setCurrentDate((Date)listeDate.getModel().getSelectedItem());
+                		dateCursor.updateSlider(dates.size(), (Date)listeDate.getModel().getSelectedItem());
+                		MeteoFacade.getInstance().refreshWindbarbs();
                 }
               });
-
-              menuBar.add(btnExporterXML);
-              jpl.add(btnExporterXML);
 
               jpl.add(listeDate);
               dateCursorPanel.add(dateCursor.getSlider());
