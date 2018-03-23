@@ -4,7 +4,7 @@ import java.util.Date;
 
 import facade.MeteoFacade;
 
-public class InterpolationPoint {
+public class InterpolationPoint{
 
 
 	private Vent wind;
@@ -26,10 +26,6 @@ public class InterpolationPoint {
 		if((x < p.getGrille().getLonHautGauche()) && (y < p.getGrille().getLatHautGauche())) {
 			ret = false;
 		}
-		System.out.println("taille longeur : "+(p.getGrille().getLonHautGauche()+(p.getGrille().getDx()*p.getGrille().getNbx())));
-		System.out.println("taille lateur : "+(p.getGrille().getLatHautGauche()+(p.getGrille().getDy()*p.getGrille().getNby())));
-		System.out.println("x : "+x);
-		System.out.println("y : "+y);
 		if((x >= (p.getGrille().getLonHautGauche()+(p.getGrille().getDx()*p.getGrille().getNbx()))) && (y >= (p.getGrille().getLatHautGauche()+(p.getGrille().getDy()*p.getGrille().getNby())))) {
 			ret = false;
 		}
@@ -56,12 +52,9 @@ public class InterpolationPoint {
 				//https://fr.wikihow.com/faire-une-double-interpolation-lin�aire
 				System.out.println(prev.toString());
 				
-				//calcul qui pu
-				double dir = (((xBB-posxGrille)/(xBB-xB))*prev.getVents()[yA][xB].getDirection()+((posxGrille-xB)/(xBB-xB))*prev.getVents()[yA][xBB].getDirection())*((yAA-posyGrille)/(yAA-yA))+ (((xBB-posxGrille)/(xBB-xB))*prev.getVents()[yAA][xB].getDirection()+((posxGrille-xB)/(xBB-xB))*prev.getVents()[yAA][xBB].getDirection())*((posyGrille-yA)/(yAA-yA));
-				double vitesse = (((xBB-posxGrille)/(xBB-xB))*prev.getVents()[yA][xB].getVitesse()+((posxGrille-xB)/(xBB-xB))*prev.getVents()[yA][xBB].getVitesse())*((yAA-posyGrille)/(yAA-yA))+ (((xBB-posxGrille)/(xBB-xB))*prev.getVents()[yAA][xB].getVitesse()+((posxGrille-xB)/(xBB-xB))*prev.getVents()[yAA][xBB].getVitesse())*((posyGrille-yA)/(yAA-yA));
-			
+				//calcul qui pu utilisation fct
 				
-				wind = new Vent(vitesse, dir, 4);
+				wind = null;
 		        barbule = new WindBarb(y, x, wind.getDirection(), wind.getVitesse());
 
 			}else {
@@ -73,6 +66,26 @@ public class InterpolationPoint {
 		return ret;
 	}
 
+	
+	public Vent interpolerUnVentGraceASeseVoisin(Vent v1,Vent v2, Vent v3, Vent v4) {
+		
+		Vent ventInterpoler;
+		
+		double Uv1 = calculerComposanteU(v1.getVitesse(), v1.getDirection());
+		double Vv1 = calculerComposanteU(v1.getVitesse(), v1.getDirection());
+		double Uv2 = calculerComposanteU(v1.getVitesse(), v1.getDirection());
+		double Vv2 = calculerComposanteU(v1.getVitesse(), v1.getDirection());
+		double Uv3 = calculerComposanteU(v1.getVitesse(), v1.getDirection());
+		double Vv3 = calculerComposanteU(v1.getVitesse(), v1.getDirection());
+		double Uv4 = calculerComposanteU(v1.getVitesse(), v1.getDirection());
+		double Vv4 = calculerComposanteU(v1.getVitesse(), v1.getDirection());
+
+		double UDeVentInterpoler = (Uv1+Uv2+Uv3+Uv4)/4;
+		double VDeVentInterpoler = (Vv1+Vv2+Vv3+Vv4)/4;
+		ventInterpoler = new Vent(UDeVentInterpoler, VDeVentInterpoler);
+		
+		return ventInterpoler;
+	}
 	public Vent getWind() {
 		return wind;
 	}
@@ -88,6 +101,8 @@ public class InterpolationPoint {
 	public void setBarbule(WindBarb barbule) {
 		this.barbule = barbule;
 	}
+
+	
 	
 
 }
