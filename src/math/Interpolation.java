@@ -13,7 +13,7 @@ public interface Interpolation {
 		 * @param v4 quatrieme vecteur
 		 * @return le vent calculer par rapport aux 4 autres vecteurs
 		 */
-		public Vent interpolerUnVentGraceASeseVoisin(Vecteur v1,Vecteur v2, Vecteur v3, Vecteur v4);
+		public Vent interpolerUnVentGraceASesVoisins(Vecteur v1,Vecteur v2, Vecteur v3, Vecteur v4);
 		/**
 		 * rend le vent
 		 * @return le vent
