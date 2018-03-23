@@ -4,7 +4,8 @@ public interface VecteurCalcul {
 
 	  /**
 	   * Calcule la direction en fonction des deux vecteurs en entrée
-	   * La direction est exprimée en degrés
+	   * L'unité de la direction retournée est en degré
+	   *
 	   * @param vecteurU
 	   * @param vecteurV
 	   * @return
@@ -14,6 +15,7 @@ public interface VecteurCalcul {
 	  /**
 	   * Calcule la vitesse en fonction des deux vecteurs en entrée
 	   * La vitesse est calculée en mètres par seconde
+	   * 
 	   * @param vecteurU
 	   * @param vecteurV
 	   * @return
