@@ -1,14 +1,10 @@
 package facade;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
-
-import javax.swing.JRadioButton;
-
 import gov.nasa.worldwind.avlist.AVKey;
 import grib.parser.GribParser;
 import model.Prevision;
@@ -18,7 +14,6 @@ import model.Vent;
 import model.WindBarb;
 import net.sourceforge.jgrib.NoValidGribException;
 import net.sourceforge.jgrib.NotSupportedException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import view.FlatWorld;
 import view.FlatWorld.AppFrame;
 
@@ -33,8 +28,7 @@ public class MeteoFacade {
   public Util.UNIT defaultUnit;
   public Util.UNIT currentUnit;
 
-  private MeteoFacade() {
-  }
+  private MeteoFacade() {}
 
   /**
    * Singleton de la classe.
@@ -63,8 +57,7 @@ public class MeteoFacade {
   /**
    * Charge un fichier Grib.
    * 
-   * @param filename
-   *          le nom du fichier à charger
+   * @param filename le nom du fichier à charger
    * @return L'objet Prevision parsé à partir du fichier
    */
   public Prevision loadGrib(String filename) {
@@ -73,7 +66,8 @@ public class MeteoFacade {
     try {
       prevision = parser.parsePrevisionFromGrib(filename);
       System.out.println(prevision.toString());
-    } catch (NoSuchElementException | IOException | NoValidGribException | NotSupportedException e) {
+    } catch (NoSuchElementException | IOException | NoValidGribException
+        | NotSupportedException e) {
       e.printStackTrace();
     }
 
@@ -94,10 +88,8 @@ public class MeteoFacade {
   /**
    * Affiche les données des vents à la date sélectionnée en paramètre.
    * 
-   * @param prev
-   *          L'objet Prevision du fichier en cours
-   * @param date
-   *          La date sélectionnée
+   * @param prev L'objet Prevision du fichier en cours
+   * @param date La date sélectionnée
    */
   public void displayDate(Prevision prev, Date date) {
     PrevisionParDate myPrevision = prev.getPrevisionParDate(date);
@@ -130,7 +122,7 @@ public class MeteoFacade {
     appframe.revalidate();
     appframe.repaint();
   }
-  
+
   public void refreshWindbarbsWithoutDateLabel() {
     displayDate(prevision, currentDate);
     appframe.revalidate();
