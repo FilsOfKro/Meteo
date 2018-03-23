@@ -79,17 +79,13 @@ public class Vent implements Vecteur {
 
 	@Override
 	public double getComposanteU() {
-		double directionEnRadian = direction * Math.PI / 180;
-
 		VecteurCalcul calc = new VecteurCalculImpl();
-		return calc.calculerComposanteU(vitesse, directionEnRadian);
+		return calc.calculerComposanteU(vitesse, direction);
 	}
 
 	@Override
 	public double getComposanteV() {
-		double directionEnRadian = direction * Math.PI / 180;
-
 		VecteurCalcul calc = new VecteurCalculImpl();
-		return calc.calculerComposanteV(vitesse, directionEnRadian);
+		return calc.calculerComposanteV(vitesse, direction);
 	}
 }
