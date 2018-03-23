@@ -1,8 +1,5 @@
 package model;
 
-import java.util.Date;
-
-import facade.MeteoFacade;
 import math.Vecteur;
 import math.VecteurCalcul;
 import math.impl.VecteurCalculImpl;
@@ -30,12 +27,12 @@ public class InterpolationPoint{
 		//recuperation des composantes U et V des différents vecteurs passé en parametres
 		double Uv1 = calc.calculerComposanteU(v1.getVitesse(), v1.getDirection());
 		double Vv1 = calc.calculerComposanteV(v1.getVitesse(), v1.getDirection());
-		double Uv2 = calc.calculerComposanteU(v1.getVitesse(), v1.getDirection());
-		double Vv2 = calc.calculerComposanteV(v1.getVitesse(), v1.getDirection());
-		double Uv3 = calc.calculerComposanteU(v1.getVitesse(), v1.getDirection());
-		double Vv3 = calc.calculerComposanteV(v1.getVitesse(), v1.getDirection());
-		double Uv4 = calc.calculerComposanteU(v1.getVitesse(), v1.getDirection());
-		double Vv4 = calc.calculerComposanteV(v1.getVitesse(), v1.getDirection());
+		double Uv2 = calc.calculerComposanteU(v2.getVitesse(), v2.getDirection());
+		double Vv2 = calc.calculerComposanteV(v2.getVitesse(), v2.getDirection());
+		double Uv3 = calc.calculerComposanteU(v3.getVitesse(), v3.getDirection());
+		double Vv3 = calc.calculerComposanteV(v3.getVitesse(), v3.getDirection());
+		double Uv4 = calc.calculerComposanteU(v4.getVitesse(), v4.getDirection());
+		double Vv4 = calc.calculerComposanteV(v4.getVitesse(), v4.getDirection());
 
 		//creation du vent se trouvant à l'intersection des 4 vecteurs
 		double UDeVentInterpoler = (Uv1+Uv2+Uv3+Uv4)/4;
